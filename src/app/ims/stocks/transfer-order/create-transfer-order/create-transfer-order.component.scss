@@ -1,0 +1,219 @@
+@import '../../../../utils/styles/custom-palette.scss';
+
+.create-to-container {
+  >div:first-child {
+
+    //component header
+    >div:first-child {
+      img {
+        margin-top: -9px;
+        outline: none;
+      }
+    }
+  }
+
+  .hideInput {
+    border: none;
+    color: white;
+    caret-color: white;
+    outline: none;
+    width: 0%;
+    @include background-clr(#3b86ff);
+  }
+
+
+  >div:nth-child(3) {
+    .block-style {
+      @include background-clr($clr-white);
+      @include box-shadows(0, 2px, 6px, 0, rgba(0, 0, 0, 0.04));
+      position: relative;
+    
+      @include border-single-radius(5px);
+    }
+
+    .create-to-block {
+      padding: 10px;
+
+      .header {
+        @include text-color($header-text-secondary);
+      }
+
+      .content-box {
+        padding: 30px 20px 20px 10px;
+
+        .block-1 {
+          display: -webkit-flex;
+          /* Safari */
+          -webkit-justify-content: space-between;
+          /* Safari 6.1+ */
+          display: flex;
+          justify-content: space-between;
+          font-size: 16px;
+
+          div {
+            width: 40%;
+          }
+
+          .select-drop-down {
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            box-shadow: none !important;
+            outline: none;
+            @include border-single-radius(0);
+          }
+
+          .helper-text {
+            margin: 10px;
+            font-size: 14px;
+            @include text-color($create-form-text-clr);
+          }
+        }
+
+        .block-2 {
+          .form-group {
+            label {
+              text-transform: uppercase;
+              font-weight: 600;
+              font-size: 12px;
+              @include text-color($create-form-text-clr);
+            }
+
+            .form-control {
+              @include border-single-radius(2px);
+            }
+          }
+
+          .stock-details {
+            margin: 38px 20px;
+            font-size: 12px;
+
+            span:first-child {
+              font-weight: 600;
+              @include text-color($clr-black);
+            }
+
+            span:nth-child(2) {
+              @include text-color(green);
+            }
+          }
+        }
+      }
+
+      .submit-block {
+
+        button {
+          position: absolute;
+          @include background-clr(#3b86ff);
+          @include text-color($clr-white);
+          @include border-single-radius(5px);
+          font-size: 15px;
+          padding: 10px 20px;
+          outline: none;
+          border: none;
+          bottom: 20px;
+          text-align: center;
+          right: 30px;
+          width: 9%;
+        }
+        div {
+          position: absolute;
+          @include background-clr(#3b86ff);
+          @include text-color($clr-white);
+          @include border-single-radius(5px);
+          font-size: 15px;
+          padding: 10px 20px;
+          outline: none;
+          border: none;
+          bottom: 20px;
+          text-align: center;
+          cursor: pointer;
+        }
+        .scan-package {
+          right: 30px;
+          width: 9%;
+        }
+        .without-scan-package{
+          right: 12%;
+          width: 14%;
+        }
+      }
+      .without-scan-package{
+        position: absolute;
+        @include background-clr(#3b86ff);
+        @include text-color($clr-white);
+        @include border-single-radius(5px);
+        font-size: 15px;
+        padding: 10px 20px;
+        outline: none;
+        border: none;
+        bottom: 20px;
+        text-align: center;
+        right: 80px;
+        width: 9%;
+      }
+    }
+
+    .scanner-block {
+      .block-1 {
+        img {
+          position: fixed;
+          right: 62px;
+          cursor: pointer;
+          margin-top: 8px;
+        }
+      }
+
+      .block-2 {
+        >div:first-child {
+          margin: 30px auto;
+        }
+
+      }
+
+      .block-3 {
+        font-size: 18px;
+
+        >div:first-child {
+          font-weight: 600;
+        }
+
+        >div:nth-child(2) {
+          text-transform: uppercase;
+        }
+      }
+
+      .block-4 {
+        margin: 30px 0;
+
+        button {
+          @include background-clr(#3b86ff);
+          @include text-color($clr-white);
+          @include border-single-radius(5px);
+          font-size: 15px;
+          padding: 10px 30px;
+          outline: none;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .inital {
+    visibility: hidden !important;
+  }
+
+  .collpase-main-card {
+    transition: all .5s ease-in-out;
+  }
+
+  .generate-barcode {
+    visibility: visible;
+    transition: all .5s ease-in-out, visibility 0s linear 500ms;
+  }
+
+  .view-product-details-block {
+    transition: all .5s ease-in-out;
+  }
+}

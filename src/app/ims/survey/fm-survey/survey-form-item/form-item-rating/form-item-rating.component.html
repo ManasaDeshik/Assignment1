@@ -1,0 +1,11 @@
+<button mat-button [color]="color" [(ngModel)]="item.answer" name="ratingName" ngDefaultControl *ngFor="let ratingId of createStars(item.min,item.max);index as i" (click)="onClickrating(i+1,item)">
+    <mat-icon *ngIf="ratingId>=+item.answer+1">
+      star_border
+    </mat-icon>
+    <mat-icon *ngIf="ratingId < +item.answer+1">
+        star
+      </mat-icon>
+  </button>
+ 
+
+  

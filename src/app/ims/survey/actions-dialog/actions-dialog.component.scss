@@ -1,0 +1,12 @@
+.dialog-table{
+    width: 10vw;
+    position: absolute;
+    left:0px;
+    top:0px;
+}
+::ng-deep {
+    .mat-dialog-container{
+        padding: 10px !important;
+        padding-left: 25px !important;;
+    }
+}

@@ -1,0 +1,104 @@
+<div class="list-creation-po-spare-container">
+  <div class="row">
+    <div class="display-flex col-md-10 col-lg-10">
+      <img class="cursor-pointer" src="../../../../assets/img/left-arrow.svg" alt="left-arrow" (click)="routeToPurchaseOrderSpare()"
+        routerLinkActive='active'>
+      <div class="align-center display-flex">
+        <span class="component-heading ml-20">Purchase Order | Spares <span *ngIf="creationOfSpareList.spare_details.length>0" >| {{creationOfSpareList.spare_details[0].spare_details.product_detail.title}}</span></span>
+      </div>
+    </div>
+    <div class="col-md-2 col-lg-2">
+      <button (click)="printPurchaseOrder()">Save and Print</button>
+    </div>
+  </div>
+  <div class="row mt-20">
+    <div class="col-md-12 col-lg-12">
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item}}
+                  </div>
+                </th>
+                <th *ngIf="creationOfSpareList.spare_details.length > 1">
+                       Activity
+                </th>
+              </tr>
+            </thead>
+              <tbody>
+                <perfect-scrollbar>
+                <tr *ngFor="let item of  creationOfSpareList.spare_details;let i = index ">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    {{item.spare_details.name}}
+                  </td>
+                  <td>
+                    <input type="number"  class="form-control" name="quantityNumber" [(ngModel)]="item.quantity"
+                    #quantityNumber="ngModel" pattern="^[0-9]+"
+                    required (keyup)="fetchTotalPrice($event , item)">
+                   <tr *ngFor="let taxItem of  item.price_details.tax_details" class="sub-table">
+                    <td>
+                      {{taxItem.name}}
+                    </td>
+                   </tr>
+                  </td>
+                  <td>
+                   <div class="form-control customize-form-control">
+                    {{item.order_value}}
+                   </div>
+                   <tr *ngFor="let taxItem of  item.price_details.tax_details" class="sub-table">
+                    <td>
+                      {{taxItem.percent}}
+                    </td>
+                   </tr>
+                  </td>
+                  <td>
+                  <div class="form-control customize-form-control">
+                    pcs
+                  </div>
+                  <tr *ngFor="let taxItem of  item.price_details.tax_details" class="sub-table">
+                    <td>
+                      {{taxItem.tax_per_item}}
+                    </td>
+                   </tr>
+                  </td>
+                  <td>
+                 <div class="form-control customize-form-control">
+                  {{item.price_details.total_value}}
+                 </div> 
+                  <tr *ngFor="let taxItem of  item.price_details.tax_details" class="sub-table">
+                    <td>
+                      {{taxItem.tax_total}}
+                    </td>
+                   </tr>
+                  </td>
+                  <td *ngIf="creationOfSpareList.spare_details.length >1">
+                    <img class="cursor-pointer" (click)="openDialog(item)"
+                    src="../../../../../assets/img/delete.svg" alt="">
+                  </td>
+                </tr>
+              </perfect-scrollbar>
+                <tr class="total-display">
+                  <td colspan="2"></td>
+                  <td>Qty {{creationOfSpareList.total_quantity}}</td>
+                  <td colspan="2"></td>
+                  <td>Rs {{creationOfSpareList.total_price}}</td>
+                  <td *ngIf="creationOfSpareList.spare_details.length >1" colspan="1"></td>
+                </tr>
+                <div *ngIf="creationOfSpareList.spare_details.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

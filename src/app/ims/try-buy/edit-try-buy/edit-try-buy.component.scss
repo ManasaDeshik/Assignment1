@@ -1,0 +1,43 @@
+@import '../../../utils/styles/custom-palette.scss';
+
+
+form {
+  .create-form-card {
+    height: calc(100vh - (70px + 40px + 40px + 8vh));
+    box-shadow: -11px 9px 21px 0 rgba(0, 0, 0, 0.16);
+    @include border-single-radius(5px);
+    @include text-color($create-form-text-clr);
+
+    .details {
+      font-size: 24px;
+      font-weight: bold;
+      @include text-color($active-btn-clr-secondary);
+    }
+
+    label {
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .content-block {
+      font-size: 12px;
+
+      >div {
+        margin: 40px 0;
+      }
+    }
+
+    //Button division
+
+  }
+
+  >div:nth-child(2) {
+    position: relative;
+
+    button {
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+    }
+  }
+}

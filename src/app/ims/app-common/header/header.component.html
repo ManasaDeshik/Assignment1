@@ -1,0 +1,74 @@
+<header>
+  <div class="row no-margin h-100">
+    <div class="col-md-6 col-lg-4 col-xl-4 breadcrumb-layout d-none d-sm-none d-md-flex d-lg-flex d-xl-flex align-center h-100">
+      <button class="menu-icon" (click)="toggleMenu();">
+        <img src="../../../../assets/img/Menu Icon.svg" alt="">
+      </button>
+      <app-breadcrumb></app-breadcrumb> 
+    </div>
+    <div class="col-md-6 col-lg-8 col-xl-8 keep-right mt-2 d-none d-sm-none d-md-none d-lg-block d-xl-block h-100 align-center">
+      <button class="mr-2 download-btn-invoice" *ngIf="downloadAndUploadAccess.download && downloadInvoice" (click)="filterDownloadInvoice()">Download
+        Invoice</button>
+      
+      <button class="mr-2 download-btn-invoice" *ngIf="downloadDemoProduct && downloadAndUploadAccess.download" (click)="excelDownloadDemo()">Download
+        Demo</button>
+      <button class="mr-2 download-btn-invoice"
+        *ngIf="downloadApiDetails.apiEndPoint && downloadAndUploadAccess.download && downloadAll"
+        (click)="excelDownloadAll()">Download All</button>
+      <button class="mr-2 download-btn" *ngIf="downloadApiDetails.apiEndPoint && downloadAndUploadAccess.download"
+        (click)="excelDownload(statusResponse)">Download</button>
+      <button class="mr-2 download-btn" *ngIf="downloadApiDetails.apiEndPoint && downloadRole"
+        (click)="excelDownload(statusResponse)">Download</button>
+      <button *ngIf="downloadAndUploadAccess.write && isUploadExcel && !isUploadPopUp" class="mr-2 download-btn"
+        (click)="csvFileInput.click()">Upload</button>
+        <button *ngIf="downloadAndUploadAccess.write && isUploadExcel && isUploadPopUp" class="mr-2 download-btn"
+        (click)="clickUpload()">Upload</button>
+      <input hidden type="file" #csvFileInput (change)="uploadExcel($event)" style="display:none;"
+        accept='.xlsx,.xls,.csv' />
+      <button *ngIf="downloadAndUploadAccess.write && isUploadTemplate" class="mr-2 download-btn"
+        (click)="downloadTemplate()">Template</button>
+      <img class="notification" mat-button [matMenuTriggerFor]="menu1" src="../../../../assets/img/bell_icon.svg" alt="">
+      <mat-menu #menu1="matMenu">
+        <button *ngFor="let itemNoti of notification" mat-menu-item isFocused='false' class="menu-item" (click)="readNotification()">{{itemNoti}}</button>
+      </mat-menu>
+     
+      <button class="tirggerButton  header-text" [matMenuTriggerFor]="menu">{{userData.userName}}<img
+          src="../../../../assets/img/arrowDown.svg" alt=""></button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>Logout</button>
+      </mat-menu>
+      
+   
+   
+   
+    </div>
+    <div class="col-md-6 col-lg-8 col-xl-8 keep-right mt-2 d-sm-block d-md-block d-lg-none d-xl-none h-100 align-center">
+      <button class="btn btn-download mr-2" *ngIf="downloadAndUploadAccess.download && downloadInvoice" (click)="filterDownloadInvoice()">
+        <img class="h-px-15" src="../../../../assets/img/download-solid.svg" alt=""/>Invoice</button>
+      
+      <button class="btn btn-download mr-2" *ngIf="downloadDemoProduct && downloadAndUploadAccess.download" (click)="excelDownloadDemo()">
+        <img class="h-px-15" src="../../../../assets/img/download-solid.svg" alt=""/> Demo</button>
+      <button class="btn btn-download mr-2" 
+        *ngIf="downloadApiDetails.apiEndPoint && downloadAndUploadAccess.download && downloadAll"
+        (click)="excelDownloadAll()"><img class="h-px-15" src="../../../../assets/img/download-solid.svg" alt=""/>All</button>
+      <button class="btn btn-download p-0" *ngIf="downloadApiDetails.apiEndPoint && downloadAndUploadAccess.download"
+        (click)="excelDownload(statusResponse)"> <img class="p-2 h-100" src="../../../../assets/img/download-solid.svg" alt=""/> </button>
+      <button class="btn btn-download p-0"  *ngIf="downloadApiDetails.apiEndPoint && downloadRole"
+        (click)="excelDownload(statusResponse)">  <img class="p-2 h-100" src="../../../../assets/img/download-solid.svg" alt=""/>  </button>
+      <img class="notification h-50" mat-button [matMenuTriggerFor]="menu1" src="../../../../assets/img/bell_icon.svg" alt="">
+      <mat-menu #menu1="matMenu">
+        <button *ngFor="let itemNoti of notification" mat-menu-item isFocused='false' class="menu-item" (click)="readNotification()">{{itemNoti}}</button>
+      </mat-menu>
+      
+      <button class="tirggerButton  header-text" [matMenuTriggerFor]="menu">{{userData.userName}}<img
+          src="../../../../assets/img/arrowDown.svg" alt=""></button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>Logout</button>
+      </mat-menu>
+      <img class="avater" src="../../../../assets/img/user.svg" alt="">
+   
+   
+   
+    </div>
+  </div>
+</header>

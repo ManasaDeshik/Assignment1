@@ -1,0 +1,98 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.list-demo-container {
+    .create-btn {
+        width: 170px !important;
+    }
+    img {
+        position: absolute;
+        right: 24px;
+        bottom: 12px;
+      }
+
+    .tab-row {
+        position: relative;
+        padding: 20px;
+
+        .tab-btn {
+            font-size: 14px;
+            color: #808181;
+            cursor: pointer;
+            border: 1px solid #0000002e;
+            @include text-color(#94979b);
+            @include border-single-radius(5px);
+            @include background-clr($clr-white);
+            margin-left: 20px;
+
+            div {
+                padding: 14px 20px 10px;
+            }
+        }
+
+        .tab-btn:hover {
+            @include text-color($clr-white);
+            @include background-clr(#ffb207);
+            border: 1px solid #ffb207;
+        }
+
+        .tab-btn.active {
+            @include text-color($clr-white);
+            @include background-clr(#ffb207);
+            font-weight: bold;
+            border: 1px solid #ffb207;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-btn:focus {
+            outline: none;
+        }
+    }
+
+    .demo-product-details-block {
+        .demo-product-details-card {
+            height: calc(100vh - (20px + 40vh)) !important;
+
+            perfect-scrollbar {
+                height: calc(100vh - (20px + 40vh)) !important;
+
+                button {
+                    width: 120px;
+                    display: block;
+                    border: 1px solid transparent;
+                    height: 30px;
+                    font-size: 14px;
+                    @include text-color(#ffb207);
+                    border-color: #ffb207;
+                }
+
+                @media screen and (min-width: 768px) and (max-width: 1700px) {
+                    button {
+                        width: 77px;
+                        height: 35px;
+                    }
+                }
+
+                button:hover {
+                    @include background-clr(#ffb207);
+                    @include text-color($clr-white);
+                }
+
+                button:nth-child(2) {
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+
+}
+
+.btn-outline{
+    width: 120px;
+        display: block;
+        border: 1px
+     solid transparent;
+        height: 30px;
+        font-size: 14px;
+        color: #ffb207;
+        border-color: #ffb207;   
+}

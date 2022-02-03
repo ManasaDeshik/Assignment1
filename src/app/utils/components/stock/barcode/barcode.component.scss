@@ -1,0 +1,20 @@
+@media screen {
+    :host {
+        display: none;
+    }
+}
+
+@media print {
+    app-root>* {
+        display: none;
+    }
+
+    app-root app-barcode {
+        display: block;
+    }
+}
+
+.barcode-size{
+    width: 80% !important;
+    height: 40% !important;
+}

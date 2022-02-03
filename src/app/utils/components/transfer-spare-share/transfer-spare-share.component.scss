@@ -1,0 +1,23 @@
+.transfer-spare-share-container {
+    .header {
+     font-size: 22px;
+    }
+    .to-spare-content-block {
+       height: 180px;
+       margin: 0;
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       >div:first-child{
+           font-size: 20px;
+       }
+    }
+    .add-btn {
+     position: absolute;
+     bottom: 30px;
+     right: 30px;
+     button {
+         width: 180px;
+     }
+    }
+}

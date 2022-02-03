@@ -1,0 +1,166 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.service-mangement-container {
+    >div:first-child {
+        .row {
+            margin-right: 0;
+            margin-left: 0;
+            padding-right: 0;
+            padding-left: 0;
+
+            [class*="col-"] {
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
+
+        .tab-row {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+
+            .tab-btn {
+                font-size: 14px;
+                color: #808181;
+                cursor: pointer;
+                border: 1px solid #0000002e;
+                @include text-color(#94979b);
+                @include border-single-radius(5px);
+                @include background-clr($clr-white);
+
+                div {
+                    padding: 14px 20px 10px;
+                }
+
+                .tab-btn:first-child {
+                    margin-left: 0;
+                }
+            }
+
+            .tab-btn:hover {
+                @include text-color($clr-white);
+                @include background-clr(#ffb207);
+                border: 1px solid #ffb207;
+            }
+
+            .tab-btn.active {
+                @include text-color($clr-white);
+                @include background-clr(#ffb207);
+                font-weight: bold;
+                border: 1px solid #ffb207;
+                box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+            }
+
+            .tab-btn:focus {
+                outline: none;
+            }
+        }
+
+    }
+
+    >div:nth-child(2) {
+        .view-service-list-block {
+            height: calc(100vh - (40px + 40px + 18vh));
+
+            .table-responsive {
+                height: calc(100vh - (40px + 66px + 25vh));
+
+                perfect-scrollbar {
+                    height: calc(100vh - (40px + 32px + 36vh));
+                    max-width: 100vw;
+                }
+            }
+        }
+
+        .service-assigned-list-block {
+            height: calc(100vh - (40px + 70px + 18vh));
+
+            .table-responsive {
+                height: calc(100vh - (40px + 58px + 32vh));
+
+                perfect-scrollbar {
+                    height: calc(100vh - (40px + 40px + 44vh));
+                    max-width: 100vw;
+                }
+            }
+
+        }
+
+        .view-service-list-block,
+        .service-assigned-list-block {
+            table tbody .btn-action-row {
+                button {
+                    border: 1px solid transparent;
+                    height: 30px;
+                    font-size: 14px;
+                    width: 90px;
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        @include text-color($clr-white);
+                    }
+                }
+
+                .btn-approve {
+                    @include text-color($active-green-clr);
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        @include background-clr($active-green-clr);
+                    }
+
+                    border-color: $active-green-clr;
+                }
+
+                .btn-assign {
+                    @include text-color(#ffb207);
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        @include background-clr(#ffb207);
+                    }
+
+                    border-color: #ffb207;
+                }
+
+                .btn-reject {
+                    @include text-color(#ff0000);
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        @include background-clr(#ff0000);
+                    }
+
+                    border-color: #ff0000;
+                }
+
+                >div {
+                    padding-top: 10px;
+                }
+
+                >div:first-child {
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+.order-management-layout {
+    button {
+      float: right;
+    }
+  
+    .search-position {
+      position: relative;
+  
+      img {
+        position: absolute;
+        right: 24px;
+        bottom: 12px;
+      }
+    }
+  }

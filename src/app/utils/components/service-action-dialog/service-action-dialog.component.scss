@@ -1,0 +1,138 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.service-action-container {
+    >div:first-child {
+        .header {
+            @include text-color($header-text-secondary);
+            font-size: 22px;
+        }
+    }
+
+    >div:nth-child(2) {
+        padding: 20px 0;
+
+        label {
+            @include text-color(#999);
+            font-size: 14px;
+        }
+
+        .update-spare-style {
+            padding-top: 2em;
+
+            .label {
+                @include text-color ($header-text-secondary);
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+            }
+
+            .add-spare {
+                position: relative;
+                border: 1px solid $header-text-secondary;
+                border-radius: 60px;
+                display: flex;
+                justify-content: center;
+                padding: 8px;
+                @include text-color ($header-text-secondary);
+                margin-left: 20px;
+                font-size: 14px;
+                cursor: pointer;
+
+                img {
+                    margin-right: 8px;
+                }
+            }
+
+        }
+
+        .service-price-card {
+            height: auto;
+
+            .table-responsive {
+                height: auto;
+
+                table {
+                    margin: 0;
+                }
+            }
+        }
+
+        // .service-price-card {
+        //     height: calc(100vh - (224px + 36vh)) !important;
+
+        //     .table-responsive {
+        //         height: calc(100vh - (224px + 36vh)) !important;
+
+        //         perfect-scrollbar {
+        //             height: calc(100vh - (224px + 51vh)) !important;
+        //             max-width: 100vw;
+        //         }
+
+        //         tbody {
+        //             .total-display {
+        //                 position: absolute;
+        //                 bottom: 0;
+
+        //                 td {
+        //                     padding: .75rem;
+        //                     @include background-clr(#ddddddb8);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        .service-price-card {
+            height: auto;
+
+            .table-responsive {
+                height: auto;
+
+                table {
+                    margin: 0;
+                    .sub-table {
+                        td {
+                            border-color: transparent !important;
+                            padding: 20px 0 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .generate-invoice-style {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            button {
+                width: 200px;
+                right: 0;
+                bottom: 0;
+                position: relative;
+            }
+        }
+    }
+
+    .button-layout,
+    .button-layout-service-in {
+        button {
+            width: 130px;
+
+            &.set-width-generate-invoice {
+                width: 200px;
+            }
+        }
+
+        button:nth-child(2) {
+            right: 20px;
+            @include background-clr(lightgrey);
+        }
+    }
+
+    .button-layout {
+        position: absolute;
+        bottom: 30px;
+        right: 40px;
+    }
+
+}

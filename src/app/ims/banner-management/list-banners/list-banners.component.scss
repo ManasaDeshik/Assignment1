@@ -1,0 +1,27 @@
+@import "../../../utils/styles/custom-palette.scss";
+.banner-layout {
+    .create-btn {
+        font-size: 14px;
+        @include height-width(40px, 140px, 20px);
+        @include border-single-radius(5px !important);
+    }
+}
+.banner-list-scroll {
+    height: calc(100vh - 40vh);
+
+    .layout {
+        background-color: $clr-white;
+        margin: 20px;
+        .banner-img {
+            padding: 20px;
+            width: 30vw;
+            height: 30vh;
+        }
+        .delete-banner {
+            margin-top: 10%;
+            img {
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -1,0 +1,411 @@
+<div class="filter-dialog-popup">
+  <div class="container no-gutter">
+    <div class="row">
+      <div class="col-md-8 col-lg-8 header">
+        <span *ngIf="data.filterName === 'View Barcode'">{{data.product.name}} Product Barcodes For Warehouse
+          {{data.warehouse.name}}</span>
+        <span *ngIf="data.filterName !== 'View Barcode'">{{data.filterName}}</span>
+      </div>
+      <div class="col-md-4 col-lg-4 txt-right">
+        <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+      </div>
+    </div>
+    <div class="row content-block" *ngIf="data.filterName == 'Date'">
+      <div class="col-lg-12 col-md-12">
+        <div class="col-lg-11 col-md-11">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <input type="text" class="form-control date-filter date-input"
+                (ngModelChange)="getScheduledTime($event , 'from' , 'orderDateField')" [owlDateTimeTrigger]="dt1"
+                [owlDateTime]="dt1" name="fromDate" required placeholder="Order From Date"
+                [max]="orderDateField.maxDate" [(ngModel)]="orderDateField.fromDate" #orderFromDate="ngModel" readonly
+                required />
+              <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <input type="text" class="form-control date-filter date-input"
+                (ngModelChange)="getScheduledTime($event , 'to' , 'orderDateField')" [owlDateTimeTrigger]="dt2"
+                [owlDateTime]="dt2" name="toDate" required placeholder="Order To Date" [min]="orderDateField.minDate"
+                [(ngModel)]="orderDateField.toDate" #orderToDate="ngModel" readonly required />
+              <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block" *ngIf="data.filterName == 'Date Filter'">
+      <div class="col-lg-12 col-md-12">
+        <div class="col-lg-11 col-md-11">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <input type="text" class="form-control date-filter date-input"
+                (ngModelChange)="getScheduledTime($event , 'from' , 'orderDateField')" [owlDateTimeTrigger]="dt1"
+                [owlDateTime]="dt1" name="fromDate" required placeholder="Order From Date"
+                [max]="orderDateField.maxDate" [(ngModel)]="orderDateField.fromDate" #orderFromDate="ngModel" readonly
+                required />
+              <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <input type="text" class="form-control date-filter date-input"
+                (ngModelChange)="getScheduledTime($event , 'to' , 'orderDateField')" [owlDateTimeTrigger]="dt2"
+                [owlDateTime]="dt2" name="toDate" required placeholder="Order To Date" [min]="orderDateField.minDate"
+                [(ngModel)]="orderDateField.toDate" #orderToDate="ngModel" readonly required />
+              <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+            </div>
+          </div>
+          <div class="row mt-50">
+            <div class="col-lg-6 col-md-6">
+              <input type="text" class="form-control date-filter date-input"
+                (ngModelChange)="getScheduledTime($event , 'from' , 'arrivalDateField')" [owlDateTimeTrigger]="dt3"
+                [owlDateTime]="dt3" name="endDate" required placeholder="Estimated Arrival From Date"
+                [max]="arrivalDateField.maxDate" [(ngModel)]="arrivalDateField.fromDate" #arrivalFromDate="ngModel"
+                readonly required />
+              <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <input type="text" class="form-control date-filter date-input"
+                (ngModelChange)="getScheduledTime($event , 'to' , 'arrivalDateField')" [owlDateTimeTrigger]="dt4"
+                [owlDateTime]="dt4" name="endDate" required placeholder="Estimated Arrival To Date"
+                [min]="arrivalDateField.minDate" [(ngModel)]="arrivalDateField.toDate" #arrivalToDate="ngModel" readonly
+                required />
+              <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block" *ngIf="data.filterName == 'Apply Filter'">
+      <div class="col-lg-12 col-md-12">
+        <div class="col-lg-11 col-md-11">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="poFilter['branch'].collections" bindLabel="long_text" [clearable]="true" name="role"
+                (search)="searchFieldKey($event , 'branch')" (change)="selectedFieldKey($event , 'branch')"
+                [(ngModel)]="poResponseData.branch" required placeholder="Select Branch">
+              </ng-select>
+
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="poFilter['category'].collections" bindLabel="name" [clearable]="true" name="role"
+                (search)="searchFieldKey($event , 'category')" (change)="selectedFieldKey($event , 'category')"
+                [(ngModel)]="poResponseData.category" required placeholder="Select Category">
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-50">
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="poFilter['warehouse'].collections" bindLabel="name" [clearable]="true"
+                placeholder="Select Warehouse" name="role" (search)="searchFieldKey($event , 'warehouse')"
+                (change)="selectedFieldKey($event , 'warehouse')" [(ngModel)]="poResponseData.warehouse" required>
+              </ng-select>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="poFilter['manufacture'].collections" bindLabel="name" [clearable]="true"
+                placeholder="Select Manufacture" name="role" (search)="searchFieldKey($event , 'manufacture')"
+                (change)="selectedFieldKey($event , 'manufacture')" [(ngModel)]="poResponseData.manufacture" required>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block" *ngIf="data.filterName == 'Apply Demo Product Filter'">
+      <div class="col-lg-12 col-md-12">
+        <div class="col-lg-11 col-md-11">
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="demoFilter['productDetail'].collections" bindLabel="title" [clearable]="true"
+                placeholder="Select Product" name="product" (search)="searchDemoFieldKey($event , 'productDetail')"
+                [(ngModel)]="demoResponseData.productDetail" required>
+              </ng-select>
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="demoFilter['warehouse'].collections" bindLabel="name" [clearable]="true"
+                placeholder="Select Warehouse" name="warehouse" (search)="searchDemoFieldKey($event , 'warehouse')"
+                (change)="selectedFieldKey($event , 'warehouse')" [(ngModel)]="demoResponseData.warehouse" required>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-50">
+            <div class="col-lg-6 col-md-6">
+              <ng-select class="select-drop-down col-md-10 col-lg-10  p-0 pull-right"
+                [items]="demoFilter['frontierMarketingUser'].collections" bindLabel="first_name" [clearable]="true"
+                placeholder="Select Assigned by" name="fmUser"
+                (search)="searchDemoFieldKey($event , 'frontierMarketingUser')"
+                (change)="selectedFieldKey($event , 'frontierMarketingUser')"
+                [(ngModel)]="demoResponseData.frontierMarketingUser" required>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block-barcode" *ngIf="data.filterName == 'Select Barcode'">
+      <div class="col-lg-12 col-md-12 mt-50 row">
+        <div class="col-lg-10 col-md-10 margin-auto">
+          <ng-select class="select-drop-down p-0" [items]="barcodeCollections" bindValue="barcode" bindLabel="barcode"
+            [clearable]="true" placeholder="Enter Barcode" name="barcodeName"
+            (search)="searchFieldKey($event , 'barcode')" (change)="selectedFieldKey($event , 'barcode')"
+            [multiple]="true" [(ngModel)]="bindBarcode" [maxSelectedItems]="data.quantity" required>
+          </ng-select>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <span class="quantity-display">{{bindBarcode.length}}/{{data.quantity}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block-barcode" *ngIf="data.filterName == 'Select Barcode for Demo'">
+      <div class="col-lg-12 col-md-12 mt-50 row">
+        <div class="col-lg-8 col-md-8 margin-auto">
+          <ng-select class="select-drop-down p-0" [items]="barcodeCollections" bindValue="barcode" bindLabel="barcode"
+            [clearable]="true" placeholder="Enter Barcode" name="barcodeName"
+            (search)="searchFieldKey($event , 'barcodeDemo')" (change)="selectedFieldKey($event , 'barcode')"
+            [multiple]="true" [(ngModel)]="bindBarcode" [maxSelectedItems]="data.quantity" required>
+          </ng-select>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <span class="quantity-display">{{bindBarcode.length}}/{{data.quantity}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block-barcode combo-product-container mt-20"
+      *ngIf="data.filterName == 'Select Combo Product Barcode'">
+      <perfect-scrollbar>
+        <div class="col-lg-12 col-md-12 combo-barcode-display-row row"
+          *ngFor="let item of comboProductList.product_details">
+          <div class="col-lg-8 col-md-8 margin-auto">
+            <ng-select class="select-drop-down p-0" [items]="item.barcodeCollections" bindValue="barcode"
+              bindLabel="barcode" [clearable]="true" placeholder="Enter {{item.title}} Barcode" name="barcodeName"
+              (search)="searchFieldKey($event , 'comboBarcode' , item)"
+              (change)="selectedFieldKey($event , 'comboBarcode' , item)" [multiple]="true"
+              [(ngModel)]="item.bindBarcode" [maxSelectedItems]="item.quantity !=0 ? item.quantity : data.quantity"
+              required>
+            </ng-select>
+          </div>
+          <div class="col-lg-2 col-md-2 display-flex">
+            <span class="quantity-display">{{item.bindBarcode.length}}/{{item.quantity ? item.quantity
+              :item.quantity}}</span>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+    <div class="row content-block-barcode" *ngIf="data.filterName == 'Place Transport Barcode'">
+      <div class="col-lg-12 col-md-12 mt-30">
+        <div class="col-lg-8 col-md-8 margin-auto">
+          <ng-select class="select-drop-down p-0" [items]="transportBarcodeCollections" bindValue="barcode"
+            bindLabel="barcode" [clearable]="true" placeholder="Enter Product Barcode" name="transportbarcodeName"
+            (search)="searchFieldKey($event , 'transportBarcode')"
+            (change)="selectedFieldKey($event , 'transportBarcode')" required
+            [(ngModel)]="selectedtransportbarcodeName">
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 mt-20">
+        <div class="col-lg-8 col-md-8 margin-auto">
+          <ng-select class="select-drop-down p-0 barcode-select" [items]="transportBarcodeItemCollections"
+            bindLabel="barcode" [clearable]="true" placeholder="Enter Item Barcode" name="transportItemName"
+            (search)="searchFieldKey($event , 'transportItemBarcode')"
+            (change)="selectedFieldKey($event , 'transportItemBarcode')" [multiple]="true"
+            [maxSelectedItems]="data.quantity" required [(ngModel)]="selectedtransportItemName">
+          </ng-select>
+          <span class="quantity-display mt-2 float-right">{{createTransportBarcode.item_Barcodes.length}}/{{data.quantity}}</span>
+        </div>
+       
+      </div>
+    </div>
+    <div class="row content-block-barcode" *ngIf="data.filterName == 'Returned Items'">
+      <div class="col-lg-12 col-md-12 mt-50">
+        <div class="col-lg-8 col-md-8 margin-auto">
+          <ng-select class="select-drop-down p-0" [clearable]="true" placeholder="Enter Barcode" name="barcodeName"
+            [multiple]="true" [(ngModel)]="bindReturnCashBarcode" [disabled]="true" required>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+    <div class="row content-block-barcode invoice-container" *ngIf="data.filterName == 'Invoice Filter'">
+      <div class="row col-md-12 col-lg-12">
+        <div class="col-md-12 col-lg-12 row display-flex justify-content-sb mt-20">
+          <div class="col-lg-5 col-md-5">
+            <input type="text" class="form-control date-filter date-input"
+              (ngModelChange)="getScheduledTime($event , 'fromDate' , 'invoiceDateField' , 'minDate')"
+              [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="fromDate" required placeholder="Start Date"
+              [max]="invoiceDateField.maxDate" [(ngModel)]="invoiceDateField.fromDate" #orderFromDate="ngModel" readonly
+              required />
+            <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+          </div>
+          <div class="col-lg-5 col-md-5">
+            <input type="text" class="form-control date-filter date-input"
+              (ngModelChange)="getScheduledTime($event , 'toDate' , 'invoiceDateField' , 'maxDate')"
+              [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="toDate" required placeholder="End Date"
+              [min]="invoiceDateField.minDate" [max]="todayDate" [(ngModel)]="invoiceDateField.toDate"
+              #orderToDate="ngModel" readonly required />
+            <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 row display-flex justify-content-sb">
+          <div class="col-lg-5 col-md-5 mt-10" *ngFor="let data of invoiceCollections">
+            <ng-select class="select-drop-down p-0" [clearable]="true" placeholder="Enter {{data.name}}"
+              [items]="invoiceFilter[data.key].collections" bindLabel="{{data.bindLabel}}" [clearable]="true"
+              (search)="searchInvoiceEvent($event , data.key)" (change)="changeInvoiceEvent($event , data)"
+              name="invoiceName" required>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="view-barcode-container mt-30" *ngIf="data.filterName == 'View Barcode'">
+      <div class="form-group  col-md-6 col-lg-6 search-position no-margin">
+        <input type="text" class="form-control txt-overflow" placeholder="Search Barcode"
+          (keyup)="searchBarcode($event)" [(ngModel)]="selectedBarcodeSearchText">
+        <img src="assets/img/icon_search.svg" alt="">
+      </div>
+      <div class="table-card barcode-product-card mt-10">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item}}
+                  </div>
+                </th>
+                <th *ngIf="permissionSets.delete">
+                  Activity
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar>
+              <tbody>
+                <tr
+                  *ngFor="let item of  barcodeList | paginate: {id: '1' , itemsPerPage: 10, currentPage: barcodeCurrentPage , totalItems:barcodeTotalRecords}">
+                  <td>
+                    {{ item.barcode }}
+                  </td>
+                  <td *ngIf="permissionSets.delete">
+                    <div class="row no-margin">
+                      <div>
+                        <div class="txt-center">
+                          <img class="cursor-pointer" (click)="openBarcodeDeleteDialog(item.id , item.barcode)"
+                            src="../../../../../assets/img/delete.svg" alt="">
+                        </div>
+                        <div class="delete-edit">
+                          Delete
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <div *ngIf="barcodeList.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+          <pagination-controls class="pagination-card" *ngIf="barcodeTotalRecords > 10" previousLabel="" id="1"
+            nextLabel="" (pageChange)="getPage($event)">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="data.filterName !== 'Invoice Filter' && data.filterName !== 'View Barcode'">
+      <div class="submit-block" *ngIf="data.filterName == 'Place Transport Barcode'">
+        <button type="submit" class="create-btn cursor-pointer" (click)="applyFilter()"
+          [disabled]="createTransportBarcode.item_Barcodes.length !== data.quantity" mat-button>Apply</button>
+      </div>
+      <div class="submit-block" *ngIf="data.filterName == 'Select Combo Product Barcode'">
+        <button type="submit" class="create-btn cursor-pointer" (click)="applyFilter()"
+          [disabled]="!activeFinalizeBtn">Apply</button>
+      </div>
+      <div class="submit-block"
+        *ngIf="data.filterName !== 'Place Transport Barcode' && data.filterName !== 'Select Combo Product Barcode'&&data.filterName !== 'Download Filter'">
+        <button *ngIf="data.filterName != 'Upload'" type="submit" class="create-btn cursor-pointer"
+          (click)="applyFilter()"
+          [disabled]="(data.filterName == 'Select Barcode' && bindBarcode.length !== data.quantity)||(data.filterName == 'Select Barcode for Demo'  && bindBarcode.length <= 0)">Apply</button>
+      </div>
+    </div>
+    <div class="row content-block-barcode invoice-container" *ngIf="data.filterName == 'Download Filter'">
+      <div class="row col-md-12 col-lg-12">
+        <div class="col-md-12 col-lg-12 row display-flex justify-content-sb mt-20">
+          <div class="col-lg-5 col-md-5">
+            <label name="fromDate" class="required">From Date</label>
+            <input type="text" class="form-control date-filter date-input"
+              (ngModelChange)="getScheduledTime($event , 'fromDate' , 'downloadDate' , 'minDate')"
+              [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="fromDate" required placeholder="Start Date"
+              [max]="downloadDate.maxDate" [(ngModel)]="downloadDate.fromDate" #orderFromDate="ngModel" readonly
+              required />
+            <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+          </div>
+          <div class="col-lg-5 col-md-5">
+            <label name="toDate" class="required">To Date</label>
+            <input type="text" class="form-control date-filter date-input"
+              (ngModelChange)="getScheduledTime($event , 'toDate' , 'downloadDate' , 'maxDate')"
+              [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="toDate" required placeholder="End Date"
+              [min]="downloadDate.minDate" [max]="todayDate" [(ngModel)]="downloadDate.toDate" #orderToDate="ngModel"
+              readonly required />
+            <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+    <div class="row content-block-barcode invoice-container" *ngIf="data.filterName == 'Upload'">
+      <div class="row col-md-12 col-lg-12 mt-30">
+        <hr>
+        <div class="col-md-3 col-lg-3 mt-10 email-upload">
+          <label name="email" class="required">Email</label>
+        </div>
+        <div class="col-md-9 col-lg-9">
+          <input type="text" class="form-control" name="emailNew" pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+            [(ngModel)]="email" #emailNew="ngModel"
+            [ngClass]="{ 'is-invalid': emailNew.invalid   && (emailNew.dirty || emailNew.touched)}" required />
+          <div *ngIf="emailNew.invalid   && (emailNew.dirty || emailNew.touched)" class="invalid-feedback">
+            <div *ngIf="emailNew.errors.required">Email is required</div>
+            <div *ngIf="emailNew.errors.pattern">Please enter a valid email</div>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-12 mt-2" style="display: flex;">
+          <mat-chip-list aria-label="Fish selection" *ngFor="let email of uploadedEmail; index as i;">
+            <mat-chip (click)="setEmail(email)">{{email}}</mat-chip>
+          </mat-chip-list>
+        </div>
+
+        <div class="col-md-12 col-lg-12 mt-10 row display-flex justify-content-sb">
+          <div class="col-lg-5 col-md-5 p-1 text-center">
+            <button *ngIf="permissionSets.write" class="create-btn cursor-pointer p-2" style="width:80px;"
+              (click)="csvFileInput1.click()">Replace</button>
+            <input hidden type="file" #csvFileInput1 (change)="uploadExcel($event, false)" style="display:none;"
+              accept='.xlsx,.xls,.csv' />
+          </div>
+          <div class="col-lg-3 col-md-3 p-1 text-center">
+            <button class="create-btn cursor-pointer p-2" style="width:80px;"
+              (click)="csvFileInput2.click()">Add</button>
+            <input hidden type="file" #csvFileInput2 (change)="uploadExcel($event, true)" style="display:none;"
+              accept='.xlsx,.xls,.csv' />
+          </div>
+          <div class="col-lg-2 col-md-2 p-1 text-center"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2 text-center mb-4"
+      *ngIf="data.filterName === 'Invoice Filter' || data.filterName === 'View Barcode' || data.filterName == 'Download Filter'">
+      <div class="submit-block col-md-12 col-lg-12" *ngIf="data.filterName == 'Invoice Filter'">
+        <button type="submit" class="create-btn cursor-pointer" (click)="applyDownload()">Download</button>
+      </div>
+      <div class="submit-block col-md-12 col-lg-12" style="display: flex;
+      justify-content: center;margin-top: 100px ;" *ngIf="data.filterName == 'Download Filter'">
+        <button type="submit" class="create-btn cursor-pointer" (click)="Download()">Download</button>
+      </div>
+      <div class="submit-block col-md-12 col-lg-12 " *ngIf="data.filterName == 'View Barcode'">
+        <button type="submit" class="create-btn cursor-pointer" (click)="viewBarcodeCompleted()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,242 @@
+.img-box {
+    margin: 0;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.form-control{
+  border-radius:0px;
+}
+.budget-style{
+  border: 0px;
+  font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+.imgMargin {
+  margin-left: 25px;
+}
+.budget-earnings-style{
+  border: 0px;
+  color:#ef7f1a;
+  font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+table {
+    width: 100%;
+  }
+table, th, td {
+    border:1px solid black;
+    padding: 15px;
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-infix {
+    padding-bottom: 0px !important;
+}
+
+.mat-form-field-infix {
+     border-top: 0px !important; 
+}
+
+  .main-img {
+    height: 18vh;
+    width: 100;
+    border: 1px dashed #AAAAAA7E;
+     background: #F8F8F8 0% 0% no-repeat padding-box;
+
+    img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .main-img-remove {
+        top: -8px;
+        right: -18px;
+    }
+
+}
+.sub-img {
+    height: 10vh;
+    width: 100%;
+    background: #F8F8F8 0% 0% no-repeat padding-box;
+border: 0.5px dashed #AAAAAA7E;
+// margin-left: 12px;
+   
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .main-img-remove {
+        top: -8px;
+        right: -18px;
+    }
+
+}
+
+.border-style,.border-style:focus{
+    background: #FFE8C615 0% 0% no-repeat padding-box;
+    border: 1px solid #EF7F1A48;
+}
+
+  .btn-createBranch{
+    height: 40px;
+   border-radius: 20px;
+   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+   background-color: #ef7f1a;
+   border-radius: 30px !important;
+   font-size: 16px;
+   width: 90%;
+   margin-right: 40px;
+   outline: none;
+   color: #ffffff !important;
+   overflow: none;
+   border: none;
+}
+.container{
+  background: #fff !important;
+  font-size: 12px !important;
+  font-family: "Source Sans Pro", sans-serif;
+}
+.titleText{
+  color:#ef7f1a;
+  font-size: 18px !important;
+  font-weight: 600;
+}
+.create-btn{
+  height: 35px;
+  font-size:14px;
+}
+
+td.mat-cell:nth-child(1) {
+  font-weight: bold;
+}
+
+td.mat-cell {
+  width: 100px;
+}
+.mat-table {
+  overflow-x: scroll;
+}
+
+.h-50 {
+  height: 49%;
+}
+
+.mat-row,
+.mat-header-row {
+  min-width: 800px;
+}
+.w3review{
+  height: 20vh;
+  padding:1rem;
+}
+.zonesChip{
+  color: orange;
+  background: white;
+  border-radius: 0px;
+  width:8vw;
+  margin-right: 1rem !important;
+}
+.zones-select{
+  border: 0px;
+  box-shadow: none;
+  border-bottom: 2px solid #AAAAAA7E;
+  border-radius: 0px;
+  .ng-select-container {
+   overflow: hidden !important;
+  }
+}
+/*.ng-select.ng-select-multiple
+  .ng-select-container
+  .ng-value-container
+  .ng-value {
+  padding: 4px 12px !important;
+  border-radius: 50px;
+  background-color: #e0e0e0;
+  color: #1e1e1e;
+  overflow: hidden !important;
+}*/
+.ng-select-container{
+  overflow: hidden !important;
+}
+.ng-select > .ng-select-continer > .ng-value-container >.ng-placeholder{
+  padding-top: 5px !important;
+
+}
+.img-box-left{
+  margin: 0;
+  position: absolute;
+  top: 55%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+}
+.img-box-right{
+  margin: 0;
+  position: absolute;
+  top: 55%;
+  left: 74%;
+  transform: translate(-50%, -50%);
+}
+.ng-select.zones-select>.ng-select-container  {            
+  overflow:hidden !important;
+}
+.saheli-count{
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+}
+.chip-remove-btn{
+  border: none;
+  background-color: white;
+  color:orange;
+  /*position: absolute;
+    top: 0.2rem;
+    left: 4.5rem;*/
+    background: none;
+}
+.chip-remove-btn:focus{
+  border: none;
+  background: none;
+  color:orange;
+  /*position: absolute;
+    top: 0.2rem;
+    left: 4.5rem;*/
+}
+.chip-remove-btn:hover{
+  border: none;
+  background: none;
+  color:orange;
+   /*position: absolute;
+    top: 0.2rem;
+    left: 4.5rem;*/
+}
+.chip-remove-btn:active{
+  border: none;
+  background: none;
+  color:orange;
+   /*position: absolute;
+    top: 0.2rem;
+    left: 4.5rem;*/
+}
+
+.dw-15
+{
+  width:15% !important
+}
+.remove-icon-survey{
+  top: 0px;
+    /* left: 5vw; */
+    position: absolute;
+    margin-left: 1vw;
+}
+.remove-saheli-icon-survey{
+  top: 0px;
+     left: 6vw; 
+    position: absolute;
+    margin-left: 1vw;
+}

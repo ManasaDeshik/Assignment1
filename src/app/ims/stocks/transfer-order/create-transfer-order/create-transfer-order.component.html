@@ -1,0 +1,116 @@
+<div class="create-to-container">
+  <div class="row">
+    <div class="col-md-10 col-lg-10">
+      <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/stock']"
+        routerLinkActive='active' alt="left-arrow">
+      <span class="component-heading ml-20">Stock Out</span>
+    </div>
+  </div>
+  <div class="row">
+    <app-stock-product-info class="col-md-12 col-lg-12"></app-stock-product-info>
+  </div>
+  <div class="row">
+    <form name="form" #purchaseForm="ngForm" class="view-product-details-block"
+      [ngClass]="openOrderDetails === 'collapse'? 'col-md-12 col-lg-12': 'col-md-8 col-lg-8'">
+      <div class="create-to-block block-style">
+        <div class="header">
+          Transfer Order
+        </div>
+        <div class="content-box">
+          <div class="row">
+            <div class="block-1" [ngClass]="isScannerClosed ? 'col-md-3 col-lg-3': 'col-md-5 col-lg-5'">
+              <ng-select class="select-drop-down col-md-9 col-lg-9 p-0"
+                [items]="branchFromWarehouseData.branch.collections" bindLabel="name" [clearable]="false"
+                [(ngModel)]="fromWarehouse" placeholder="From Warehouse" name="role" (search)="searchFieldKey($event)"
+                (change)="selectedFieldKey($event)" required disabled>
+              </ng-select>
+            </div>
+            <div class="block-1" [ngClass]="isScannerClosed ? 'col-md-3 col-lg-3': 'col-md-5 col-lg-5'">
+              <ng-select class="select-drop-down col-md-9 col-lg-9 p-0"
+                [items]="branchToWarehouseData.branch.collections" bindLabel="name" [clearable]="false"
+                placeholder="To Warehouse" name="towarehouse" [(ngModel)]="toWarehouse"
+                (search)="searchFieldToKey($event)" (change)="selectedFieldToKey($event)"
+                [disabled]="openOrderDetails === 'expand'" required>
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="row mt-20 block-2">
+            <div class=" col-md-3 col-lg-3 form-group">
+              <label name="productName">product Name</label>
+              <input type="text" class="form-control" [(ngModel)]="transport.items[0].en_name" name="productName"
+                [disabled]="openOrderDetails === 'expand'" required>
+            </div>
+            <div class=" col-md-3 col-lg-3 form-group">
+              <label name="productName">Quantity</label>
+              <input type="text" class="form-control" [(ngModel)]="transport.items[0].quantity" name="quantity"
+                (keyup)="checkQuantity($event)" [disabled]="openOrderDetails === 'expand'" required>
+            </div>
+            <div class="block-2 col-md-4 col-lg-4  stock-details">
+              <span>Stock Left</span>
+              <span class="ml-5">{{stockCount}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="submit-block">
+          <button *ngIf="scan === 'create'" [disabled]="!purchaseForm.valid"
+            (click)="createPackage('expand', false)">Create a Package</button>
+          <div *ngIf="scan === 'package'" class="cursor-pointer scan-package" (click)="scanPackageInput()">
+            Scan
+            <!-- <input type="text" class="hideInput" #scanPackageInput (keyup)="packageBarcodes($event)" autofocus />
+            Scan Package -->
+          </div>
+          <div *ngIf="scan === 'package'" class="cursor-pointer without-scan-package" (click)="transferOrderWithoutScan()">
+            Transfer Order Without Scan
+            <!-- <input type="text" class="hideInput" #scanPackageInput (keyup)="packageBarcodes($event)" autofocus />
+            Scan Package -->
+          </div>
+          <!-- <button *ngIf="userData.role === 1">Send Order</button> -->
+        </div>
+      </div>
+    </form>
+    <div class="col-md-4 col-lg-4 generate-barcode" [ngClass]="openOrderDetails === 'expand'? '': 'inital'">
+      <div class="block-style scanner-block">
+        <div class="row block-1">
+          <div class="col-md-12 col-lg-12">
+            <img class="pull-right cursor-pointer" (click)="expand('collapse', true)"
+              src="../../../../../assets/img/cancel.png" alt="">
+          </div>
+        </div>
+
+        <div class="row block-2">
+          <div class="txt-center" (click)="scanItemInput.focus()">
+            <img class="cursor-pointer" src="../../../../../assets/img/barcode.svg" alt="">
+            <input type="text" class="hideInput" #scanItemInput (keyup)="itemBarcode($event)" autofocus />
+          </div>
+        </div>
+        <div class="row block-3">
+          <div class="col-md-6 col-lg-6 txt-center">
+            {{scannedItems}}/{{itemToBeScanned}}
+          </div>
+          <div class="col-md-6 col-lg-6 txt-center">
+            Scanned
+          </div>
+        </div>
+        <div class="row block-4">
+          <div class="col-md-12 col-lg-12">
+            <div class="txt-center">
+              <button class="" [disabled]="!finishBtn" (click)="finish()">Finish</button>
+            </div>
+            <div class="row mt-20">
+              <!-- <div class="col-md-6 col-lg-6 txt-center">
+                <button class="mr-30 download-btn" (click)="csvFileInput.click()">Upload</button>
+                <input hidden type="file" #csvFileInput (change)="uploadExcel($event)" style="display:none;" />
+              </div> -->
+              <!-- <div class="col-md-6 col-lg-6 txt-center">
+                <button (click)="printInvoice()">
+                  Print Invoice
+                </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="table-card mt-40 lead-managment-card">
+    <div>
+      <table class="table">
+          <tbody>
+            <tr
+            *ngFor="let item of tableListData.records | paginate: {id: tabledisp, itemsPerPage:tableViewRequestData.recordsPerPage, currentPage:tableViewRequestData.pageNumber, totalItems:tableListData.totalRecords}">
+                <td class="width-175">
+                <div class="fontdatatext">
+                    {{item.survey_name}}
+                  </div>
+              </td>
+              <td class="width-175">
+                <div class="col-md-12 col-lg-12">
+                    <div class="fontheading">Saheli's Associated</div>
+                    <div class="fontdata">{{item.saheliAssociatedCount}}</div>
+                </div>
+              </td>
+              <td>
+                <div class="fontheading">Approved</div>
+                <div class="fontdata">{{item.approvedCount}}</div>
+              </td>
+              <td>
+                <div class="fontheading">Pending</div>
+                <div class="fontdata">{{item.submittedCount}}</div>
+              </td>
+              <td>
+                <div class="fontheading">Rejected</div>
+                <div class="fontdata">{{item.rejectedCount}}</div>
+              </td>
+              <td class="width-175">
+                <div class="fontheading">Total Earnings</div>
+                <div class="fontdata">{{item.totalEarnings}}</div>
+              </td>
+              <td>
+                <a class="links-class" (click)="loadSurveyData($event,item.id)">All Entries</a>
+              </td>
+              <!--<td>
+                <a class="links-class">Reports </a>
+              </td>-->
+              <td>
+                <span class="cursor-pointer" [ngStyle]="{'color': '#ffb207'}" matTooltip="View"><img
+                    class="approval-btn-view" (click)="viewSurveyData($event,item.id)" src="../../../../../assets/img/eye-solid.svg" alt=""></span>
+                </td>
+              <td>
+                <mat-slide-toggle class="pull-right" (click)="disableSurvey(item.id,item.status)" [checked]="item.toggleStatus"
+                ></mat-slide-toggle> 
+                 <!--<img class="imgMargin" *ngIf = "tabSelected == 1 || tabSelected == 2"
+                  src="../../../../../assets/img/Grey toggle.svg" (click)="disableSurvey(item.id,item.status)">
+                    <img class="imgMargin" *ngIf = "tabSelected == 0 || tabSelected == 2"
+                    src="../../../../../assets/img/Button_Right.svg" (click)="disableSurvey(item.id,item.status)">-->
+                <!-- [checked]="productRequestObj.is_disabled" -->
+              </td>
+              <td>
+                <span class="cursor-pointer" [ngStyle]="{'color': '#ffb207'}" matTooltip="View"><img
+                    class="approval-btn-dot" (click)="showDialog($event,item.id)" src="../../../../../assets/img/kebab.png" alt=""></span>
+          
+              </td>
+            </tr>
+            <div *ngIf="tableListData.totalRecords === 0" class="no-data">
+              <div>
+                No Data Found
+              </div>
+            </div>
+          </tbody>
+      </table>
+    </div>
+    <pagination-controls class="pagination-card" *ngIf="tableListData.totalRecords > 10" previousLabel="" id="1"
+      nextLabel="" (pageChange)="getPage($event);page=$event">
+  </pagination-controls>
+</div>

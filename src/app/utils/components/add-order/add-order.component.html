@@ -1,0 +1,143 @@
+<div class="row m-2 p-2">
+    <div class="col-md-8 col-lg-8 header">
+        Add Order
+    </div>
+    <div class="col-md-4 col-lg-4 txt-right">
+        <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+</div>
+<hr>
+<div class="row p-1">
+    <div class="col-md-4 col-lg-4">
+        <button class="create-btn-show" [disabled]="oneDisable" (click)="oneClick()">1</button> <span class="btn-name">
+            Select Address</span>
+    </div>
+    <div class="col-md-4 col-lg-4">
+        <button class="create-btn-show" [disabled]="twoDisable" (click)="twoClick()">2</button> <span class="btn-name">
+            Add Products</span>
+    </div>
+    <div class="col-md-4 col-lg-4">
+        <button class="create-btn-show" [disabled]="threeDisable"
+            (click)="threeClick()">3</button> <span class="btn-name"> Payment</span>
+    </div>
+</div>
+<hr>
+<div class="row m-2 p-2" *ngIf="oneView">
+    <mat-radio-group class="tp-radio-group col-md-12 col-lg-12" [(ngModel)]="deliverTo"
+        (ngModelChange)="deliverChange(deliverTo)">
+        <mat-radio-button class="tp-radio-button col-md-6 col-lg-6" *ngFor="let deliver of deliver" [value]="deliver">
+            {{deliver}}
+        </mat-radio-button>
+    </mat-radio-group>
+
+    <!-- <div class="row"> -->
+    <div class="col-md-6 col-lg-6 p-4">
+        <div class="p-2">Lead Address</div>
+        <hr>
+        <div class="text-sm-left"><label class="p-2">Name:</label> {{details.first_name}}</div>
+        <div class="text-sm-left"><label class="p-2">State:</label> {{details.state}}</div>
+        <div class="text-sm-left"><label class="p-2">Branch:</label> {{details.branch_name}}</div>
+        <div class="text-sm-left"><label class="p-2">Village:</label> {{details.village}}</div>
+        <div class="text-sm-left"><label class="p-2">Mobile:</label> {{details.phone_number}}</div>
+
+        <!-- <label class="p-2">Branch:</label> {{details.branchName}} -->
+    </div>
+    <div class="col-md-6 col-lg-6 p-4">
+
+        <div class="p-2">Saheli Address</div>
+        <hr>
+        <div class="text-sm-left"><label class="p-2">Name:</label> {{details.saheli_name}}</div>
+        <div class="text-sm-left"><label class="p-2">State:</label> {{details.state}}</div>
+        <div class="text-sm-left"><label class="p-2">Branch:</label> {{details.branch_name}}</div>
+        <div class="text-sm-left"><label class="p-2">Village:</label> {{details.village}}</div>
+        <div class="text-sm-left"><label class="p-2">Mobile:</label> {{details.saheli_number}}</div>
+    </div>
+    <!-- </div> -->
+</div>
+<div class="row m-2" *ngIf="twoView">
+    <div class="col-md-8 col-lg-8 p-2">
+        <ng-select class="select-drop-down " [items]="productsFrom" bindLabel="title" [(ngModel)]="productsFrom.title"
+            placeholder="Search Products" (change)="selectedProduct($event)" (search)="searchProduct($event)"
+            [clearable]="false">
+        </ng-select>
+    </div>
+    <!-- <div class="col-md-2 col-lg-2 p-4">
+            <button class="create-btn" (click)="search()">Search</button>
+        </div> -->
+    <div class="col-md-2 col-lg-2 p-1">
+        <button class="create-btn" (click)="confirm()">Confirm</button>
+    </div>
+    <div class="col-md-2 col-lg-2">
+        Total Amount: {{totalAmount}}
+    </div>
+
+    <div class="table-card mt-20">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th *ngFor="let item of tableHeaders">
+                            <div class="label-text">
+                                {{item.header}}
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <perfect-scrollbar style="max-width: 100vw; max-height: 47vh;">
+                    <tbody>
+                        <tr *ngFor="let item of products; let i=index;">
+                            <td matTooltip="{{item.title}}">
+                                <img class="image-show" src="{{item.image}}" alt="">
+                                {{(item.title.length>20)?(item.title | slice:0:20)+'...':item.title}}
+                            </td>
+                            <td>
+                                <img class="quantity-icon cursor-pointer"
+                                    src="../../../../assets/img/minus-square-solid.svg" alt=""
+                                    (click)="quantityChange(item,'minus',i)">
+                                &nbsp;{{ item.quantity}}&nbsp;
+                                <img class="quantity-icon cursor-pointer"
+                                    src="../../../../assets/img/plus-square-solid.svg" alt=""
+                                    (click)="quantityChange(item,'plus',i)">
+                            </td>
+                            <td>
+                                {{ item.value}}
+                            </td>
+                            <td>
+                                {{ item.value * item.quantity}}
+                            </td>
+                            <td>
+                                <img class="cursor-pointer image-show-reject" (click)="removeBarcode(item,i)"
+                                    src="../../../../assets/img/times-circle-regular.svg" alt="" matTooltip="Reject">
+                            </td>
+                        </tr>
+
+                        <div *ngIf="products.length === 0" class="no-data">
+                            <div>
+                                No Data Found
+                            </div>
+                        </div>
+                    </tbody>
+                </perfect-scrollbar>
+            </table>
+        </div>
+    </div>
+
+</div>
+<div class="row" *ngIf="threeView && (products.length >0)">
+    <mat-radio-group class="tp-radio-group col-md-12 col-lg-12" [(ngModel)]="deliveryOption"
+        (ngModelChange)="deliveryChange(deliver)">
+        <mat-radio-button class="tp-radio-button col-md-6 col-lg-6" *ngFor="let deliver of delivery" [value]="deliver">
+            {{deliver}}
+        </mat-radio-button>
+    </mat-radio-group>
+    <div class="row col-md-12 col-lg-12">
+        <div class="col-md-4 col-lg-4 p-1 text-right">
+            <!-- <button class="create-btn p-2" (click)="closeDialog()">Cancel</button> -->
+        </div>
+        <div class="col-md-8 col-lg-8">
+            <button class="create-btn p-2 m-1" [disabled]="!deliveryOption" (click)="placeOrder()">Place
+                order</button>
+            <button class="create-btn p-2 m-1" (click)="closeDialog()">Cancel</button>
+        </div>
+    </div>
+</div>

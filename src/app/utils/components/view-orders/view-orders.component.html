@@ -1,0 +1,131 @@
+<div>
+  <div class="component-heading">
+    <div class="row order-management-layout">
+      <div class="col-md-2 col-lg-2">
+        <img class="cursor-pointer"matTooltip="Customer-Management" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/customer-management']"
+        routerLinkActive='active' alt="left-arrow">
+         {{customerName}}</div>
+      <div class="form-group col-sm-10 col-md-10 col-lg-10 search-position no-margin p-0">
+        <div class="row col-md-3 col-lg-3 float-right p-0">
+          <div class="row col-md-12 col-lg-12 float-right p-0">
+            <div class="col-md-6 col-lg-6 recieve-cash p-0">
+              <button class="assignee-btn1" mat-button (click)="search()">Search</button>
+            </div>
+            <div class="col-md-6 col-lg-6 recieve-cash p-0">
+              <button class="assignee-btn1" mat-button (click)="resetAll()">Clear</button>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-9 col-lg-9 float-right ">
+          <div class="row col-md-4 col-lg-4 float-right ">
+            <input type="text" class="form-control date-filter" (ngModelChange)="getScheduledTime($event , 'from')"
+              [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="endDate" required placeholder="Date:From"
+              [max]="maxFromDate" [(ngModel)]="tableDateFields.fromDate" #arrivalDate="ngModel" readonly required />
+            <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+          </div>
+          <div class="row col-md-8 col-lg-8 float-right">
+            <div class="col-md-6 col-lg-6 ">
+              <input type="text" class="form-control date-filter" (ngModelChange)="getScheduledTime($event , 'to')"
+                [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="endDate" required placeholder="Date:To"
+                [min]="minToDate" [(ngModel)]="tableDateFields.toDate" #arrivalDate="ngModel" readonly required />
+              <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+            </div>
+            <div class="col-md-6 col-lg-6 ">
+              <input type="text" [(ngModel)]="productName" class="form-control txt-overflow" placeholder="Product Name"
+                (keyup)="searchProductName($event)">
+              <img src="assets/img/icon_search.svg" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="table-card mt-20">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th [ngClass]="selectedBtn === 'RTS' ? 'input-box': ''" *ngFor="let item of tableHeaders">
+              <label class="container" *ngIf="selectedBtn === 'RTS' && item.checkBox">
+                <input type="checkbox" (click)="selectAll($event)" [(ngModel)]="isValueCheck">
+                <span class="checkmark"></span>
+              </label>
+              <div class="label-text">
+                <span *ngIf="item.header === 'Date'">{{selectedTabDate}}</span>
+                {{item.header}}
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <perfect-scrollbar style="max-width: 100vw; max-height: 48vh;">
+          <tbody>
+            <tr
+              *ngFor="let item of orderList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:orderList.totalRecords}">
+              <!-- <td>
+                {{ item.productName }}
+              </td> -->
+              <!-- <td matTooltip="{{item.product_details.title}}">
+                {{(item.product_details.title.length>15)?(item.product_details.title | slice:0:15)+'...':item.product_details.title}}
+              </td> -->
+              <td>
+                {{ item.vle.vleId }}
+              </td>
+              <td>
+                {{ item.vle.vleName }}
+              </td>
+              <td>
+                {{ item.saheliCoordinator.firstName}}
+              </td>
+              <td>
+                {{ item.warehouseName}}
+              </td>
+              <td>
+                {{ item.vle.vleStateName }}
+              </td>
+              <td>
+                {{ item.customer.customerName }}
+              </td>
+              <td>
+                {{ item.customer.customerPhNo }}
+              </td>
+              <td>
+                {{ item.customer.customerVillageName }}
+              </td>
+              <td>
+                {{item.customer.delivery_day}}
+              </td>
+              <td>
+                {{item.delivered_date | date}}
+              </td>
+              <td>
+                {{item.completedDate | date}}
+              </td>
+              <td matTooltip="{{item.product_details.title}}">
+                {{(item.product_details.title.length>15)?(item.product_details.title |
+                slice:0:15)+'...':item.product_details.title}}
+              </td>
+              <td>
+                {{ item.quantity}}
+              </td>
+              <td>
+                {{ item.totalPrice}}
+              </td>
+            </tr>
+            <div *ngIf="orderList.records.length === 0" class="no-data">
+              <div>
+                No Data Found
+              </div>
+            </div>
+          </tbody>
+        </perfect-scrollbar>
+      </table>
+    </div>
+    <pagination-controls class="pagination-card" *ngIf="orderList.totalRecords > 10" previousLabel="" id="1"
+      nextLabel="" (pageChange)="getPage($event)">
+    </pagination-controls>
+  </div>
+</div>

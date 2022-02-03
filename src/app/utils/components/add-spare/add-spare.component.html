@@ -1,0 +1,142 @@
+<div class="add-spare-container" [formGroup]="addSpareForm" (submit)="addEditSpareParts()">
+    <h5>
+        {{currentPageAction.headerName}}
+    </h5>
+    <div>
+        <div>
+            <mat-form-field>
+                <input matInput placeholder="Name" formControlName="name" required>
+                <mat-error
+                    *ngIf="addSpareValidationControl.name.errors && (addSpareValidationControl.name.dirty || addSpareValidationControl.name.touched)">
+                    <mat-hint [hidden]="!addSpareValidationControl.name.errors.required">Name is required</mat-hint>
+                    <mat-hint [hidden]="!addSpareValidationControl.name.errors.pattern">Please enter a valid Name
+                    </mat-hint>
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="mt-20 row">
+            <div class="col-md-6 col-lg-6">
+                <label>Warranty</label>
+                <div class="row mt-10 warranty-field">
+                    <div class="col-md-3 col-lg-3 justify-content-space">
+                            <mat-form-field class="custom-required">
+                                <input matInput formControlName="warranty" [readonly]="isNoWarranty" (keyup)="warrantyInputCheck()"required>
+                            </mat-form-field>   
+                    </div>
+                    <div class="col-md-6 col-lg-6 checkbox-layout">
+                        <label>
+                            <mat-checkbox [checked]="isNoWarranty" (change)="onChangeWarrantyCheck($event)"><span class="warranty-text-label">No
+                                    Warranty</span>
+                            </mat-checkbox>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <label>Spare Type</label>
+                <div class="mt-10 spare-type-field row col-md-12 col-lg-12 p-0">
+                        <mat-radio-button  class="col-md-6 col-lg-6"
+                            *ngFor="let data of spareTypeDetails"
+                            (change)="spareRadioChange($event)"
+                            [checked]="currentSpareType === data.name" [value]=data.name>
+                            {{data.name}}
+                            <div class="description-style">{{data.description}}</div>
+                        </mat-radio-button>
+                </div>
+            </div>
+            <mat-error class="warranty-custom-error"
+            *ngIf="addSpareValidationControl.warranty.errors && (addSpareValidationControl.warranty.dirty || addSpareValidationControl.warranty.touched)">
+            <mat-hint [hidden]="!addSpareValidationControl.warranty.errors.required">Warranty is
+                required
+            </mat-hint>
+            <mat-hint [hidden]="!addSpareValidationControl.warranty.errors.pattern">Please enter a valid
+                Warranty
+            </mat-hint>
+        </mat-error>
+        </div>
+        <div class="mt-20">
+            <label>Price Details</label>
+            <div class="row col-md-12 col-lg-12">
+                <mat-form-field class="col-md-4 col-lg-4">
+                    <input matInput placeholder="Actual Price" formControlName="actual_price" required>
+                    <mat-error
+                        *ngIf="addSpareValidationControl.actual_price.errors && (addSpareValidationControl.actual_price.dirty || addSpareValidationControl.actual_price.touched)">
+                        <mat-hint [hidden]="!addSpareValidationControl.actual_price.errors.required">Actual Price is
+                            required</mat-hint>
+                        <mat-hint [hidden]="!addSpareValidationControl.actual_price.errors.pattern">Please enter a valid
+                            Actual Price
+                        </mat-hint>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-4 col-lg-4">
+                    <input matInput placeholder="Extra Price" formControlName="extra_price" required>
+                    <mat-error
+                        *ngIf="addSpareValidationControl.extra_price.errors && (addSpareValidationControl.extra_price.dirty || addSpareValidationControl.extra_price.touched)">
+                        <mat-hint [hidden]="!addSpareValidationControl.extra_price.errors.required">Extra price is
+                            required</mat-hint>
+                        <mat-hint [hidden]="!addSpareValidationControl.extra_price.errors.pattern">Please enter a valid
+                            Extra price
+                        </mat-hint>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-4 col-lg-4">
+                    <input matInput placeholder="Final Price" formControlName="final_price" required>
+                    <mat-error
+                        *ngIf="addSpareValidationControl.final_price.errors && (addSpareValidationControl.final_price.dirty || addSpareValidationControl.final_price.touched)">
+                        <mat-hint [hidden]="!addSpareValidationControl.final_price.errors.required">Final Price is
+                            required</mat-hint>
+                        <mat-hint [hidden]="!addSpareValidationControl.final_price.errors.pattern">Please enter a valid
+                            Final Price
+                        </mat-hint>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mt-20">
+            <div class="row no-margin">
+                <label>Tax Details</label>
+                <div class="col-md-3 col-lg-3 add-tax" (click)="generateTaxDetails()">
+                    <img src="../../../../../assets/img/plus.svg">
+                    <div> Add Tax Details </div>
+                </div>
+            </div>
+            <div class="mt-10" formArrayName="tax_details"
+                *ngFor="let data of  taxValidationControl.controls;let i=index">
+                <div [formGroupName]="i" class="row col-md-12 col-lg-12">
+                    <mat-form-field class="col-md-4 col-lg-4">
+                        <input matInput placeholder="Name" formControlName="name" required>
+                        <mat-error
+                            *ngIf="taxValidationControl.controls[i].get('name').errors && (taxValidationControl.controls[i].get('name').dirty || taxValidationControl.controls[i].get('name').touched)">
+                            <mat-hint [hidden]="!taxValidationControl.controls[i].get('name').errors.required">Name is
+                                required</mat-hint>
+                            <mat-hint [hidden]="!taxValidationControl.controls[i].get('name').errors.pattern">Please
+                                enter a valid Name
+                            </mat-hint>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-4 col-lg-4">
+                        <input matInput placeholder="Percent" formControlName="percent" required>
+                        <mat-error
+                            *ngIf="taxValidationControl.controls[i].get('percent').errors && (taxValidationControl.controls[i].get('percent').dirty || taxValidationControl.controls[i].get('percent').touched)">
+                            <mat-hint [hidden]="!taxValidationControl.controls[i].get('percent').errors.required">
+                                Percent is required</mat-hint>
+                            <mat-hint [hidden]="!taxValidationControl.controls[i].get('percent').errors.pattern">Please
+                                enter a valid Percent
+                            </mat-hint>
+                        </mat-error>
+                    </mat-form-field>
+                    <div class="col-md-1 col-lg-1 justify-content-space-around"
+                        *ngIf="taxValidationControl.controls.length > 1">
+                        <img class="cursor-pointer" (click)="deleteTaxInputData(i)"
+                            src="../../../../../assets/img/delete.svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="button-layout">
+        <button name="button" mat-button type="submit" class="create-btn" (click)="addEditSpareParts()"
+            [disabled]="!addSpareForm.valid">{{currentPageAction.buttonName}}</button>
+        <button name="button" mat-button class="create-btn" (click)="closeDialog(false)">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,495 @@
+<form *ngIf="data === 'placeOrder'">
+  <div class="content-block">
+    <div class="txt-right">
+      <img class="close-img cursor-pointer" (click)="closeDialog()" src="../../../../assets/img/close.png" alt="">
+    </div>
+    <div class="row mt-20">
+      <div class="col-md-12 col-lg-12">
+        <div>
+          <ng-select class="select-branch-drop-down p-0" [items]="roleCollections" bindLabel="name" [clearable]="false"
+            placeholder="Search Products">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-40">
+      <div class="col-md-12 col-lg-12">
+        <div class="col-md-9 col-lg-8">
+          <div class="form-group">
+            <label name="quantity" class="required">Quantity Required</label>
+            <input type="text" class="form-control" name="quantity" />
+            <!-- [ngClass]="{ 'is-invalid': firstName.invalid   && (firstName.dirty || firstName.touched)}" required /> -->
+            <!-- <div *ngIf="firstName.invalid   && (firstName.dirty || firstName.touched)" class="invalid-feedback">
+              <div *ngIf="firstName.errors.required">First Name is required</div>
+              <div *ngIf="firstName.errors.pattern">Please enter a valid First Name</div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-50 order-btn">
+      <div class="col-md-12 col-lg-12">
+        <button class="place-order cursor-pointer" (click)="closeDialog()">Place Order</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<div *ngIf="data.message === 'scan'">
+  <div class="row">
+    <div class="col-md-6 col-lg-6 generate-pckg-txt">
+      Scan Packages
+    </div>
+    <div class="col-md-6 col-lg-6 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+
+  <div class="row mt-50">
+    <div class=" col-md-6 col-lg-6">
+      <div class="scan-complete txt-center cursor-pointer">
+        <input type="text" class="hideInput" #csvFileInput (keyup)="packageBarcodes($event)" autofocus />
+        <img class="mt-40" src="../../../../assets/img/package.svg" alt="">
+        <div class="package-scanned mt-10" *ngIf="!changeStatus">
+          SCAN PACKAGE
+        </div>
+        <div class="package-scanned-completed mt-10" *ngIf="changeStatus">
+          <img src="../../../../assets/img/check.png" alt="">
+          <div>SCAN PACKAGE COMPLETED </div>
+        </div>
+      </div>
+    </div>
+    <div class=" col-md-6 col-lg-6">
+      <div class="scanned txt-center cursor-pointer">
+        <input type="text" class="hideInput" #item (keyup)="itemBarcode($event)" />
+        <img class="mt-40" src="assets/img/barcode.svg" alt="">
+        <div class="scanned-complete mt-10">
+          <div *ngIf="scannedCount===quantity">
+            <img src="../../../../assets/img/check.png" alt="">
+          </div>
+          <div>
+            <span class="no">
+              {{scannedCount}}/{{quantity}}
+            </span>
+            <span class="txt">
+              SCANNED
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="txt-center mt-50">
+
+    <button class="finish-btn" (focus)="csvFileInput.focus()"
+      (click)="displayScanMessage('You can start scanning package now' , $event)"
+      [ngClass]="{ 'scan-complete-style': changeStatus}">START PACKAGE SCAN</button>
+
+    <button class="finish-btn" (focus)="item.focus()"
+      (click)="displayScanMessage('You can start item scan now' , $event)"
+      [ngClass]="{ 'scan-complete-style': activeFinish}" [disabled]="!changeStatus">START ITEM SCAN</button>
+
+    <button class="finish-btn" [disabled]="!activeFinish" (click)="finish()">FINISH</button>
+
+    <button class="finialize-btn" (click)="finalize()">FINALIZE</button>
+
+  </div>
+</div>
+
+
+
+
+<div *ngIf="data.message === 'scanOngoing'">
+  <div class="row">
+    <div class="col-md-6 col-lg-6 generate-pckg-txt">
+      Scan Packages
+    </div>
+    <div class="col-md-6 col-lg-6 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+
+  <div class="row mt-50">
+    <div class=" col-md-6 col-lg-6">
+      <div class="scan-complete txt-center cursor-pointer">
+        <input type="text" class="hideInput" #ongoingTransist (keyup)="packageBarcodesTransist($event)" autofocus />
+        <img class="mt-40" src="../../../../assets/img/package.svg" alt="">
+        <div class="package-scanned mt-10" *ngIf="!changeStatus">
+          SCAN PACKAGE
+        </div>
+        <div class="package-scanned-completed mt-10" *ngIf="changeStatus">
+          <img src="../../../../assets/img/check.png" alt="">
+          <div>SCAN PACKAGE COMPLETED </div>
+        </div>
+      </div>
+    </div>
+    <div class=" col-md-6 col-lg-6">
+      <div class="scanned txt-center cursor-pointer">
+        <input type="text" class="hideInput" #itemOngoingTansist (keyup)="itemBarcodeTransist($event)" />
+        <img class="mt-40" src="assets/img/barcode.svg" alt="">
+        <div class="scanned-complete mt-10">
+          <div *ngIf="scannedCount===quantity">
+            <img src="../../../../assets/img/check.png" alt="">
+          </div>
+          <div>
+            <span class="no">
+              {{scannedCount}}/{{quantity}}
+            </span>
+            <span class="txt">
+              SCANNED
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="txt-center mt-50">
+    <button class="finish-btn" (focus)="ongoingTransist.focus()"
+      (click)="displayScanMessage('You can start scanning package now' , $event)"
+      [ngClass]="{ 'scan-complete-style': changeStatus}">START PACKAGE SCAN</button>
+    <button class="finish-btn" [disabled]="!changeStatus" (focus)="itemOngoingTansist.focus()"
+      (click)="displayScanMessage('You can start item scan now' , $event)"
+      [ngClass]="{ 'scan-complete-style': activeFinish}">START ITEM SCAN</button>
+    <button class="finish-btn" [disabled]="!activeFinish" (click)="finishTransist()">FINISH</button>
+  </div>
+</div>
+
+
+<div *ngIf="data.message === 'createTransferOrder'">
+  <div class="row">
+    <div class="col-md-6 col-lg-6 generate-pckg-txt">
+      Scan Packages
+    </div>
+    <div class="col-md-6 col-lg-6 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+
+  <div class="row mt-50">
+    <div class=" col-md-6 col-lg-6">
+      <div class="scan-complete txt-center cursor-pointer">
+        <input type="text" class="hideInput" #ongoingCreateTransist (keyup)="packageBarcodesCreateTransist($event)"
+          autofocus />
+        <img class="mt-40" src="../../../../assets/img/package.svg" alt="">
+        <div class="package-scanned mt-10" *ngIf="!changeStatus">
+          SCAN PACKAGE
+        </div>
+        <div class="package-scanned-completed mt-10" *ngIf="changeStatus">
+          <img src="../../../../assets/img/check.png" alt="">
+          <div>SCAN PACKAGE COMPLETED </div>
+        </div>
+      </div>
+    </div>
+    <div class=" col-md-6 col-lg-6">
+      <div class="scanned txt-center cursor-pointer">
+        <input type="text" class="hideInput" #itemOngoingCreateTansist (keyup)="itemBarcodeCreateTransist($event)" />
+        <img class="mt-40" src="assets/img/barcode.svg" alt="">
+        <div class="scanned-complete mt-10">
+          <div *ngIf="scannedCount===quantity">
+            <img src="../../../../assets/img/check.png" alt="">
+          </div>
+          <div>
+            <span class="no">
+              {{scannedCount}}/{{quantity}}
+            </span>
+            <span class="txt">
+              SCANNED
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="txt-center mt-50">
+    <button class="finish-btn" (focus)="ongoingCreateTransist.focus()"
+      (click)="displayScanMessage('You can start scanning package now' , $event)"
+      [ngClass]="{ 'scan-complete-style': changeStatus}">START PACKAGE SCAN</button>
+    <button class="finish-btn" [disabled]="!changeStatus" (focus)="itemOngoingCreateTansist.focus()"
+      (click)="displayScanMessage('You can start item scan now' , $event)"
+      [ngClass]="{ 'scan-complete-style': activeFinish}">START ITEM SCAN</button>
+    <button class="finish-btn" [disabled]="!activeFinish" (click)="finishCreateTransist()">FINISH</button>
+  </div>
+</div>
+
+
+
+
+<div *ngIf="data.message === 'orderScan'">
+  <div class="row">
+    <div class="col-md-6 col-lg-6 generate-pckg-txt">
+      Scan Packages
+    </div>
+    <div class="col-md-6 col-lg-6 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+
+  <div class="row mt-50">
+    <div class=" col-md-12 col-lg-12">
+      <div class="order-scan txt-center cursor-pointer">
+        <input type="text" class="hideInput" #itemOrderScan (keyup)="itemOrderScanBarcode($event)" autofocus />
+        <img class="mt-40" src="assets/img/barcode.svg" alt="">
+        <div class="scanned-complete mt-10">
+          <div *ngIf="scannedCount===quantity">
+            <img src="../../../../assets/img/check.png" alt="">
+          </div>
+          <div>
+            <span class="no">
+              {{scannedCount}}/{{quantity}}
+            </span>
+            <span class="txt">
+              SCANNED
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="txt-center mt-50">
+    <button class="finish-btn" (focus)="itemOrderScan.focus()"
+      (click)="displayScanMessage('You can start item scan now' , $event)"
+      [ngClass]="{ 'scan-complete-style': activeFinish}">START ITEM SCAN</button>
+    <button class="finish-btn" [disabled]="!activeFinish" (click)="finishOrderScan()">FINISH</button>
+  </div>
+</div>
+<div *ngIf="data.message === 'comboScan'">
+  <div class="row">
+    <div class="col-md-6 col-lg-6 generate-pckg-txt">
+      Scan {{data.particularProductDetail.title}} Packages
+    </div>
+    <div class="col-md-6 col-lg-6 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+
+  <div class="row mt-50">
+    <div class=" col-md-12 col-lg-12">
+      <div class="order-scan txt-center cursor-pointer">
+        <input type="text" class="hideInput" #comboItemOrder (keyup)="comboItemOrderScan($event)" autofocus />
+        <img class="mt-40" src="assets/img/barcode.svg" alt="">
+        <div class="scanned-complete mt-10">
+          <div *ngIf="scannedCount=== comboProductList.quantity">
+            <img src="../../../../assets/img/check.png" alt="">
+          </div>
+          <div>
+            <span class="no">
+              {{scannedCount}}/{{comboProductList.quantity}}
+            </span>
+            <span class="txt">
+              SCANNED
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="txt-center mt-50">
+    <button class="finish-btn" (focus)="comboItemOrder.focus()"
+      (click)="displayScanMessage('You can start item scan now' , $event)"
+      [ngClass]="{ 'scan-complete-style': activeFinish}">START ITEM SCAN</button>
+    <button class="finish-btn" [disabled]="!activeFinish" (click)="finishComboOrderScan()">FINISH</button>
+  </div>
+</div>
+
+<div *ngIf="data === 'recieveCash'" class="receive-cash-container">
+  <form class="content-block" #receiveCashForm="ngForm">
+    <div class="txt-right">
+      <img class="close-img cursor-pointer" (click)="closeDialog()" src="../../../../assets/img/close.png" alt="">
+    </div>
+    <div class="row mt-20">
+      <div class="col-md-5 col-lg-5">
+        <div>
+          <label class="required">Select Operation Executive</label>
+          <ng-select class="select-branch-drop-down p-0" [items]="OECollections" (search)="searchOE($event)"
+            bindLabel="first_name" (change)="selectedOE($event)" [clearable]="false"
+            placeholder="Search Operation Executive" required>
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <div class="col-md-9 col-lg-8 p-0">
+          <div class="form-group">
+            <label name="quantity" class="required">Total Amount to be Collected</label>
+            <input type="text" class="form-control" [(ngModel)]="cashReceived.total_amount" name="quantity" readonly
+              #quantity="ngModel" required />
+            <div *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)" class="invalid-feedback">
+              <div *ngIf="quantity.errors.required">Quantity is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [disabled]="!disableReceiveCash" commenting for now later needs to be enabled line number 332-->
+      <div class="col-md-2 col-lg-2">
+        <button class="create-btn cursor-pointer" [disabled]="!disableReceiveCash"
+          (click)="receieveCashFinal()">Receive Cash</button>
+      </div>
+    </div>
+    <hr>
+    <div *ngIf="data === 'recieveCash' && isScan">
+      <div class="row">
+        <div class="col-md-6 col-lg-6 generate-pckg-txt">
+          Scan Packages
+        </div>
+        <div class="col-md-6 col-lg-6 txt-right">
+          <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialogScan()">
+        </div>
+      </div>
+
+      <div class="row mt-50">
+        <div class=" col-md-12 col-lg-12">
+          <div class="order-scan txt-center cursor-pointer">
+            <input type="text" class="hideInput" #itemOrderScan (keyup)="itemOrderScanBarcode($event)" autofocus />
+            <img class="mt-40" src="assets/img/barcode.svg" alt="">
+            <div class="scanned-complete mt-10">
+              <div *ngIf="scannedCount===quantity">
+                <img src="../../../../assets/img/check.png" alt="">
+              </div>
+              <div>
+                <span class="no">
+                  {{scannedCount}}/{{quantity}}
+                </span>
+                <span class="txt">
+                  SCANNED
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="txt-center mt-50">
+        <button class="finish-btn" (focus)="itemOrderScan.focus()"
+          (click)="displayScanMessage('You can start item scan now' , $event)"
+          [ngClass]="{ 'scan-complete-style': activeFinish}">START ITEM SCAN</button>
+        <button class="finish-btn" [disabled]="!activeFinish" (click)="finishOrderScan()">FINISH</button>
+      </div>
+
+    </div>
+    <div class="row no-margin">
+      <div class="col-md-12 col-lg-12 return-to-station p-0">
+        Returned Products
+      </div>
+    </div>
+
+    <!-- <div class="row" *ngIf="!isScan">
+      <div class="col-md-2 col-lg-2">
+          <button type="submit" class="create-btn cursor-pointer" (click)="scanItem()"><img
+              class="cursor-pointer reject-btn-order" src="../../../../../assets/img/qrcode-solid.svg" alt="">Scan
+            Item</button>
+      </div>
+      <div class="col-md-8 col-lg-8">
+        <div class="row">
+          <div class="col-md-7 col-lg-7">
+            <div class="form-group  col-md-6 col-lg-6">
+              <input type="text" class="txt-overflow" placeholder="Search Barcode" (keyup)="searchBarcode($event)"
+                [(ngModel)]="selectedBarcodeSearchText">
+            </div>
+          </div>
+          <div class="col-md-5 col-lg-5">
+            <div class="txt-overflow">
+              Status:
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <button type="submit" class="create-btn cursor-pointer" (click)="receiveSelected()">Receive Selected</button>
+    </div>
+    </div> -->
+    <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th *ngFor="let item of tableHeaders">
+                <div class="label-text">
+                  <span *ngIf="item.header =='Invoice No'">
+                    <mat-checkbox [checked]="selectCheck" (change)="selectAllAssign($event)"
+                      matTooltip="Select/Deslect all">
+                    </mat-checkbox>
+                  </span>&nbsp;
+                  {{item.header}}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cashReceived.product_name; let i=index;">
+              <!-- <td>
+                <span>
+                  <mat-checkbox [checked]="item.checked"
+                    (change)="updateCheckAssign($event,i)">
+                  </mat-checkbox>
+                </span>&nbsp;
+              </td> -->
+              <td matTooltip="{{item.product_detail.title}}">
+                <!-- <img class="image-show" src="{{item.product_detail_id.images[0]}}" alt=""> -->
+                {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+              </td>
+              <td>
+                {{ item.quantity }}
+              </td>
+              <td>
+                {{ item.value}}
+              </td>
+              <!-- <td>
+            <tr *ngFor="let data of item.barcode">
+              <div matTooltip="{{data}}">
+                {{(data.length>20)?(data | slice:0:20)+'...':data}}
+              </div>
+            </tr>
+            </td> -->
+            <!-- <td>
+              <tr *ngFor="let data of item.barcode">
+                <div class="cursor-pointer">
+                  date
+                </div>
+              </tr>
+            </td> -->
+            <td>
+              <!-- <tr *ngFor="let data of item.barcode; let j=index">
+                <img class="cursor-pointer reject-btn-order" (click)="removeBarcode(item,i,j)"
+                  src="../../../../../assets/img/times-circle-regular.svg" alt="" matTooltip="Reject">
+              </tr> -->
+
+            </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    <div class="row mt-20" *ngIf="!isScan">
+      <ul>
+        <!-- <perfect-scrollbar style="max-width: 100vw;height: 20vh;"> -->
+        <li class="col-md-12 col-lg-12 returned-items" *ngFor="let item of cashReceived.product_name">
+          {{item.product_detail.title}}
+        </li>
+        <!-- </perfect-scrollbar> -->
+      </ul>
+    </div>
+
+    <div class="txt-center returned-items" *ngIf="cashReceived.product_name.length === 0">
+      No items
+    </div>
+
+    <div class="row order-btn" *ngIf="cashReceived.product_name.length > 0">
+      <div class="col-md-12 col-lg-12">
+        <button class="col-lg-6 col-md-6 place-order cursor-pointer" (click)="receieveCash.focus()">Scan
+          Returned Items</button>
+        <input type="text" class="hideInput" #receieveCash (keyup)="returnedItems($event)" />
+      </div>
+      <div class="col-md-12 col-lg-12">
+        <button class="col-lg-6 col-md-6 place-order cursor-pointer" (click)="returnItemWithoutCash()"> Return
+          Items
+          without scan</button>
+      </div>
+    </div>
+  </form>
+</div>

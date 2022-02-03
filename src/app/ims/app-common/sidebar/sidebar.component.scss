@@ -1,0 +1,116 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.sidenav_container {
+  min-width: 60px;
+
+  .main-logo {
+    margin-top: 13px;
+    text-align: center;
+    span {
+      .tavelport-text-logo {
+        display: inline-block !important;
+        width: 100px;
+        height: 45%;
+      }
+    }
+    .side-logo {
+      width: 61px;
+      height: 45%;
+      padding: 11px 0px;
+    }
+    .side-logo-expand {
+      width: 8vw;
+      display: block;
+      opacity: 1;
+      margin-left: 45px;
+    }
+  }
+
+  .side-menus {
+    a {
+      font-size: 16px;
+      font-weight: normal;
+      @include text-color(#727272);
+    }
+    .side-logos {
+      display: inline-flex;
+      width: 100%;
+      margin: auto 3px;
+    }
+    .side-menu-text {
+      margin-top: 5px;
+      margin-left: 15px;
+    }
+    .side-menu-subtext{
+        margin-top: 5px;
+        margin-left: 60px;
+        @include text-color(#727272 !important);
+        cursor: pointer;
+        display: none;
+    }
+    .side-menu-subtext-active{
+      margin-top: 5px;
+      margin-left: 60px;
+      @include text-color($header-text-secondary !important);
+      cursor: pointer;
+  }
+    .side-menu-subtext:hover {
+      @include text-color($header-text-secondary !important);
+    }
+    
+    .module-text:hover {
+      .color-icon {
+        display: block;
+      }
+      .bw-icon {
+        display: none;
+      }
+      .side-menu-text {
+        @include text-color($header-text-secondary !important);
+      }
+      
+    }
+
+   
+
+
+    .active {
+      @include text-color($header-text-secondary !important);
+      font-weight: bold;
+      .color-icon {
+        display: block;
+      }
+      .bw-icon {
+        display: none;
+      }
+      .side-menu-subtext{
+        display: block;
+        margin-top: 5px;
+        margin-left: 15px;
+      }
+      .make-active {
+        width: 5px;
+        height: 45px;
+        @include border-single-radius(3px);
+        @include background-clr($header-text-secondary);
+      }
+    }
+
+    .bw-icon {
+      width: 100%;
+      display: block;
+    }
+    .color-icon {
+      width: 100%;
+      display: none;
+    }
+  }
+
+  .mat-nav-list .mat-list-item:hover {
+    @include background-clr($clr-white);
+  }
+}
+span.side-menus{
+  font-size: 14px;
+  font-weight: normal;
+}

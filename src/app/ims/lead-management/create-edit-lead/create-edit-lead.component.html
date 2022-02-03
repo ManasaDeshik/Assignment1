@@ -1,0 +1,285 @@
+<div class="component-heading">
+  <div class="row create-lead-layout">
+    <div class="col-md-7 col-lg-7">
+      <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/lead-management']"
+        routerLinkActive='active' alt="left-arrow">
+      <span class="details" *ngIf="!isEditMode">
+        Create Lead
+      </span>
+      <span class="details" *ngIf="isEditMode">
+        Edit Lead
+      </span>
+    </div>
+  </div>
+</div>
+
+<form name="form" #userForm="ngForm">
+  <div class="card mt-40 create-form-card">
+   
+      <div class="content-block">
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="firstName" class="required">Full Name</label>
+                <input type="text" class="form-control" name="firstName" [(ngModel)]="fmUserForm.first_name"
+                  pattern="^[A-Za-z][A-Za-z0-9_ ]*$" #firstName="ngModel"
+                  [ngClass]="{ 'is-invalid': firstName.invalid   && (firstName.dirty || firstName.touched)}" required />
+                <div *ngIf="firstName.invalid   && (firstName.dirty || firstName.touched)" class="invalid-feedback">
+                  <div *ngIf="firstName.errors.required">First Name is required</div>
+                  <div *ngIf="firstName.errors.pattern">Please enter a valid First Name</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="contactNumber" class="required">Contact Number</label>
+                <input type="text" class="form-control" name="contactNumber" [(ngModel)]="fmUserForm.phone_number"
+                  #contactNumber="ngModel" pattern="^\d{10}$" [maxlength]="10"
+                  [ngClass]="{'is-invalid':contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)}"
+                  required />
+                <div *ngIf="contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="contactNumber.errors.required">Contact Number is required</div>
+                  <div *ngIf="contactNumber.errors.pattern">Please enter a valid Contact Number</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="VLE" class="required">VLE Code</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="vleCode" bindLabel="vle_code"
+                  [clearable]="false" placeholder="Select" name="VLE" (change)="selectedVle($event)" [(ngModel)]="vles"
+                  (search)="searchVleCode($event)" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4" *ngIf="!isDisable">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="customer_stage">Customer Stage</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" placeholder="Select" name="customer_stage"
+                  [searchable]="false" [items]="customer_stage" bindLabel="name"  (ngModelChange)="stageChange($event)"
+                  [(ngModel)]="fmUserForm.customer_stage" [clearable]="false">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="status">Status</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="status" bindLabel="name"
+                  [clearable]="false" placeholder="Select" name="status" [required] = "isConsider" [disabled]="disableStatus" [searchable]="false" [(ngModel)]="statusInfo"
+                  (change)="selectedStatus($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="tag">Tag</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="tag" bindLabel="name"
+                  [clearable]="false" placeholder="Select" name="tag"  [(ngModel)]="tagInfo"
+                  (change)="selectedTag($event)">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="intrested">Intrested Products</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="intrestedProduct" bindLabel="title"
+                  [clearable]="false" placeholder="Select" [required] = "isAware || isConsider" [disabled]="disableInterestedProducts" name="intrested"  [multiple]="true"
+                  bindValue="title"  (change)="selectedIntrestedProduct($event)"
+                  [(ngModel)]="bindIntrestedProduct">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="otherProduct">Other Product</label>
+                <input type="text" class="form-control" name="otherProduct" [(ngModel)]="tagOtherProdcuts"
+                  #otherProduct="ngModel" autocomplete="false"
+                  [ngClass]="{'is-invalid':otherProduct.invalid && (otherProduct.dirty || otherProduct.touched)}"
+                  (keyup)="otherProductInfo($event)" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="state" class="required">State</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.state.collections"
+                  bindLabel="state" placeholder="Select" name="state" [(ngModel)]="branchData.state.name" 
+                  (search)="searchFieldKey($event , 'state')" (change)="selectedFieldKey($event , 'state')" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="district" class="required">District</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.district.collections"
+                  bindLabel="district" placeholder="Select" name="district" 
+                  (change)="selectedFieldKey($event , 'district')" [(ngModel)]="branchData.district.name"
+                  (search)="searchFieldKey($event , 'district')" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="branch" class="required">Branch</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.branch.collections"
+                  bindLabel="name" placeholder="Select" name="branch" 
+                  [(ngModel)]="branchData.branch.name" (search)="searchFieldKey($event , 'name')"
+                  (change)="selectedFieldKey($event , 'name')" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="panchayat" class="required">Panchayat</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.panchayat.collections"
+                  bindLabel="panchayat" placeholder="Select" name="panchayat" 
+                  [(ngModel)]="branchData.panchayat.name" (search)="searchFieldKey($event , 'panchayat')"
+                  (change)="selectedFieldKey($event , 'panchayat')" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="village" class="required">Village</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.village.collections"
+                  bindLabel="village" placeholder="Select" name="village" 
+                  [(ngModel)]="branchData.village.name" (search)="searchFieldKey($event , 'village')"
+                  (change)="selectedFieldKey($event , 'village')" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="Address" class="required">Address</label>
+                <input type="text" class="form-control" name="Address" pattern="[a-zA-Z0-9_]+.*$" [(ngModel)]="fmUserForm.address"
+                  #Address="ngModel"
+                  [ngClass]="{ 'is-invalid': Address.invalid   && (Address.dirty || Address.touched)}" required />
+                <div *ngIf="Address.invalid   && (Address.dirty || Address.touched)" class="invalid-feedback">
+                  <div *ngIf="Address.errors.required">Address is required</div>
+                  <div *ngIf="Address.errors.pattern">Please enter the valid address</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="customer_activity">Customer Activity</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="customer_activity"
+                  bindLabel="customer_activity" name="customer_activity" [searchable]="false"
+                  [(ngModel)]="fmUserForm.customer_activity" [clearable]="false" [multiple]="true">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4" *ngIf="isDisable">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="customer_stage">Customer Stage</label>
+                <input class="form-control" type="text" readonly value={{stagenew}}>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="ivr_result">IVR Result</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" placeholder="Select" name="ivr_result" 
+                [searchable]="false" [disabled]="disableIVR" (change)="ivrChange($event)" [items]="ivr_result"  bindLabel="name" bindValue="value" [(ngModel)]="fmUserForm.ivr_result" [clearable]="false">
+              </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="sjs_input">SJS/TM Inputs</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="sjs_input" bindLabel="name" bindValue="value" placeholder="Select" name="sjs_input"
+                [searchable]="false" [disabled]="disableSJS" (change)="sjsInputChanged($event)" [(ngModel)]="fmUserForm.sjs_input"  [clearable]="false">    
+              </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="sms_result">SMS Result</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" placeholder="Select" name="sms_result"
+                  [searchable]="false" [disabled]="disableSMS" [(ngModel)]="fmUserForm.sms_result" [clearable]="false">
+                  <ng-option [value]="item.value" *ngFor="let item of sms_result">
+                    {{item.name}}
+                  </ng-option>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="whatsAppNumber">WhatsApp Number</label>
+                <input type="text" class="form-control" name="whatsAppNumber" [(ngModel)]="fmUserForm.social_login_phone_number"
+                  #whatsAppNumber="ngModel" pattern="^\d{10}$" [maxlength]="10"
+                  [ngClass]="{'is-invalid':whatsAppNumber.invalid && (whatsAppNumber.dirty || whatsAppNumber.touched)}"
+                  />
+                <div *ngIf="whatsAppNumber.invalid && (whatsAppNumber.dirty || whatsAppNumber.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="whatsAppNumber.errors.required">Contact Number is required</div>
+                  <div *ngIf="whatsAppNumber.errors.pattern">Please enter a valid Contact Number</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-end pr-4 pb-3">
+          <button class="create-btn" mat-button (click)="createUser()" *ngIf="!isEditMode"
+            [disabled]="!userForm.valid || isSubmit || !isOptionsSet">Create</button>
+          <button class="create-btn" mat-button (click)="updateUser()" *ngIf="isEditMode"
+            [disabled]="!userForm.valid || isSubmit  || !isOptionsSet">Update</button>
+        </div>
+      </div>
+   
+  </div>
+ 
+</form>

@@ -1,0 +1,216 @@
+<div class="ongoing-purchase-order">
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/stock']"
+        routerLinkActive='active' alt="left-arrow">
+      <span class="component-heading ml-20">Ongoing Transit</span>
+    </div>
+    <div class="col-md-4 col-lg-4 order-history">
+      <a class="bold-txt" (click)="viewOngoingHistory()">View Ongoing Transit
+        History</a>
+    </div>
+      <div class="col-md-1 col-lg-1">
+        <button class="create-btn" (click)="applyFilter('Date')">Date Filter</button>
+      </div>
+    <div class="col-md-1 col-lg-1">
+      <button class="create-btn" (click)="clearFilter()">Clear</button>
+    </div>
+  </div>
+  <div class="row tab-row mt-20">
+    <div class="row col-md-8 col-lg-8">
+      <div class="tab-btn" *ngFor="let item of tableTabHeaders" (click)="makeActive(item)"
+        [class.active]="item === selectedBtnVal">
+        <div>
+          {{item}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-20" *ngIf="selectedBtnVal ==='Product'">
+    <div class="view-product-details-block"
+      [ngClass]="openOrderDetails === 'collapse'? 'col-md-12 col-lg-12': 'col-md-9 col-lg-9 collpase-main-card'">
+      <div class="table-card tranport-spare-style">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text"
+                    [ngClass]="item.header =='Total Units' || item.header =='Date' ? 'text-center': 'text'">
+                    {{item.header}}
+                    <div class="product-sorting-icons sorting-icons" *ngIf="item.sortText">
+                      <img class="arrow-up" src="../../../../assets/img/table-arrow-down.svg"
+                        (click)="sorting(item.sortText,1)" alt="">
+                      <img class="arrow-down" src="../../../../assets/img/table-arrow-up.svg"
+                        (click)="sorting(item.sortText, -1)" alt="">
+                    </div>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw">
+              <tbody>
+                <tr
+                  *ngFor="let item of  productList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:productList.totalRecords}">
+                  <td>
+                    <label class="container" *ngIf="userData.warehouse_id != item.sourceId">
+                      <input type="radio" name="tags" value="{{item.id}}" (click)="expand('expand', true, item)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="product-name">
+                      {{ item.item.itemName}}
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    {{ item.quantity}}
+                  </td>
+                  <td>
+                    {{item.updated_at | date:'medium'}}
+                  </td>
+                  <td>
+                    {{ item.source}}
+                  </td>
+                  <td>
+                    {{ item.sourceBranch }}
+                  </td>
+                  <td>
+                    {{ item.destination }}
+                  </td>
+                  <td>
+                    {{ item.destinationBranch }}
+                  </td>
+
+                </tr>
+                <div *ngIf="productList.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-lg-3 generate-barcode" *ngIf="showIndividualData"
+      [ngClass]="openOrderDetails === 'expand'? '': 'inital'">
+      <div class="row mt-20">
+        <div class="col-md-6 col-lg-6 order-details-txt bold-txt">
+          ORDER DETAILS
+        </div>
+        <div class="col-md-6 col-lg-6 txt-right">
+          <img src="../../../../../assets/img/close.png" class=" cursor-pointer" alt=""
+            (click)="expand('collapse', false)">
+        </div>
+      </div>
+      <perfect-scrollbar class="stock-list-scroll" style="max-width: 70vw; min-height: 60vw;">
+        <div class="row mt-40">
+          <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+              <label name="product" class="fx-14">Product</label>
+              <input type="text" class="form-control" name="product" [(ngModel)]="individualProduct.item.itemName"
+                readonly />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-30">
+          <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+              <label name="product" class="fx-14 bold-txt">Quantity</label>
+              <input type="text" class="form-control" name="product" [(ngModel)]="individualProduct.quantity"
+                readonly />
+            </div>
+          </div>
+        </div>
+
+        <div class="genrate-position-rl">
+          <div class="generate-position-abs">
+            <div class="row mt-20">
+              <div class="col-md-12 col-lg-12 fx-14">
+                <button class="barcode-btn bold-txt" *ngIf="permissionSets.write || permissionSets.edit"
+                  (click)="transferOrderWithoutScan()">Transfer Order Without
+                  Scan</button>
+              </div>
+            </div>
+            <div class="row mt-20">
+              <div class="col-md-12 col-lg-12 fx-14">
+                <button class="barcode-btn bold-txt" *ngIf="permissionSets.write || permissionSets.edit"
+                  (click)="scan()">Scan Package </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+    <pagination-controls class="pagination-card ongoing-pagination" *ngIf="productList.totalRecords > 10"
+      previousLabel="" id="1" nextLabel="" (pageChange)="getPage($event)">
+    </pagination-controls>
+  </div>
+  <div class="row mt-20" *ngIf="selectedBtnVal ==='Spare'">
+    <div class="view-spare-transfer-layout">
+      <div class="col-md-12 col-lg-12">
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let item of spareTableHeaders">
+                    <div class="label-text">
+                      {{item}}
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <perfect-scrollbar class="spare-list-scroll" *ngIf="spareToList.records.length > 0">
+                  <tr
+                    *ngFor="let item of spareToList.records | paginate: {id: '4' , itemsPerPage: tabelViewSpareRequestData.recordsPerPage, currentPage: tabelViewSpareRequestData.pageNumber , totalItems:spareToList.totalRecords};let i = index">
+                    <td>
+                      {{i+1}}
+                    </td>
+                    <td>
+                      <div class="set-spare-table-main-height">
+                        {{item.productName}}
+                      </div>
+                  <tr *ngFor="let data of item.items">
+                    <div class="mt-20">
+                      {{data.spareName}}({{data.quantity}})
+                    </div>
+                  </tr>
+                  </td>
+                  <td>
+                    <div class="set-spare-table-main-height">
+                      {{item.totalQuantity}}
+                    </div>
+                    <!-- <tr *ngFor="let data of item.items">
+                     <div class="mt-20">{{data.quantity}}</div>
+                    </tr> -->
+                  </td>
+                  <td>
+                    {{item.sourceWarehouse.name}}
+                  </td>
+                  <td>
+                    {{item.destinationWarehouse.name}}
+                  </td>
+                  <td>
+                    <button class="approval-btn btn-outline" (click)="acceptSpareItem(item)">Approve</button>
+                  </td>
+                  </tr>
+                </perfect-scrollbar>
+                <div *ngIf="spareToList.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </table>
+          </div>
+          <pagination-controls class="pagination-card ongoing-pagination" previousLabel="" id="4" nextLabel=""
+            (pageChange)="getSpareToPage($event)" *ngIf="spareToList.totalRecords > 10">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

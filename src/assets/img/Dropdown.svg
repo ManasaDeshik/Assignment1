@@ -1,0 +1,10 @@
+<svg id="Dropdown" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect id="Rectangle_3" data-name="Rectangle 3" width="48" height="48" fill="none"/>
+  <g id="Group_803" data-name="Group 803" transform="translate(14935 1340.027)">
+    <g id="Rectangle_1593" data-name="Rectangle 1593" transform="translate(-14925 -1322.027)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="28.415" height="11.366" stroke="none"/>
+      <rect x="0.5" y="0.5" width="27.415" height="10.366" fill="none"/>
+    </g>
+    <path id="Polygon_4" data-name="Polygon 4" d="M2.5,0,5,4H0Z" transform="translate(-14902 -1314) rotate(180)"/>
+  </g>
+</svg>

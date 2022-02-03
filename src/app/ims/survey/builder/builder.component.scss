@@ -1,0 +1,95 @@
+
+  .disableDiv{
+    pointer-events:none;
+}
+  .allfields{
+     background-color: #ef7f1a; 
+     text-align: center;
+     font-size: 18px;
+     padding:15px;
+     color:#fff;
+  }
+  .titleText{
+    color:#ef7f1a;
+    font-size: 18px !important;
+  }
+  .panel-text{
+    margin-top: 0.2rem;
+    margin-left: 0.1rem;
+  }
+  .color-icon{
+    margin: 0;
+    width: 3vw;
+    height: 4vh;
+  }
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .leftpane {
+      width: 25%;
+      height: 600px;
+      float:right;
+      border-collapse: collapse;
+      background: #F5F6F6;
+      overflow-y: scroll;
+  }
+  .itemsLeft{
+      float: left;
+      border-radius:5px;
+      border: 1px solid #979797;
+  }
+  .itemsRight{
+      float:right;
+      border-radius:5px;
+      border: 1px solid #979797;
+  }
+  
+  
+
+  .itemsInField{
+      
+      border: 1px solid grey;
+      width: 40%;
+      text-align: center;
+      padding:7px;
+      background: #fff;
+      
+;
+  }
+  .pt-3{
+      padding-top : 3rem;
+  }
+  #div1, #div2 {
+    float: left;
+    width: 100px;
+    height: 35px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+}
+.dottedDiv{
+border:1px dashed #d2d2d2;
+background: #f5f8fb !important;
+  
+    width: 100%;
+    text-align: center;
+    align-self: center;
+    background: rgb(167, 167, 136);
+    overflow: auto;
+
+}
+
+.sidepanel .row .card{
+  width: 48% !important;
+  background-color: #fbf6ef
+}
+
+.cdk-drag-dragging{
+  visibility: hidden;
+}
+
+.disabled{
+  opacity: 0.4;
+}

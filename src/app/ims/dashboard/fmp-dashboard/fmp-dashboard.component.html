@@ -1,0 +1,265 @@
+<app-date-info-dashboard></app-date-info-dashboard>
+
+<div class="row no-margin fmp-dashboard-listing">
+  <div class="col-md-6 col-lg-6 p-0">
+    <div class="row no-margin">
+      <div class="col-md-4 col-lg-4 p-0">
+        <div class="lists cursor-pointer" (click)="routeToWarehouse('vle-branches')">
+          <div class="row no-margin">
+            <div class="col-md-6 col-lg-6">
+
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right mt-10 loss">
+              -5
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="dashboardTotalCollections.total_VLEs" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-listing-txt">
+              Total VLE’s
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 pr-0">
+        <div class="lists cursor-pointer" (click)="routeToWarehouse('leads-branches')">
+          <div class="row no-margin">
+            <div class="col-md-6 col-lg-6">
+
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right mt-10 gain">
+              +12
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="dashboardTotalCollections.total_leads" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-listing-txt">
+              Total Leads
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="lists cursor-pointer" (click)="routeToWarehouse('product-branches')">
+          <div class="row no-margin">
+            <div class="col-md-6 col-lg-6">
+
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right mt-10 gain">
+              +5
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="dashboardTotalCollections.product_sold" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-listing-txt">
+              Products Sold
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin mt-20">
+      <div class="col-md-4 col-lg-4 p-0">
+        <div class="lists-two">
+          <div class="row no-margin">
+            <div class="col-md-6 col-lg-6">
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right mt-10 loss">
+              -5
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="dashboardTotalCollections.refereal_generated" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-listing-txt">
+              Referrals Generated
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4 pr-0">
+        <div class="lists-two">
+          <div class="row no-margin">
+            <div class="col-md-6 col-lg-6">
+
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right mt-10 gain">
+              +67
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="dashboardTotalCollections.new_VLEs" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-listing-txt">
+              New VLE’s Added
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="lists-two">
+          <div class="row no-margin">
+            <div class="col-md-6 col-lg-6">
+
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right mt-10 gain">
+              +67
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="dashboardTotalCollections.retal_points" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-listing-txt">
+              Retail Points
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-6 p-0">
+    <div class="revenue-graph">
+      <div class="row no-margin">
+        <div class="col-md-2 col-lg-2 mt-10">
+          <div class="row no-margin total-revenue">
+            Total Revenue
+          </div>
+          <div class="revenue-rs">
+            Rs <ng9-odometer [number]="dashboardTotalCollections.total_revenue" [config]="{ }"></ng9-odometer>
+          </div>
+        </div>
+        <div class="col-md-10 col-lg-10">
+          <highcharts-chart class="ht-32" [Highcharts]="highcharts" [options]="dashboardOption.chartOptions"
+            style="width: 100%; display: block;" *ngIf="initialGraph">
+          </highcharts-chart>
+          <highcharts-chart class="ht-32" [Highcharts]="highcharts" [options]="dashboardOption.chartOptions"
+            style="width: 100%; display: block;" *ngIf="updatedGraph">
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row no-margin">
+  <div class="col-md-8 col-lg-8 mt-20 pl-0">
+    <div class="fmp-dashboard-down-list">
+      <highcharts-chart class="ht-down-list" [Highcharts]="highcharts" [options]="dashboardProfit.chartOptions"
+        style="width: 100%; display: block;" *ngIf="initialGraph">
+      </highcharts-chart>
+      <highcharts-chart class="ht-down-list" [Highcharts]="highcharts" [options]="dashboardProfit.chartOptions"
+        style="width: 100%; display: block;" *ngIf="updatedGraph">
+      </highcharts-chart>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-lg-4 mt-20 p-0 fmp-dashboard-down-list ">
+    <div class="row no-margin impact-metrics">
+      Impact Metrics
+    </div>
+
+    <div class="row no-margin mt-10">
+      <div class="col-md-6 col-lg-6 pl-0">
+        <div class="down-list-top-cards">
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 mt-20 txt-center">
+              <img src="../../../../assets/img/home.svg" alt="">
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="700000" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-10 fmp-dashboard-listing-txt">
+              Total households Reached
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 p-0">
+        <div class="down-list-top-cards">
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 mt-20 txt-center">
+              <img src="../../../../assets/img/multiple-users-silhouette.svg" alt="">
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="4500000" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-10 fmp-dashboard-listing-txt">
+              Total Lives Impacted
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row no-margin mt-20">
+      <div class="col-md-6 col-lg-6 pl-0">
+        <div class="down-list-down-cards">
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 mt-20 txt-center">
+              <img src="../../../../assets/img/pine.svg" alt="">
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="1500000" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-10 fmp-dashboard-listing-txt">
+              Tons of Co2 saved
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6 p-0">
+        <div class="down-list-down-cards">
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 mt-20 txt-center">
+              <img src="../../../../assets/img/hand-shake.svg" alt="">
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-20 fmp-dashboard-total-nos">
+              <ng9-odometer [number]="2500" [config]="{ }"></ng9-odometer>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 col-lg-12 txt-center mt-10 fmp-dashboard-listing-txt">
+              Total Women Entrepreneurs created
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

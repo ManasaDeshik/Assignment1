@@ -1,0 +1,241 @@
+<form #serviceActionForm="ngForm" class="service-action-container"
+  *ngIf="data.identifier !== 'toOutOfDeliveryfromAdmin' && data.identifier !== 'directDeliverByOe'">
+  <ng-container *ngTemplateOutlet="header"></ng-container>
+
+  <div>
+    <div *ngIf="data.identifier === 'toResolveService' || data.identifier === 'toRejectService'">
+      <div class="col-lg-8 col-md-8 margin-auto">
+        <ng-select class="select-drop-down p-0" [clearable]="true" placeholder="Enter Remarks" [items]="serviceRemarks"
+          bindLabel=name bindValue=val [(ngModel)]="updateServiceData.remarks" name="remarks">
+        </ng-select>
+      </div>
+      <div class="col-lg-8 col-md-8 pt-20 margin-auto">
+        <label>Other Remarks</label>
+        <textarea class="form-control" rows="3" name="otherRemarks"
+          [(ngModel)]="updateServiceData.other_remarks"></textarea>
+      </div>
+    </div>
+    <div *ngIf="data.identifier === 'toAssignService' || data.identifier === 'approveInStation'">
+      <div class="col-lg-8 col-md-8 margin-auto">
+        <label class="required">Estimate</label>
+        <input type="number" class="form-control" placeholder="Enter amount" name="estimate" min='0'
+          [(ngModel)]="updateServiceData.estimate" #estimateNumber="ngModel" pattern="^[0-9]+" required>
+      </div>
+      <div class="col-lg-8 col-md-8  pt-20 margin-auto" *ngIf="data.identifier === 'toAssignService'">
+        <label class="required">Select Operations Executive (OE)</label>
+        <ng-select class="select-drop-down p-0" [clearable]="true" placeholder="Select" [items]="oeData.array"
+          bindLabel=first_name bindValue=_id [(ngModel)]="updateServiceData.executive_user_id" name="oe"
+          (search)="searchFieldKey($event)" required>
+        </ng-select>
+      </div>
+    </div>
+    <div *ngIf="data.identifier === 'toCompleteService'">
+      <div class="col-lg-8 col-md-8 margin-auto">
+        <label class="required">Challan No</label>
+        <input type="number" class="form-control" placeholder="Enter Challan No" name="challanNo"
+          [(ngModel)]="updateServiceData.challan_no" pattern="^[0-9]+" #challanNo="ngModel">
+      </div>
+    </div>
+  </div>
+
+  <div class="button-layout">
+    <button *ngIf="data.identifier === 'toCompleteService'" name="button" mat-button class="create-btn" [disabled]="!updateServiceData.challan_no"
+      (click)="updateData()">Done</button>
+    <button *ngIf="data.identifier === 'toAssignService' || data.identifier === 'approveInStation'" name="button" mat-button class="create-btn" [disabled]="!serviceActionForm.valid || updateServiceData.remarks"
+      (click)="updateData()">Done</button>
+      <button *ngIf="data.identifier === 'toResolveService' || data.identifier === 'toRejectService'" name="button" mat-button class="create-btn" [disabled]="!serviceActionForm.valid || !updateServiceData.remarks"
+      (click)="updateData()">Done</button>
+    <button name="cancelButton" mat-button class="create-btn" (click)="closeDialog(false)">Cancel</button>
+  </div>
+
+</form>
+<form [formGroup]="updateInServiceStationForm" class="service-action-container"
+  *ngIf="data.identifier === 'toOutOfDeliveryfromAdmin' || data.identifier === 'directDeliverByOe'">
+  <ng-container *ngTemplateOutlet="header"></ng-container>
+  <div *ngIf="!servicePriceDetails.isServicePdfDownloadEnable">
+    <div class="col-lg-12 col-md-12 row">
+      <div class="col-lg-6 col-md-6">
+        <label class="required">Select Operations Executive (OE)</label>
+        <ng-select class="select-drop-down p-0" placeholder="Select" [items]="oeData.array" bindLabel=first_name
+          bindValue=_id formControlName="executive_user_id" name="oe" (search)="searchFieldKey($event)" required>
+        </ng-select>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <label class="required">Service Charge</label>
+        <input type="number" class="form-control" placeholder="Enter amount" name="serviceCharge"
+         min="0" formControlName="service_charge" pattern="^[0-9]+" required>
+      </div>
+    </div>
+    <div class="update-spare-style"
+      *ngIf="data.identifier === 'directDeliverByOe' || (data.identifier === 'toOutOfDeliveryfromAdmin' && data.actionType !== 'rejectServiceInStation')">
+      <div class="col-lg-12 col-md-12 row no-margin">
+        <div class="label">Update Spare Details</div>
+        <div class="col-md-3 col-lg-3 add-spare" (click)="generateSpareDetails()">
+          <img src="../../../../../assets/img/plus.svg">
+          <div> Add Spare </div>
+        </div>
+      </div>
+      <div class="mt-20" formArrayName="spares" *ngFor="let data of  spareValidationControl.controls;let i=index">
+        <div [formGroupName]="i" class="row col-md-12 col-lg-12">
+          <div class="col-md-4 col-lg-4">
+            <label class="required">Select Product Spare</label>
+            <ng-select class="select-drop-down p-0" [clearable]="false" placeholder="Select" [items]="productSpareList"
+              bindLabel=name bindValue=_id formControlName="product_spare_id" name="productSpare"
+              (search)="searchFieldKeySpare($event)" (change)="changeFieldKeySpare(data,i)" required>
+            </ng-select>
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <label class="required">Quantity</label>
+            <input type="number" class="form-control" placeholder="Enter quantity" name="serviceCharge"
+              (keyup)="getSpareCount($event , i)" formControlName="quantity" pattern="^[0-9]+"
+              [readonly]="!spareValidationControl.value[i].product_spare_id" required>
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <label class="required">Price</label>
+            <input type="number" class="form-control" placeholder="Enter price" name="price"
+              formControlName="price" pattern="^[0-9]+"
+              [readonly]="!spareValidationControl.value[i].product_spare_id"  required>
+          </div>
+          <div class="col-md-2 col-lg-2 justify-content-space-around"
+            *ngIf="spareValidationControl.controls.length > 0">
+            <img class="cursor-pointer" (click)="deleteInputData(i)" src="../../../../../assets/img/delete.svg" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="servicePriceDetails.isServicePdfDownloadEnable">
+    <div class="row no-margin">
+      <div class="col-lg-6 col-md-6">
+        <label class="required">Service Charge</label>
+        <input type="number" class="form-control" placeholder="Enter amount" name="serviceCharge"
+          (keyup)="calculateServicePrice()" formControlName="service_charge" pattern="^[0-9]+" required>
+      </div>
+      <div class="col-lg-6 col-md-6 generate-invoice-style">
+        <button name="button" mat-button class="create-btn" *ngIf="servicePriceDetails.isServicePdfDownloadEnable"
+          [disabled]="!updateInServiceStationForm.valid" (click)="generateInvoice()"> Generate Invoice
+        </button>
+      </div>
+    </div>
+
+    <div class="table-card service-price-card mt-20 col-md-12 col-lg-12">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th *ngFor="let item of servicePriceDetails.tableHeaders">
+                <div class="label-text">
+                  {{item}}
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <perfect-scrollbar> -->
+            <tr *ngIf="servicePriceDetails.serviceData.service_tax">
+              <td>
+                1
+              </td>
+              <td>
+                <div class="h-0">Service Tax</div>
+            <tr *ngFor="let item of servicePriceDetails.serviceData.service_tax.tax_details" class="sub-table">
+              <td>
+                {{item.name}} {{item.percent}}%
+              </td>
+            </tr>
+            </td>
+            <td colspan="2">
+            </td>
+            <td>
+              <tr *ngFor="let item of servicePriceDetails.serviceData.service_tax.tax_details" class="sub-table">
+                <td>
+                  {{item.tax_per_quantity}}
+                </td>
+              </tr>
+            </td>
+            <td>
+              <tr *ngFor="let item of servicePriceDetails.serviceData.service_tax.tax_details" class="sub-table">
+                <td>
+                  {{item.total_tax}}
+                </td>
+              </tr>
+            </td>
+            <td>
+            </td>
+            </tr>
+            <tr *ngIf="servicePriceDetails.serviceData.spare_details.length > 0">
+              <td>
+                2
+              </td>
+              <td>
+                <div class="h-0">Spares</div>
+            <tr *ngFor="let item of servicePriceDetails.serviceData.spare_details" class="sub-table">
+              <td>
+                {{item.spare_details.name}}
+              </td>
+            </tr>
+            </td>
+            <td>
+              <tr *ngFor="let item of servicePriceDetails.serviceData.spare_details" class="sub-table">
+                <td>
+                  {{item.spare_details.warranty}}
+                </td>
+              </tr>
+            </td>
+            <td>
+              <tr *ngFor="let item of servicePriceDetails.serviceData.spare_details" class="sub-table">
+                <td>
+                  {{item.quantity}}
+                </td>
+              </tr>
+            </td>
+            <td>
+              <tr>
+                <td>
+                  {{servicePriceDetails.serviceData.total_tax/servicePriceDetails.serviceData.total_quantity | number}}
+                </td>
+              </tr> 
+            </td>
+            <td>
+              <tr *ngFor="let item of servicePriceDetails.serviceData.spare_details" class="sub-table">
+                <td>
+                  {{item.tax_details.total_tax}}
+                </td>
+              </tr>
+            </td>
+            <td>
+            </td>
+            </tr>
+
+            <!-- </perfect-scrollbar> -->
+            <tr class="total-display">
+              <td colspan="3"></td>
+              <td><strong *ngIf="servicePriceDetails.serviceData.total_quantity>0"> Qty: {{servicePriceDetails.serviceData.total_quantity}}</strong></td>
+              <td></td>
+              <td><strong *ngIf="servicePriceDetails.serviceData.total_quantity>0"> Tax: {{servicePriceDetails.serviceData.total_tax}}</strong></td>
+              <td><strong>Rs:{{servicePriceDetails.serviceData.total_price}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="button-layout-service-in" *ngIf="!servicePriceDetails.isServicePdfDownloadEnable">
+    <button name="button" mat-button class="create-btn" [disabled]="!updateInServiceStationForm.valid"
+      (click)="approveInServiceData()">Approve</button>
+    <button name="cancelButton" mat-button class="create-btn" (click)="closeDialog(false)">Cancel</button>
+  </div>
+</form>
+
+
+
+<ng-template #header>
+  <div class="row">
+    <div class="col-md-8 col-lg-8 header">
+      {{data.name}}
+    </div>
+    <div class="col-md-4 col-lg-4 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog(false)">
+    </div>
+  </div>
+</ng-template>

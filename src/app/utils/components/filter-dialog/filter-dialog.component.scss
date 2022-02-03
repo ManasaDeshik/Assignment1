@@ -1,0 +1,186 @@
+@import '../../styles/custom-palette.scss';
+
+.container {
+    .header {
+        font-size: 20px;
+        @include text-color($header-text-secondary);
+        font-weight: bold;
+    }
+
+    .content-block {
+        height: 30vh;
+        position: relative;
+
+        >div:first-child {
+            display: table-cell;
+            vertical-align: middle;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+
+            .header {
+                font-size: 20px;
+                @include text-color($header-text-secondary);
+                font-weight: bold;
+                padding: 10px 0;
+            }
+
+            .date-input {
+                width: 82%;
+                float: right;
+            }
+        }
+    }
+
+    .content-block-barcode {
+        height: 24vh;
+        position: relative;
+
+        &.combo-product-container {
+            height: calc(100vh - (224px + 37vh));
+        }
+
+        >div:first-child {
+            position: relative;
+        }
+
+        .margin-auto {
+            margin: 0 auto;
+        }
+
+        .quantity-display {
+            font-size: 16px;
+            @include text-color($header-text-secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .pos-ab {
+            position: absolute;
+            bottom: 8px;
+            right: -42px;
+        }
+    }
+
+    .combo-product-container {
+        perfect-scrollbar {
+            height: calc(100vh - (224px + 37vh)) !important;
+            max-width: 100vw;
+        }
+
+        .combo-barcode-display-row {
+            margin-top: 30px;
+        }
+
+        .combo-barcode-display-row:first-child {
+            margin-top: 0 !important;
+        }
+    }
+
+    .combo-product-container {
+        perfect-scrollbar {
+            height: calc(100vh - (224px + 37vh)) !important;
+            max-width: 100vw;
+        }
+
+        .combo-barcode-display-row {
+            margin-top: 30px;
+        }
+
+        .combo-barcode-display-row:first-child {
+            margin-top: 0 !important;
+        }
+    }
+
+    .invoice-container {
+        .row {
+            margin-right: 0;
+            margin-left: 0;
+
+            [class*="col-"] {
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
+
+        .download-btn {
+            background-color: #ef7f1a;
+            color: white;
+            border-radius: 20px;
+            padding: 7px 30px 10px 25px;
+            margin-left: 34px;
+            margin-top: 53px;
+        }
+    }
+
+    .view-barcode-container {
+        .barcode-product-card {
+            height: calc(100vh - (224px + 22vh)) !important;
+
+            .table-responsive {
+                height: calc(100vh - (224px + 24vh)) !important;
+
+                perfect-scrollbar {
+                    height: calc(100vh - (224px + 40vh)) !important;
+                    max-width: 100vw;
+                }
+            }
+        }
+
+        .search-position {
+            img {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+            }
+        }
+    }
+
+    // .submit-block {
+    //     button {
+    //         // margin: auto;
+    //         // position: absolute;
+    //         // left: 0;
+    //         // right: 0;
+    //         // bottom: 20px;
+    //     }
+    // }
+    .email-upload{
+        padding-left:50px !important;
+    }
+
+}
+.mat-chip.mat-standard-chip {
+    background-color: white !important;
+}
+
+// div.ng-select.barcode-select{
+//     max-height: 345px !important;
+// }
+// div.ng-select-container {
+//     min-height: 20px !important;
+//     max-height: 20px !important;
+// }
+
+// div.ng-value-container {
+//     min-height: 20px !important;
+//     max-height: 20px !important;
+// }
+
+// .ng-select.ng-select-single .ng-select-container {
+//     height: 20px !important;
+//     max-height: 20px !important;
+// }
+
+// .ng-select .ng-select-container {
+//     color: #333 !important;
+//     cursor: default !important;
+//     display: flex !important;
+//     outline: 0 !important;
+//     overflow: hidden !important;
+//     position: relative !important;
+//     width: 100% !important;
+//     max-height: 345px !important;
+// }

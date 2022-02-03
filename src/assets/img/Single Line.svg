@@ -1,0 +1,31 @@
+<svg id="Single_Line" data-name="Single Line" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <filter id="Line_71" x="6.5" y="7" width="19" height="34.738" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#fff" flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Line_70" x="5.5" y="7" width="19" height="34.738" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-color="#fff" flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect id="Rectangle_3" data-name="Rectangle 3" width="48" height="48" fill="none"/>
+  <g id="Group_798" data-name="Group 798" transform="translate(14925 1800.869)">
+    <g id="Rectangle_1593" data-name="Rectangle 1593" transform="translate(-14915 -1782.027)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="28.415" height="11.366" stroke="none"/>
+      <rect x="0.5" y="0.5" width="27.415" height="10.366" fill="none"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -14925, -1800.87)" filter="url(#Line_71)">
+      <line id="Line_71-2" data-name="Line 71" y2="16.738" transform="translate(16 16)" fill="rgba(0,0,0,0)" stroke="#fff9f5" stroke-width="1"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -14925, -1800.87)" filter="url(#Line_70)">
+      <line id="Line_70-2" data-name="Line 70" y2="16.738" transform="translate(15 16)" fill="rgba(0,0,0,0)" stroke="#000" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

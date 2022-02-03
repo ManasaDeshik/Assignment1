@@ -1,0 +1,200 @@
+<div class="create-po-container">
+  <div class="row">
+    <div class="col-md-10 col-lg-10">
+      <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" alt="left-arrow"
+        [routerLink]="['/stock']" routerLinkActive='active'>
+      <span class="component-heading ml-20">Place a Order</span>
+    </div>
+    <div class="col-md-2 col-lg-2">
+      <div class="pull-right">
+        <button class="order-history-btn" (click)="viewOngoingHistory()">Order
+          History</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <app-stock-product-info class="col-md-12 col-lg-12"></app-stock-product-info>
+  </div>
+  <div class="row no-margin">
+    <div class="col-md-6 col-lg-6">
+      Purchase Order
+    </div>
+    <div class="col-md-6 col-lg-6" *ngIf="currentPoTab === 'Spare'">
+      <div class="display-badge mr-20">
+        <button class="order-history-btn text-center"*ngIf="viewSpareParts.records.length > 0" (click)="downloadSpare()">download</button>
+      </div>
+      <div class="display-badge po-badge" (click)="routeCreationOfSpare()">
+        <img class="cursor-pointer" src="../../../../../assets/img/badge-icon.png" alt="left-arrow">
+        <div *ngIf="bucketSpareList && bucketSpareList.spares.length>0">{{bucketSpareList.spares.length}}</div>
+      </div>
+      <div class="display-badge mr-20 st-badge" (click)="routeCreationOfToSpare()">
+        <img class="cursor-pointer" src="../../../../../assets/img/badge-icon.png" alt="left-arrow">
+        <div *ngIf="bucketToSpareList && bucketToSpareList.items.length>0">{{bucketToSpareList.items.length}}</div>
+      </div>
+    </div>
+    <form name="form" #purchaseForm="ngForm">
+      <div class="create-po-block col-md-12 col-lg-12">
+        <div class="header col-md-2 col-lg-2 p-0">
+          <span (click)="changePoTab('Product')" [ngClass]="{'active':currentPoTab === 'Product'}">Product</span>
+          <!-- <span (click)="changePoTab('Spare')" [ngClass]="{'active':currentPoTab === 'Spare'}">Spare</span> -->
+        </div>
+        <hr>
+        <div class="content-box mt-10">
+          <div class="product-tab create-purchase-order-form" *ngIf="currentPoTab === 'Product'">
+            <perfect-scrollbar style="max-width: 100vw">
+              <ng-container *ngTemplateOutlet="addPurchaseOrder"></ng-container>
+            </perfect-scrollbar>
+          </div>
+          <div class="spare-tab" *ngIf="currentPoTab === 'Spare'">
+            <div *ngIf="isSparePlaceOrder" class="spare-po-part-name">
+              <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" alt="left-arrow"
+                (click)="goSpareListTab()" routerLinkActive='active'>
+              <div>
+                {{purchaseOrder.product_name}}
+              </div>
+            </div>
+            <perfect-scrollbar style="max-width: 100vw">
+              <div class="row spare-list-container custom-row-col" *ngIf="!isSparePlaceOrder">
+                <div class="col-md-3 col-lg-3"
+                  *ngFor="let data of viewSpareParts.records | paginate: {id: '1' , itemsPerPage: sparePageInfo.recordsPerPage, currentPage: sparePageInfo.currentPage , totalItems:viewSpareParts.totalRecords}">
+                  <div class="spare-box">
+                    <div>
+                      <div>
+                        {{data.name}}
+                      </div>
+                      <div>
+                        {{data.finalPrice}}
+                      </div>
+                      <div>
+                        In Stock {{data.items}}
+                      </div>
+                    </div>
+                    <div>
+                      <button type="button" class="to-btn" *ngIf="data.items > 0"
+                        (click)="onSpareShareStock(data)">Share Stock</button>
+                      <button type="button" class="po-btn" (click)="onPlaceOrder(data)">Place a Order</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="create-purchase-order-form" *ngIf="isSparePlaceOrder">
+                <ng-container *ngTemplateOutlet="addPurchaseOrder"></ng-container>
+              </div>
+            </perfect-scrollbar>
+          </div>
+
+          <ng-template #addPurchaseOrder>
+            <div class="row">
+              <div class="col-md-11 col-lg-11 row">
+                <div class="form-group col-md-3 col-lg-3">
+                  <label name="productName" class="required">Quantity</label>
+                  <input type="number" class="form-control" name="quantityNumber" [(ngModel)]="purchaseOrder.quantity"
+                    #quantityNumber="ngModel" pattern="^[0-9]+"
+                    [ngClass]="{ 'is-invalid': quantityNumber.invalid   && (quantityNumber.dirty || quantityNumber.touched)}"
+                    [disabled]="!purchaseOrder.manufacturer_id" required (keyup)="fetchTotalPrice($event)">
+                  <div *ngIf="quantityNumber.invalid && (quantityNumber.dirty || quantityNumber.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="quantityNumber.errors.required">Quantity is required</div>
+                    <div *ngIf="quantityNumber.errors.pattern">Please enter a valid Quantity</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-3 col-lg-3">
+                  <label name="categoryName" class="required">Price/Quantity</label>
+                  <input type="number" class="form-control" name="orderValue" [(ngModel)]="purchaseOrder.order_value"
+                    #orderValue="ngModel" pattern="^[0-9*.]+"
+                    [ngClass]="{ 'is-invalid': orderValue.invalid   && (orderValue.dirty || orderValue.touched)}"
+                    (keyup)="fetchTotalPrice($event)" [disabled]="!purchaseOrder.quantity" required>
+                  <div *ngIf="orderValue.invalid && (orderValue.dirty || orderValue.touched)" class="invalid-feedback">
+                    <div *ngIf="orderValue.errors.required">Price/Quantity is required</div>
+                    <div *ngIf="orderValue.errors.pattern">Please enter a valid Price/Quantity</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-3 col-lg-3">
+                  <label name="brandName" class="required">Total Price</label>
+                  <input type="text" class="form-control" name="totalPriceValue" [(ngModel)]="totalPrice"
+                    #totalPriceValue="ngModel" readonly required>
+                </div>
+                <div class="col-md-3 col-lg-3">
+                  <div class="form-group">
+                    <label name="endDate" class="required">Estimated Arrival Date</label>
+                    <input type="text" class="form-control" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"
+                      name="endDate" required [min]="estimatedMinDate"
+                      [(ngModel)]="purchaseOrder.estimated_arrival_date" #arrivalDate="ngModel" readonly required />
+                    <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11 col-lg-11 row">
+                <div class="form-group col-md-3 col-lg-3">
+                  <label name="productName" class="required">
+                    <span *ngIf="!isSparePlaceOrder">Product Name</span>
+                    <span *ngIf="isSparePlaceOrder">Spare Name</span></label>
+                  <input type="text" class="form-control" name="productTransferName"
+                    [(ngModel)]="purchaseOrder.product_name" #productTransferName="ngModel"
+                    [ngClass]="{ 'is-invalid': productTransferName.invalid   && (productTransferName.dirty || productTransferName.touched)}"
+                    [disabled]="!purchaseOrder.manufacturer_id || isSparePlaceOrder" required
+                    (keyup)="fetchTotalPrice($event)">
+                  <div *ngIf="productTransferName.invalid && (productTransferName.dirty || productTransferName.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="productTransferName.errors.required">Product Name is required</div>
+                    <div *ngIf="productTransferName.errors.pattern">Please enter a valid Product Name</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-3 col-lg-3">
+                  <label name="franchise" class="required">Franchise</label>
+                  <ng-select class="select-drop-down" [items]="franchiseCollections" bindLabel="name"
+                    [(ngModel)]="purchaseOrder.franchise_id" name="franchise" [clearable]="true"
+                    [disabled]="!purchaseOrder.manufacturer_id" (search)="searchFranchiseFieldKey($event)"
+                    bindValue="id" (change)="selectedFieldKey($event)" placeholder="Search Franchise" required>
+                  </ng-select>
+                </div>
+                <div class="form-group col-md-6 col-lg-6">
+                  <label name="productName" class="required">Shipment To</label>
+                  <ng-select class="select-drop-down shipment-address-ng-select" [items]="franchiseAddressCollections"
+                    bindLabel="description" [(ngModel)]="purchaseOrder.franchise_address_id" name="franchise_address"
+                    [clearable]="true" [disabled]="!purchaseOrder.manufacturer_id " bindValue="id"
+                    placeholder="Select Franchise Address" required>
+                  </ng-select>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-11 col-lg-11 row">
+                <div class="form-group col-md-3 col-lg-3">
+                  <label name="payment" class="required">Payment Terms</label>
+                  <input type="text" class="form-control" name="paymentTerms" [(ngModel)]="purchaseOrder.payment_terms"
+                    #paymentTermsName="ngModel" [disabled]="!purchaseOrder.manufacturer_id" pattern="^[a-zA-Z0-9. ]*$"
+                    [ngClass]="{ 'is-invalid': paymentTermsName.invalid   && (paymentTermsName.dirty || paymentTermsName.touched)}"
+                    required>
+                  <div *ngIf="paymentTermsName.invalid && (paymentTermsName.dirty || paymentTermsName.touched)"
+                    class="invalid-feedback">
+                    <div *ngIf="paymentTermsName.errors.required">Payment Term is required</div>
+                    <div *ngIf="paymentTermsName.errors.pattern">Please enter a Payment Term</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <pagination-controls class="pagination-card ongoing-pagination"
+            *ngIf="!isSparePlaceOrder && currentPoTab === 'Spare' && viewSpareParts.totalRecords >10" previousLabel=""
+            id="1" nextLabel="" (pageChange)="getSparePage($event)">
+          </pagination-controls>
+
+        </div>
+        <div class="submit-box" *ngIf="currentPoTab === 'Product'">
+          <button  (click)="printPurchaseOrder()">Save and Print</button>
+        </div>
+        <div class="submit-box" *ngIf="isSparePlaceOrder">
+          <button [disabled]="!purchaseForm.valid" (click)="addToBucketSparePO()">Add To Bucket</button>
+        </div>
+        <div *ngIf="!isSparePlaceOrder && currentPoTab === 'Spare' && viewSpareParts.totalRecords === 0"
+          class="no-data-display">
+          No Spare Found
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+$light-background: #f5f7fa;
+$header-text-primary: #808080;
+$header-text-secondary: #ef7f1a;
+$clr-white: #ffffff;
+$clr-black: #000000;
+$border-clr-primary: #b7b7b7;
+$border-clr: #ddd;
+$info-text-clr: #707070;
+$border-clr-secondary: #ced4da;
+$clr-red: red;
+$create-form-text-clr: #8798ad;
+$table-text-clr-primary: #ffffffba;
+$btn-bg-clr-primary: #ef7f1a;
+$ft-regular: 400;
+$ft-semi-bold: 600;
+$ft-bold: 700;
+$tab-active-clr-primary: #ffd200;
+$warehouse-active-clr: #fbb040;
+$dark-background-cards: #292e33;
+$label-clr-primary: #cccccc;
+$bg-clr-btn: #3b86ff2e;
+$active-btn-clr-secondary: #ef7f1a;
+$active-green-clr: #608701;
+$active-red-clr: #ff0000;
+$fmp-dashboard-txt-clr: #808080;
+/* mixin for  background dark theme*/
+
+@mixin background-clr-dark-theme($bv-color) {
+  background-color: $bv-color !important;
+}
+
+/* mixin for header background */
+
+@mixin background-clr($bv-color) {
+  background-color: $bv-color;
+}
+
+/* mixin for text color */
+@mixin text-color($txt-color) {
+  color: $txt-color;
+}
+
+/* mixin for height width */
+@mixin height-width($ht, $wd, $br) {
+  height: $ht;
+  width: $wd;
+  border-radius: $br;
+}
+
+/* mixin for place content */
+@mixin contentPlace($place) {
+  float: $place;
+}
+
+/* mixin for border radius */
+
+@mixin border-radius($top, $right, $bottom, $left) {
+  -webkit-border-radius: $top $right $bottom $left;
+  -moz-border-radius: $top $right $bottom $left;
+  border-radius: $top $right $bottom $left;
+}
+
+@mixin border-single-radius($rad) {
+  -webkit-border-radius: $rad;
+  -moz-border-radius: $rad;
+  border-radius: $rad;
+}
+
+/* box-shadow generator
+    $clr- in RGBA format
+ */
+
+@mixin box-shadows($hset, $vset, $blur, $spread, $clr) {
+  -webkit-box-shadow: $hset $vset $blur $spread $clr;
+  -moz-box-shadow: $hset $vset $blur $spread $clr;
+  box-shadow: $hset $vset $blur $spread $clr;
+}

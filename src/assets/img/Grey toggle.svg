@@ -1,0 +1,21 @@
+<svg id="Component_75_1" data-name="Component 75 – 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="46" height="20" viewBox="0 0 46 20">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Info_Icon" data-name="Info Icon" d="M8,0A8,8,0,1,1,0,8,8,8,0,0,1,8,0Z" fill="none"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect width="38" height="22" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Container">
+    <rect id="Base" width="46" height="20" rx="10" fill="rgba(170,170,170,0.49)"/>
+  </g>
+  <g id="Circle" transform="translate(2.514 2)">
+    <path id="Info_Icon-2" data-name="Info Icon" d="M8,0A8,8,0,1,1,0,8,8,8,0,0,1,8,0Z" fill="none"/>
+    <g id="Circle-2" data-name="Circle" clip-path="url(#clip-path)">
+      <g id="Base_Color_White" data-name="Base/Color/White" transform="translate(-2.514 -3)" clip-path="url(#clip-path-2)">
+        <rect id="Base_Color_Blue" data-name="Base/Color/Blue" width="38" height="22" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

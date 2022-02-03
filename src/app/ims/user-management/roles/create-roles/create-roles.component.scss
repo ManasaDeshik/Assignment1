@@ -1,0 +1,81 @@
+@import '../../../../utils/styles/custom-palette.scss';
+
+
+.create-edit-role-container {
+  .mat-hint {
+    color: #f44336 !important;
+  }
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+
+    [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  .box-shadow {
+    position: relative;
+    @include background-clr($clr-white);
+    @include box-shadows(0, 0, 5px, 0, rgba(0, 0, 0, 0.16));
+    font-size: 16px;
+  }
+
+  .block-1 {
+    padding: 10px 20px;
+  }
+
+  .block-2 {
+    padding: 20px 20px 10px;
+
+    .content-box {
+
+      .checkbox-label {
+        @include text-color(#727272 !important);
+        font-size: 18px;
+      }
+
+    }
+  }
+
+  .block-3 {
+    padding: 16px 20px 10px;
+    height: calc(100vh - 400px);
+
+    .header-layout {
+      div {
+        font-size: 20px;
+        @include text-color($header-text-secondary);
+      }
+    }
+
+    perfect-scrollbar {
+      max-height: calc(100vh - 500px) !important;
+    }
+
+    .content-box {
+      .permission-row {
+        max-width: 20% !important;
+        flex: auto !important;
+      }
+
+      .checkbox-label {
+        @include text-color(#727272 !important);
+        font-size: 18px;
+      }
+
+    }
+
+    .btn-row {
+      position: absolute;
+      right: 30px;
+      bottom: 20px;
+    }
+  }
+}
+.active {
+ opacity: .5;
+ pointer-events: none;
+}

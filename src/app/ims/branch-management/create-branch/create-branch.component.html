@@ -1,0 +1,271 @@
+<div class="component-heading">
+  <div class="row create-branch-layout">
+    <div class="col-md-7 col-lg-7">
+      <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg"
+        [routerLink]="['/branch-management/list-branches']" routerLinkActive='active' alt="left-arrow">
+      <span class="details" *ngIf="!isEditMode">
+        Create Branch
+      </span>
+      <span class="details" *ngIf="isEditMode">
+        Edit Branch
+      </span>
+    </div>
+  </div>
+</div>
+
+<form name="form" #userForm="ngForm">
+  <div class="card mt-40 create-form-card">
+   
+      <div class="content-block">
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="state" class="required">State</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.state.collections"
+                  bindLabel="state" [clearable]="false" placeholder="Select" name="state"
+                  [(ngModel)]="branchData.state.name" (search)="searchFieldKey($event , 'state')"
+                  (change)="selectedFieldKey($event , 'state')" [addTag]="true"  (keypress)="allowAlphabets($event)" required>
+              </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="branchStateCode" class="required">State Code</label>
+                <input type="text" class="form-control" name="branchStateCode" [(ngModel)]="branch.state_code"
+                  #branchStateCode="ngModel" pattern="^[0-9]+" [disabled]="checkRecordCodes.stateRecors"
+                  [ngClass]="{'is-invalid':branchStateCode.invalid && (branchStateCode.dirty || branchStateCode.touched)}"
+                  required />
+                <div *ngIf="branchStateCode.invalid && (branchStateCode.dirty || branchStateCode.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="branchStateCode.errors.required">State Code is required</div>
+                  <div *ngIf="branchStateCode.errors.pattern">Please enter a valid State Code</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="district" class="required">District</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.district.collections"
+                  bindLabel="district" placeholder="Select" name="district" [disabled]="!branchData.state.name"
+                  (change)="selectedFieldKey($event , 'district')" [(ngModel)]="branchData.district.name"
+                  (search)="searchFieldKey($event , 'district')" [addTag]="true"  (keypress)="allowAlphabets($event)"  required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="branchDistrictCode" class="required">District Code</label>
+                <input type="text" class="form-control" name="branchDistrictCode" [(ngModel)]="branch.district_code"
+                  #branchDistrictCode="ngModel" pattern="^[0-9]+"
+                  [ngClass]="{'is-invalid':branchDistrictCode.invalid && (branchDistrictCode.dirty || branchDistrictCode.touched)}"
+                  required [disabled]="checkRecordCodes.districtRecords" />
+                <div *ngIf="branchDistrictCode.invalid && (branchDistrictCode.dirty || branchDistrictCode.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="branchDistrictCode.errors.required">District Code is required</div>
+                  <div *ngIf="branchDistrictCode.errors.pattern">Please enter a valid District Code</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="branch" class="required">Branch</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.branch.collections"
+                  bindLabel="name" bindValue="name" placeholder="Select" name="branch" [disabled]="!branchData.district.name"
+                  [(ngModel)]="branchData.branch.name" (search)="searchFieldKey($event , 'name')"
+                  (change)="selectedFieldKey($event , 'name')" [addTag]="true"  (keypress)="allowAlphabets($event)"  required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="branchCode" class="required">Branch Code</label>
+                <input type="text" class="form-control" name="branchCode" [(ngModel)]="branch.code"
+                  #branchCode="ngModel" pattern="^[0-9]+" [disabled]="checkRecordCodes.branchRecords"
+                  [ngClass]="{'is-invalid':branchCode.invalid && (branchCode.dirty || branchCode.touched)}" required />
+                <div *ngIf="branchCode.invalid && (branchCode.dirty || branchCode.touched)" class="invalid-feedback">
+                  <div *ngIf="branchCode.errors.required">Branch Code is required</div>
+                  <div *ngIf="branchCode.errors.pattern">Please enter a valid Branch Code</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="block" class="required">Block</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.block.collections"
+                  bindLabel="name" placeholder="Select" name="block" [disabled]="!branchData.branch.name"
+                  [(ngModel)]="branchData.block.name" (search)="searchFieldKey($event , 'block')"
+                  (change)="selectedFieldKey($event , 'block')" [addTag]="true" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="blockCode" class="required">Block Code</label>
+                <input type="text" class="form-control" name="blockCode" [(ngModel)]="branch.block_code"
+                  #blockCode="ngModel" pattern="^[0-9]+" [disabled]="checkRecordCodes.blockrecords"
+                  [ngClass]="{'is-invalid':blockCode.invalid && (blockCode.dirty || blockCode.touched)}" required />
+                <div *ngIf="blockCode.invalid && (blockCode.dirty || blockCode.touched)" class="invalid-feedback">
+                  <div *ngIf="blockCode.errors.required">Block Code is required</div>
+                  <div *ngIf="blockCode.errors.pattern">Please enter a valid Block Code</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="panchayat" class="required">PANCHAYAT</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.panchayat.collections"
+                  bindLabel="name" placeholder="Select" name="panchayat" [disabled]="!branchData.block.name"
+                  [(ngModel)]="branchData.panchayat.name" (search)="searchFieldKey($event , 'panchayat')"
+                  (change)="selectedFieldKey($event , 'panchayat')" [addTag]="true" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="village" class="required">Village</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="branchData.village.collections"
+                  bindLabel="village" placeholder="Select" name="village" [disabled]="!branchData.panchayat.name"
+                  [(ngModel)]="branchData.village.name" (search)="searchFieldKey($event , 'village')"
+                  (change)="selectedFieldKey($event , 'village')" [addTag]="true" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="village" class="required">Village Code</label>
+                <input type="text" class="form-control" name="villageCode" [(ngModel)]="village_code" pattern="^[0-9]+" 
+                  #villageCode="ngModel" [disabled]="!branchData.village.name" required/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="totalHousehold" class="required">Total no of Household</label>
+                <input type="number" class="form-control" name="totalHousehold" [(ngModel)]="branch.household_count"
+                  #totalHousehold="ngModel" pattern="^[0-9]+"
+                  [ngClass]="{'is-invalid':totalHousehold.invalid && (totalHousehold.dirty || totalHousehold.touched)}"
+                  required />
+                <div *ngIf="totalHousehold.invalid && (totalHousehold.dirty || totalHousehold.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="totalHousehold.errors.required">Total no of Household is required</div>
+                  <div *ngIf="totalHousehold.errors.pattern">Please enter a valid Total no of Household</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="totalPopulationVillage" class="required">Total no of population of village</label>
+                <input type="number" class="form-control" name="totalPopulationVillage"
+                  [(ngModel)]="branch.population_count" #totalPopulationVillage="ngModel" pattern="^[0-9]+"
+                  [ngClass]="{'is-invalid':totalPopulationVillage.invalid && (totalPopulationVillage.dirty || totalPopulationVillage.touched)}"
+                  required />
+                <div
+                  *ngIf="totalPopulationVillage.invalid && (totalPopulationVillage.dirty || totalPopulationVillage.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="totalPopulationVillage.errors.required">Total no of population of village is required
+                  </div>
+                  <div *ngIf="totalPopulationVillage.errors.pattern">Please enter a valid Total no of population of
+                    village</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="noSHGGroup" class="required">No of SHG groups</label>
+                <input type="number" class="form-control" name="noSHGGroup" [(ngModel)]="branch.shg_group_count"
+                  #noSHGGroup="ngModel" pattern="^[0-9]+"
+                  [ngClass]="{'is-invalid':noSHGGroup.invalid && (noSHGGroup.dirty || noSHGGroup.touched)}" required />
+                <div *ngIf="noSHGGroup.invalid && (noSHGGroup.dirty || noSHGGroup.touched)" class="invalid-feedback">
+                  <div *ngIf="noSHGGroup.errors.required">No of SHG groups is required</div>
+                  <div *ngIf="noSHGGroup.errors.pattern">Please enter a valid No of SHG groups</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="noSHGMembers" class="required">No of SHG members</label>
+                <input type="number" class="form-control" name="noSHGMembers" [(ngModel)]="branch.shg_member_count"
+                  #noSHGMembers="ngModel" pattern="^[0-9]+"
+                  [ngClass]="{'is-invalid':noSHGMembers.invalid && (noSHGMembers.dirty || noSHGMembers.touched)}"
+                  required />
+                <div *ngIf="noSHGMembers.invalid && (noSHGMembers.dirty || noSHGMembers.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="noSHGMembers.errors.required">No of SHG members is required</div>
+                  <div *ngIf="noSHGMembers.errors.pattern">Please enter a valid No of SHG members</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="village_status" class="required">Village Status</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [clearable]="false" [items]="village_statuses"
+                  bindLabel="name" placeholder="Select" name="village_status" [(ngModel)]="village_status"
+                  required>
+                </ng-select>
+              </div>
+            </div>
+          </div>  
+          <div class="col-md-4 col-lg-4">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="delivery_day">Delivery Day</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [clearable]="false" [items]="delivery_days"
+                  bindLabel="name" placeholder="Select" name="delivery_day" [(ngModel)]="delivery_day"
+                  >
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-end pr-4 pb-3">
+          <button class="create-btn" mat-button (click)="createBranch()" *ngIf="!isEditMode"
+            [disabled]="!userForm.valid">Create</button>
+          <button class="create-btn" mat-button (click)="updateBranch()" *ngIf="isEditMode"
+            [disabled]="!userForm.valid">Update</button>
+        </div>
+      </div>
+
+    
+  </div>
+  
+</form>

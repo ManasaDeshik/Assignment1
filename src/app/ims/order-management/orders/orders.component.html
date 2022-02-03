@@ -1,0 +1,427 @@
+<div>
+  <div class="component-heading">
+    <div class="row order-management-layout">
+      <div class="col-md-12 col-lg-12">{{selectedBtn}} Orders</div>
+      <div class="form-group col-sm-12 col-md-12 col-lg-12 search-position no-margin p-0">
+        <div class="row col-md-12 col-lg-12 m-10 p-0 m-0">
+          <div
+          class="col-3 mb-2"
+           >
+            <input type="text" [(ngModel)]="fm_user_search" class="form-control txt-overflow"
+              placeholder="Saheli ID, Mobile No" (keyup)="searchVleNames($event)">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+          <div
+           class="col-3 mb-2">
+            <ng-select class="select-drop-down" [items]="TMTabs" bindLabel="first_name" [clearable]="false"
+              placeholder="TM search" [(ngModel)]="SCName" (change)="selectedTM($event)">
+            </ng-select>
+          </div>
+          <div
+           class="col-3 mb-2">
+            <input type="text" [(ngModel)]="villageName" class="form-control txt-overflow"
+              placeholder="Village Name, Code" (keyup)="searchVillageName($event)">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+
+          <div class="col-3 mb-2" *ngIf="(selectedBtn === 'Rejected'||selectedBtn === 'Completed')">
+            <input type="text" [(ngModel)]="productName" class="form-control txt-overflow" placeholder="Product Name"
+              (keyup)="searchProductName($event)">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+       
+          <div class="col-3 p-10">
+            <ng-select class="select-drop-down" [clearable]="false" [items]="delivery_days" bindLabel="name"
+              placeholder="Select" name="delivery_day" [(ngModel)]="delivery_day"
+              (ngModelChange)="searchDeliveryDay($event)">
+            </ng-select>
+          </div>
+          <div class="col-3 p-10">
+            <ng-select class="select-drop-down" [items]="allowedWarehouse" bindLabel="name" [(ngModel)]="warehouse.name"
+              [clearable]="false" placeholder="Warehouse" (change)="selectedWarehouseData($event)"
+              (search)="searchWarehouseList($event)">
+            </ng-select>
+          </div>
+          <div class="col-3 p-10">
+            <input type="text" class="form-control date-filter" (ngModelChange)="getScheduledTime($event , 'from')"
+              [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="endDate" required placeholder="Date: From"
+              [max]="maxFromDate" [(ngModel)]="tableDateFields.fromDate" #arrivalDate="ngModel" readonly required />
+            <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+          </div>
+          <div class="col-3 p-10">
+            <input type="text" class="form-control date-filter" (ngModelChange)="getScheduledTime($event , 'to')"
+              [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="endDate" required placeholder="Date: To"
+              [min]="minToDate" [(ngModel)]="tableDateFields.toDate" #arrivalDate="ngModel" readonly required />
+            <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+          </div>
+        </div>
+
+      </div>
+      <div class="row col-md-12 col-lg-12 justify-content-end">
+        <div class="recieve-cash">
+          <button class="assignee-btn" mat-button (click)="search()">Search</button>
+        </div>
+        <div class="crt-btn">
+          <button class="assignee-btn" mat-button (click)="resetAll()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-row">
+  <div class="layout row no-margin col-md-12 col-lg-10">
+    <div class="order-tab-btn" *ngFor="let item of orderTabs" (click)="makeActive(item)"
+      [class.active]="item.val == selectedBtnVal">
+      <div>
+        {{item.name}}
+      </div>
+    </div>
+  </div>
+  <div class="recieve-cash d-md-none d-xl-block d-lg-block" *ngIf="isReciveFromTM && (permissionSets.edit)">
+    <div class="order-tab-btn" (click)="recieveCash()">
+      <div>
+        Receive From TM
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-1">
+  <div 
+    [ngClass]="assigneeOE === 'expand'? 'col-md-12 col-lg-12': 'col-lg-9 col-md-9 collpase-main-card'">
+    <div class="table-res-scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th [ngClass]="selectedBtn === 'RTS' ? 'input-box': ''" *ngFor="let item of tableHeaders">
+              <label class="container" *ngIf="selectedBtn === 'RTS' && item.checkBox">
+                <input type="checkbox" (click)="selectAll($event)" [(ngModel)]="isValueCheck">
+                <span class="checkmark head"></span>
+              </label>
+              <div class="label-text">
+                <span *ngIf="item.header === 'Date'">{{selectedTabDate}}</span>
+                {{item.header}}
+              </div>
+            </th>
+            <th *ngIf="selectedBtn === 'Ongoing'">
+              Assigned To
+            </th>
+            <th *ngIf="(selectedBtn === 'Dispatched') ">
+              Picked Up By
+            </th>
+            <th *ngIf="(selectedBtn === 'Delivered'||selectedBtn === 'Completed') ">
+              Delivered By
+            </th>
+            <th *ngIf="(selectedBtn === 'RTS') ">
+              RTS By
+            </th>
+            <th
+              *ngIf="(selectedBtn === 'Ongoing' || selectedBtn === 'Hold'  || selectedBtn ===  'Received' || selectedBtn === 'Assign to TM' || selectedBtn === 'Dispatched') && permissionSets.edit">
+              Action
+            </th>
+            <th *ngIf="(selectedBtn === 'Could not deliver') ">
+              Returned By
+            </th>
+            <th *ngIf="(selectedBtn === 'Rejected' || selectedBtn === 'Could not deliver')">
+              Reason
+            </th>
+          </tr>
+        </thead>
+       
+          <tbody>
+            <tr
+              *ngFor="let item of orderList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:orderList.totalRecords}">
+              <td>
+                <label class="container" *ngIf="selectedBtn === 'RTS'">
+                  <input type="checkbox" name="{{item.id}}" value="{{item.id}}"
+                    (click)="selectedOrderExpand(item, $event)" [(ngModel)]="item.itemValue">
+                  <span class="checkmark"></span>
+                </label>
+                {{ item.customer.customerId }}
+              </td>
+              <td>
+                {{ item.customer.customerName }}
+              </td>
+              <td>
+                {{ item.customer.customerPhNo }}
+              </td>
+              <td>
+                {{ item.customer.customerVillageName }}
+              </td>
+              <td>
+                {{ item.customer.customerVillageCode }}
+              </td>
+              <td>
+                {{item.customer.customerBranch}}
+              </td>
+              <td>
+                {{item.customer.delivery_day}}
+              </td>
+              <td>
+                {{item.saheli.vleCode}}
+              </td>
+              <td>
+                {{item.saheli.firstName}}
+              </td>
+              <td>
+                {{ item.fmCoordinator.firstName}}
+              </td>
+              <td>
+                {{ item.orderDate | date:'medium'}}
+              </td>
+              <td *ngIf="selectedBtn == 'Assign to TM'">
+                {{ item.confirmed_date | date:'medium'}}
+              </td>
+              <td *ngIf="selectedBtn === 'Ongoing'">
+                {{ item.executive_assign_date | date:'medium' }}
+              </td>
+
+              <td *ngIf="selectedBtn == 'Dispatched'">
+                {{ item.dispatchedDate | date:'medium'}}
+              </td>
+              <td *ngIf="selectedBtn === 'Delivered'">
+                {{ item.delivered_date | date:'medium' }}
+              </td>
+              <td *ngIf="selectedBtn === 'RTS'">
+                {{ item.rtsDate | date:'medium' }}
+              </td>
+              <td *ngIf="selectedBtn === 'Completed'">
+                {{ item.completedDate | date:'medium' }}
+              </td>
+              <td *ngIf="selectedBtn === 'Could not deliver'">
+                {{ item.rejected_date | date:'medium' }}                                                                                                                                                                                                                         
+              </td>
+              <td *ngIf="selectedBtn == 'Hold'">
+                {{ item.onhold_date | date:'medium'}}
+              </td>
+              <td *ngIf="selectedBtn == 'Rejected'">
+                {{ item.rejected_date | date:'medium'}}
+              </td>
+              <td>
+                {{ item.quantity}}
+              </td>
+              <td>
+                {{ item.totalPrice}}
+              </td>
+              <td *ngIf="(selectedBtn === 'Completed')">
+                <span> {{ item.payment_method=='5'? item.tid :'NA' }} </span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+              </td>
+              <td *ngIf="(selectedBtn === 'Completed')"> {{item.payment_method=='5'?'EKO':'CASH' }}
+              </td>
+              <td>
+                {{ item.order_by_name }}
+              </td>
+              <td>
+                {{ item.order_by_role }}
+              </td>
+              <td *ngIf="selectedBtn === 'Rejected'">
+                {{ item.reject_by_user? item.reject_by_user.first_name :'NA'}}
+              </td>
+              <td *ngIf="selectedBtn === 'Rejected'">
+                {{ item.reject_by_user? item.reject_by_user.role.name :'NA'}}
+              </td>
+              <td (click)="view(item)" *ngIf="(selectedBtn !== 'Completed' &&  selectedBtn !== 'Rejected' &&  selectedBtn !== 'Could not deliver')">
+                <span class="cursor-pointer" [ngStyle]="{'color': '#ffb207'}" matTooltip="View"><img
+                    class="approval-btn-view" src="../../../../../assets/img/eye-solid.svg" alt="">View</span>
+              </td>
+              <td *ngIf="(selectedBtn === 'Ongoing')">
+                {{item.saheliCoordinator.firstName}}
+            </td>
+            <td  matTooltip="{{item.product_details?.title}}" *ngIf="(selectedBtn === 'Rejected' || selectedBtn === 'Completed' || selectedBtn === 'Could not deliver')">
+              {{(item.product_details && item.product_details?.title.length>20)?(item.product_details?.title |
+                slice:0:20)+'...':item.product_details?.title}}
+        </td>
+              <td
+                *ngIf="(selectedBtn !== 'Received' && selectedBtn != 'Ongoing' && selectedBtn !== 'Assign to TM' && selectedBtn !== 'Hold' && selectedBtn !== 'Rejected')">
+                {{ item.saheliCoordinator.firstName}}
+              </td>
+              
+              <td *ngIf="(selectedBtn === 'Rejected' || selectedBtn === 'Could not deliver')">
+                {{ item.other_remarks !='' ? item.other_remarks:
+                item.remarks?item.remarks:'NA'}}
+              </td>
+             
+              <td
+                *ngIf="(selectedBtn === 'Ongoing' || selectedBtn === 'Dispatched' || selectedBtn === 'Hold'  || selectedBtn ===  'Received' || selectedBtn=== 'Assign to TM' ) && permissionSets.edit">
+                <span *ngIf="selectedBtn === 'Received'">
+                  <button class="cursor-pointer approval-btn-order"
+                    (click)="updateOE(item , 1 , 'Approve')"><img class="cursor-pointer approval-btn-order"
+                      src="../../../../../assets/img/check-circle-regular.svg" alt=""
+                      ></button>
+                      <button class="cursor-pointer reject-btn-order" 
+                      (click)="acceptRejectItem(item , 2 , 'Reject')"> <img class="reject-btn-order"
+                        src="../../../../../assets/img/times-circle-regular.svg" alt=""
+                       ></button>
+                </span>
+                <span *ngIf="selectedBtn === 'Ongoing'">
+                  <button class="cursor-pointer approval-btn-order" 
+                    (click)="acceptRejectItem(item , 6 , 'Dispatch')">
+                    <img class="cursor-pointer approval-btn-order" src="../../../../../assets/img/dolly-solid.svg"
+                      alt="" ></button>
+                    <button class="cursor-pointer reject-btn-order" 
+                    (click)="acceptRejectItem(item , 2 , 'Reject')">
+                    <img class="cursor-pointer reject-btn-order"
+                      src="../../../../../assets/img/times-circle-regular.svg" alt=""
+                      ></button>
+                </span>
+                <span *ngIf="selectedBtn === 'Dispatched'">
+                  <button class="cursor-pointer approval-btn-order"
+                  (click)="acceptRejectItem(item , 4 , 'Deliver')">
+                  <img class="cursor-pointer approval-btn-order"
+                    src="../../../../../assets/img/shopping-bag-solid.svg" alt=""
+                    ></button>
+                </span>
+                <span *ngIf="selectedBtn === 'Hold'">
+                  <button class="cursor-pointer approval-btn-order"
+                    (click)="updateOE(item , 1 , 'Approve')">
+                    <img class="cursor-pointer approval-btn-order"
+                      src="../../../../../assets/img/check-circle-regular.svg" alt=""
+                     ></button>
+                      <button class="cursor-pointer reject-btn-order" 
+                    (click)="acceptRejectItem(item , 2 , 'Reject')">
+                    <img class="cursor-pointer reject-btn-order"
+                      src="../../../../../assets/img/times-circle-regular.svg" alt=""
+                      ></button>
+                </span>
+                
+                <span *ngIf="selectedBtn === 'Assign to TM'">
+                  <button class="cursor-pointer approval-btn-order"
+                    (click)="updateOE(item , 1 , 'Assign to TM')">
+                    <img class="cursor-pointer approval-btn-order" src="../../../../../assets/img/user-cog-solid.svg"
+                      alt=""> </button>
+                      <button class="cursor-pointer reject-btn-order" 
+                    (click)="acceptRejectItem(item , 2 , 'Reject')">
+                    <img class="cursor-pointer reject-btn-order"
+                      src="../../../../../assets/img/times-circle-regular.svg" alt=""
+                      ></button>
+                </span>
+              </td>
+            </tr>
+            <div *ngIf="orderList.totalRecords === 0" class="no-data">
+              <div>
+                No Data Found
+              </div>
+            </div>
+          </tbody>
+       
+      </table>
+    </div>
+    <pagination-controls class="pagination-card" *ngIf="orderList.totalRecords > 10" previousLabel="" id="1"
+      nextLabel="" (pageChange)="getPage($event)">
+    </pagination-controls>
+ 
+</div>
+  <div class="col-md-3 col-lg-3 order-generate-barcode mt-20" [ngClass]="openOrderDetails === 'collapse'? '': 'inital'"
+    *ngIf="showIndividualData">
+    <div class="row mt-20">
+      <div class="col-md-6 col-lg-6 bold-txt order-details-txt">
+        {{orderName}}
+      </div>
+      <div class="col-md-6 col-lg-6 txt-right">
+        <img src="assets/img/close.png" class=" cursor-pointer" alt="" (click)="expand('expand', false)">
+      </div>
+    </div>
+
+    <perfect-scrollbar class="stock-list-scroll" style="max-width: 100vw;">
+      <form name="form" #userForm="ngForm">
+        <div class="row mt-40">
+          <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+              <label name="product" class="fx-14">Item</label>
+              <input type="text" class="form-control" name="product" [(ngModel)]="orderName" readonly />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+              <label name="state" class="required fx-14">Select Operations Executive (OE)</label>
+              <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="oeArray" bindLabel="first_name"
+                placeholder="Select" name="state" (search)="searchFieldKey($event)" (change)="selectedFieldKey($event)"
+                required>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+      </div>
+      <div class="row print-tx txt-center">
+        <div class="col-md-12 col-lg-12 fx-14 generate-position-abs">
+          <button class="print-invoice-btn bold-txt" (click)="scanItem()">
+            Scan Item</button>
+          <button class="print-invoice-btn bold-txt mt-10" (click)="scan('noInvoice')">Place Order without
+            Scan</button>
+          <button class="print-invoice-btn bold-txt mt-10" [disabled]="!userForm.valid" (click)="scan('invoice')">Print
+            Invoice</button>
+        </div>
+      </div>
+
+    </perfect-scrollbar>
+  </div>
+  <div class="col-md-3 col-lg-3 order-generate-barcode mt-20" [ngClass]="addChallan === 'collapse'? '': 'inital'"
+    *ngIf="showChallanData">
+    <div class="row mt-20">
+      <div class="col-md-6 col-lg-6 bold-txt order-details-txt">
+        Tag Challan No
+      </div>
+      <div class="col-md-6 col-lg-6 txt-right">
+        <img src="assets/img/close.png" class=" cursor-pointer" alt="" (click)="closeAndRemove('expand', false)">
+      </div>
+    </div>
+
+    <perfect-scrollbar class="stock-list-scroll" style="max-width: 100vw;">
+      <form name="form" #challanForm="ngForm">
+        <div class="row mt-10">
+          <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+              <label name="product" class="fx-14">Challan No</label>
+              <input type="text" class="form-control" name="product" [(ngModel)]="challanArray.challan_no" required />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-10">
+          <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+              <label name="amount" class="fx-14">Total Amount</label>
+              <input type="text" class="form-control" name="amount" disabled [(ngModel)]="totalAmount" required />
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <mat-accordion class="col-md-12 col-lg-12 p-0">
+          <mat-expansion-panel class="box-shadow-none">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Orders
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 24vh;">
+              <div *ngFor="let item of selectedOrderArray">
+                <div class="row">
+                  <div class="col-md-8 col-lg-8">
+                    {{item.invoiceNo}}
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    {{ item.quantity }}
+                  </div>
+                  <div class="col-md-2 col-lg-2">
+                    {{ item.totalPrice }}
+                  </div>
+                </div>
+              </div>
+            </perfect-scrollbar>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <div class="row print-tx txt-center">
+        <div class="col-md-12 col-lg-12 fx-14 generate-position-abs challan-btn">
+          <button class="print-invoice-btn bold-txt" [disabled]="!challanForm.valid"
+            (click)="addingChallan($event)">SUBMIT</button>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+@import '../../../../styles/custom-palette.scss';
+.franchise-form {
+    .create-form-card {
+        .add-franchise {
+            color: #ef7f1a;
+            display: flex;
+            align-items: center; 
+    
+            >div:first-child {
+                border: 1px solid;
+                border-radius: 30px;
+                padding: 10px;
+                text-align: center;
+                cursor: pointer;
+                font-size: 12px;
+    
+                span {
+                    margin-left: 10px;
+                }
+            }
+    
+        }
+        .delete-box{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+ 
+}
+}

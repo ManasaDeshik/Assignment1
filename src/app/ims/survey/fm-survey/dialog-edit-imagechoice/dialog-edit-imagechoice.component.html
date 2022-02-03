@@ -1,0 +1,129 @@
+<div class="col p-0 section">
+  <p *ngIf = !isEnglish>Hindi<img  alt="Hindi"
+    src="../../../../../assets/img/Button_Left.svg" class="imgMargin" *ngIf = !isEnglish (click) = setHindiData()  >English</p>
+    <p *ngIf = isEnglish>Hindi<img  alt="Hindi"
+      src="../../../../../assets/img/Button_Right.svg" class="imgMargin" *ngIf = isEnglish (click) = setEnglishData()  >English</p>
+    <div class="form-group">
+      <label>FIELD LABEL</label>
+      <input *ngIf="fields.dest_lang == 'en'"
+        type="text"
+        [(ngModel)]="fields.label.en"
+        class="form-control"
+        name="label"
+        required
+      />
+      <input *ngIf="fields.dest_lang == 'hi'"
+      type="text"
+      [(ngModel)]="fields.label.hi"
+      class="form-control"
+      name="label"
+      required
+    />
+    </div>
+   
+    <hr class="my-1 text-muted" />
+    <div class="form-group mt-3">
+      <label>MEDIA INPUT</label>
+   <div class="row mt-1">
+     <div class="col-md-3 col-lg-3 col-sm-3">
+       <input type="checkbox" class="mr-2" (change)="imageClicked($event)"> <label class="text-muted">Image</label>
+     </div>
+     <div class="col-md-3 col-lg-3 col-sm-3">
+      <input type="checkbox" class="mr-2" (change)="videoClicked($event)"><label class="text-muted">Video</label> 
+    </div>
+    <div class="col-md-3 col-lg-3 col-sm-3">
+      <input type="checkbox" class="mr-2" (change)="audioClicked($event)"> <label class="text-muted">Audio</label>
+    </div>  
+   </div>
+  
+   <div class="row mt-4" *ngIf="imageSelected">
+    <div class="col-md-6 col-lg-6 col-sm-6 d-flex">
+      <div class="mr-3 w-6 label-center"><label class="text-muted mr-2">Image 1: </label> </div>
+      <input  (change)="addFile(0,$event)" #fileInput
+      name="fileOption" type="file" 
+      accept="image/x-png,image/gif,image/jpeg"/>
+      <!--<button class="upload-button" (click)="fileInput.click()"><u>Choose Image</u></button>-->
+      <button type="submit" class="cancel-btn create-btn btn-orange" (click)="cancelImage1()">Cancel</button>
+  </div>
+  <div class="col-md-6 col-lg-6 col-sm-6 d-flex">
+    <div class="mr-3 w-6 label-center"><label class="text-muted mr-2">Image 2: </label></div>   <input #fileInput1  (change)="addFile(0,$event)"
+    name="fileOption" type="file" 
+    accept="image/x-png,image/gif,image/jpeg"/>
+    <button type="submit" class="cancel-btn create-btn btn-orange" (click)="cancelImage2()">Cancel</button>
+ </div> 
+</div>
+<div class="row mt-4" *ngIf="audioSelected">
+  <div class="col-md-6 col-lg-6 col-sm-6 d-flex">
+    <div class="mr-3 w-5 label-center"><label class="text-muted">Audio : </label></div> <input #audioInput (change)="addAudioFile(0,$event)"
+    name="fileOption" type="file" 
+    accept="audio/mp3,audio/*;capture=microphone"/>
+    <button type="submit" class="cancel-btn create-btn btn-orange" (click)="cancelAudio()">Cancel</button>
+  </div> 
+</div>
+  <div class="row mt-4" *ngIf="videoSelected">
+    <div class="col-md-6 col-lg-6 col-sm-6 d-flex">
+      <div class="mr-3 w-5 label-center"><label class="text-muted">Video 1: </label></div> <input type="text" #video1 (blur)="videoChanged($event)" class="form-control"/>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 d-flex">
+      <div class="mr-3 w-5 label-center"><label class="text-muted">Video 2: </label></div>  <input type="text" #video2 (blur)="videoChanged($event)" class="form-control"/>
+   </div> 
+  </div>
+    </div>
+    
+    <hr class="my-1 text-muted" />
+    <div class="form-group mt-3">
+      <label>Choice type</label>
+      <div class="row">
+        <div class="col-4">
+         <select (change)="typeChanged($event)">
+             <option value="radio">Radio</option>
+            <option value="checkbox">Check box</option>
+            <option value="only images">Only images</option>
+        </select>
+        </div>
+    </div>
+   
+    <table class="mt-3 table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Image</th>
+                <th>Label</th>
+            </tr>
+        </thead>
+        <tbody>
+             <tr *ngFor="let dynamic of dynamicArray; let i = index;">
+                  <td>
+                    <input type="{{type}}" style="align-items: center;" />
+                  </td>
+                <td>
+                    <div class="img-box" *ngIf="!imageUploaded[i]">
+                        <img  alt="product-img"
+                            src="../../../../../assets/img/photo-camera.svg" (click)="fileInput.click()" >
+                            <input  (change)="addFile(i,$event)"
+                            name="fileOption" type="file" #fileInput
+                            accept="image/x-png,image/gif,image/jpeg"  style="visibility: hidden;"/>
+                    </div>
+                    <div class="img-box" *ngIf="imageUploaded[i]">
+                        <img alt="product-img" [src]="imageUploaded[i]" height="70px">
+                        <i class="fa fa-times cursor-pointer img-display-remove main-img-remove"
+                            (click)="removeFile(i)"></i>
+                    </div>  
+                </td>
+                <td>
+                  <input [(ngModel)]="dynamicArray[i].title2" class="form-control" type="text" />
+                </td>
+               <!--<td>
+                  <input [(ngModel)]="dynamicArray[i].title3" class="form-control" type="text"/>
+                </td>-->
+           
+              <td (click)="addRow(i)">
+                <i class="fa fa-plus fa-2x"></i>
+              </td>
+              <td (click)="deleteRow(i)">
+                <i class="fa fa-trash fa-2x"></i>
+              </td>
+            </tr>
+        </tbody>
+    </table>
+  

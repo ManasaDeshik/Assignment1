@@ -1,0 +1,188 @@
+<div class="stock-table-list-container">
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <img class="cursor-pointer route-arrow-img-style" src="../../../../assets/img/left-arrow.svg"
+                alt="left-arrow" [routerLink]="['/stock']" routerLinkActive='active'>
+            <span class="component-heading ml-20">{{tableTypeData.pageTitle}}</span>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="col-md-6 col-lg-6" *ngIf="tableTypeData.pageTitle == 'Ongoing Transit History'">
+              <button class="create-btn" (click)="applyFilter('Date')">Date Filter</button>
+              <button class="create-btn mr-10" (click)="clearFilter()">Clear</button>
+            </div>
+            <div class="col-md-6 col-lg-6" *ngIf="tableTypeData.pageTitle == 'Order History'">
+                <button class="create-btn" (click)="applyFilter('Date Filter')">Date Filter</button>
+                <button class="create-btn mr-10" (click)="clearFilter()">Clear</button>
+              </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="list-block  mt-40">
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let item of tableTypeData.tableHeaders">
+                                    <div class="label-text"
+                                        [ngClass]="(item.header =='Total Units' || item.header =='Date') && (urlSegments[1].path != 'order-history' &&  urlSegments[this.urlSegments.length - 1].path === 'Product') ? 'text-center': 'text'">
+                                        {{item.header}}
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <perfect-scrollbar style="max-width: 100vw; max-height: 57vh;">
+                            <tbody
+                                *ngIf="urlSegments[1].path === 'order-history' &&  urlSegments[this.urlSegments.length - 1].path === 'Product'">
+                                <tr
+                                    *ngFor="let item of  productList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:productList.totalRecords}">
+                                    <td> {{ item.title}}</td>
+                                    <td>
+                                        {{ item.quantity}}
+                                    </td>
+                                    <td>
+                                        {{ item.orderedDate | date}}
+                                    </td>
+                                    <td>
+                                        {{ item.manufacturerName}}
+                                    </td>
+                                    <td>
+                                        {{ item.category }}
+                                    </td>
+                                    <td>
+                                        {{ item.arrivalDate | date }}
+                                    </td>
+                                    <td>
+                                        {{ item.totalPrice }}
+                                    </td>
+                                </tr>
+                                <div *ngIf="productList.records.length === 0" class="no-data">
+                                    <div>
+                                        No Data Found
+                                    </div>
+                                </div>
+                            </tbody>
+                            <tbody
+                                *ngIf="urlSegments[1].path === 'order-history' &&  urlSegments[this.urlSegments.length - 1].path === 'Spare'">
+                                <tr
+                                    *ngFor="let item of productList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:productList.totalRecords};let i = index">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        <div class="set-spare-table-main-height">
+                                            {{item.productName}}
+                                        </div>
+                                <tr *ngFor="let data of item.spares">
+                                    <div class="mt-20">
+                                        {{data.spareName}}
+                                    </div>
+                                </tr>
+                                </td>
+                                <td>
+                                    <div class="set-spare-table-main-height">
+                                        {{item.totalQuantity}}
+                                    </div>
+                                    <tr *ngFor="let data of item.spares">
+                                        <div class="mt-20">
+                                            {{data.quantity}}
+                                        </div>
+                                    </tr>
+                                </td>
+                                <td>
+                                    {{item.total_value}}
+                                </td>
+                                </tr>
+                                <div *ngIf="productList.records.length === 0" class="no-data">
+                                    <div>
+                                        No Data Found
+                                    </div>
+                                </div>
+                            </tbody>
+                            <tbody
+                                *ngIf="urlSegments[1].path != 'order-history' &&  urlSegments[this.urlSegments.length - 1].path === 'Product'">
+                                <tr
+                                    *ngFor="let item of  productListTransist.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:productListTransist.totalRecords}">
+                                    <td>
+                                        {{ item.item.itemName}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ item.quantity}}
+                                    </td>
+                                    <td>
+                                        {{ item.updated_at | date:'medium'}}
+                                    </td>
+                                    <td>
+                                        {{ item.source}}
+                                    </td>
+                                    <td>
+                                        {{ item.sourceBranch }}
+                                    </td>
+                                    <td>
+                                        {{ item.destination }}
+                                    </td>
+                                    <td>
+                                        {{ item.destinationBranch }}
+                                    </td>
+
+                                </tr>
+                                <div *ngIf="productListTransist.records.length === 0" class="no-data">
+                                    <div>
+                                        No Data Found
+                                    </div>
+                                </div>
+                            </tbody>
+                            <tbody
+                                *ngIf="urlSegments[1].path != 'order-history' &&  urlSegments[this.urlSegments.length - 1].path === 'Spare'">
+                                <tr
+                                    *ngFor="let item of productListTransist.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:productListTransist.totalRecords};let i = index">
+                                    <td>
+                                        {{i+1}}
+                                    </td>
+                                    <td>
+                                        <div class="set-spare-table-main-height">
+                                            {{item.productName}}
+                                        </div>
+                                <tr *ngFor="let data of item.items">
+                                    <div class="mt-20">
+                                        {{data.spareName}}
+                                    </div>
+                                </tr>
+                                </td>
+                                <td>
+                                    <div class="set-spare-table-main-height">
+                                        {{item.totalQuantity}}
+                                    </div>
+                                    <tr *ngFor="let data of item.items">
+                                        <div class="mt-20">{{data.quantity}}</div>
+                                    </tr>
+                                </td>
+                                <td>
+                                    {{item.sourceWarehouse.name}}
+                                </td>
+                                <td>
+                                    {{item.destinationWarehouse.name}}
+                                </td>
+                                </tr>
+                                <div *ngIf="productListTransist.records.length === 0" class="no-data">
+                                    <div>
+                                        No Data Found
+                                    </div>
+                                </div>
+                            </tbody>
+
+                        </perfect-scrollbar>
+                    </table>
+                </div>
+                <pagination-controls previousLabel="" id="1"
+                    *ngIf="urlSegments[1].path === 'order-history' && productList.totalRecords > 10" nextLabel=""
+                    (pageChange)="getOngoingPage($event)">
+                </pagination-controls>
+                <pagination-controls class="pagination-card" previousLabel="" id="1"
+                    *ngIf="urlSegments[1].path !== 'order-history' && productListTransist.totalRecords > 10"
+                    nextLabel="" (pageChange)="getTransistPage($event)">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,153 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+header {
+  padding: 10px 20px;
+  padding-left: 7px;
+  @include background-clr($clr-white);
+  @include text-color($clr-black);
+  height: 70px;
+  vertical-align: middle;
+  position: relative;
+  @include box-shadows(0, 2px, 6px, 0, rgba(0, 0, 0, 0.04));
+
+  .notification{
+    height: 30px;
+  }
+
+  // breadcrumb-layout {}
+  .menu-icon {
+    outline: none;
+    box-shadow: none;
+    @include background-clr(transparent);
+    border: none;
+    display: inline-block;
+  }
+
+  .display-block {
+    visibility: visible;
+  }
+
+  .display-none {
+    visibility: hidden;
+  }
+
+  .keep-right {
+    text-align: right;
+
+    form {
+      display: inline;
+      font-size: 14px;
+
+      .mat-form-field {
+        width: 20vw;
+      }
+    }
+
+    .tirggerButton {
+      outline: none;
+      @include background-clr(transparent);
+      border: none;
+      font-size: 14px;
+      margin-top: 10px;
+
+      .mat-menu-item {
+        outline: none;
+      }
+    }
+
+    .avater {
+      width: 1%;
+    }
+  }
+
+  .download-input-attributes {
+    height: 40px;
+     
+    @include background-clr($header-text-secondary);
+    border-radius: 30px !important;
+    font-size: 16px;
+    outline: none;
+    color: #ffffff !important;
+    overflow: none;
+    border: none;
+  }
+
+  .download-btn {
+    @extend .download-input-attributes;
+    //width: 110px;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  .download-btn-invoice {
+    //width: 170px !important;
+    @extend .download-input-attributes;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  label {
+    height: 40px;
+    width: 140px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+    @include background-clr($header-text-secondary);
+    border-radius: 30px !important;
+    font-size: 16px;
+    outline: none;
+    color: #ffffff !important;
+    overflow: none;
+    border: none;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .num-count {
+    position: absolute;
+    user-select: none;
+    cursor: default;
+    font-size: 0.6rem;
+    background: red;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    top: -0.1rem;
+    right: 9.34rem;
+    box-sizing: border-box;
+  }
+  
+  button:focus{
+    outline: none !important;
+  }
+}
+.btn-download {
+  background-color: #ef7f1a;
+  color:#fff;
+  border-radius: 30px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);  
+}
+
+.h-px-15{
+  height:15px !important;
+}
+.download-button span {
+  max-width: 0;
+  -webkit-transition: max-width 1s;
+  transition: max-width 1s;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.download-button:hover span {
+  max-width: 7rem;
+}
+
+.btn-download  img{
+  width: 30px;
+}

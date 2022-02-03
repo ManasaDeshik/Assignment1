@@ -1,0 +1,68 @@
+<div class="list-creation-to-spare-container">
+  <div class="row">
+    <div class="display-flex col-md-5 col-lg-5">
+      <img class="cursor-pointer" src="../../../../assets/img/left-arrow.svg" alt="left-arrow" (click)="routeToPurchaseOrderSpare()"
+        routerLinkActive='active'>
+      <div class="align-center display-flex">
+        <span class="component-heading ml-20">Transport  Spares</span>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4">
+      <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="destinationWarehouseData.collections" bindLabel="name"
+      [clearable]="true" placeholder="Select Destination Warehouse" name="warehouseList"  [(ngModel)]="destinationWarehouseData.name"
+      (change)="selectedFieldKey($event)" (search)="getBranchWarehouseList($event)">
+    </ng-select>
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <button (click)="printTransportOrder()">Save and Print</button>
+    </div>
+  </div>
+  <div class="row mt-20">
+    <div class="col-md-12 col-lg-12">
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item}}
+                  </div>
+                </th>
+                <th *ngIf="creationOfToSpareList.items.length > 1">
+                       Activity
+                </th>
+              </tr>
+            </thead>
+              <tbody>
+                <perfect-scrollbar>
+                <tr *ngFor="let item of creationOfToSpareList.items;let i = index ">
+                  <td>
+                    {{i+1}}
+                  </td>
+                  <td>
+                    {{item.en_name}}
+                  </td>
+                  <td>
+                    <input type="number"  class="form-control" name="quantityNumber" [(ngModel)]="item.quantity"
+                    #quantityNumber="ngModel" pattern="^[0-9]+"
+                    required (keyup)="quantityKeyUp(item)">
+                  </td>
+                  <td *ngIf="creationOfToSpareList.items.length >1">
+                    <img class="cursor-pointer" (click)="openDialog(item)"
+                    src="../../../../../assets/img/delete.svg" alt="">
+                  </td>
+                </tr>
+              </perfect-scrollbar>
+                <div *ngIf="creationOfToSpareList.items.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

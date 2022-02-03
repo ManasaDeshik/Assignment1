@@ -1,0 +1,12 @@
+<svg id="Image_Choices" data-name="Image Choices" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect id="Rectangle_3" data-name="Rectangle 3" width="48" height="48" fill="none"/>
+  <g id="Group_813" data-name="Group 813" transform="translate(14933 823)">
+    <path id="Path_502" data-name="Path 502" d="M183,100.818a2.251,2.251,0,1,0-2.25-2.25A2.253,2.253,0,0,0,183,100.818Zm0-3.181a.931.931,0,1,1-.931.931A.932.932,0,0,1,183,97.636Zm0,0" transform="translate(-15095.297 -902.159)"/>
+    <path id="Path_503" data-name="Path 503" d="M21.7.5H.823A.824.824,0,0,0,0,1.323V19a.824.824,0,0,0,.823.823H21.7A.824.824,0,0,0,22.527,19V1.323A.824.824,0,0,0,21.7.5Zm-.5,1.32V12.266L17.056,8.114a.7.7,0,0,0-.981,0L10.2,13.986l-3.75-3.75a.694.694,0,0,0-.982,0L1.32,14.386V1.82ZM1.32,18.5V16.253l4.642-4.642,3.75,3.75a.694.694,0,0,0,.982,0L16.565,9.49l4.642,4.642V18.5Zm0,0" transform="translate(-14922.5 -810.559)"/>
+    <g id="Path_529" data-name="Path 529" transform="translate(-14908 -803)" fill="#f5f1f0">
+      <path d="M 13.5 13.5 L 0.5 13.5 L 0.5 0.5 L 13.5 0.5 L 13.5 13.5 Z" stroke="none"/>
+      <path d="M 1 1 L 1 13 L 13 13 L 13 1 L 1 1 M 0 0 L 14 0 L 14 14 L 0 14 L 0 0 Z" stroke="none" fill="#000"/>
+    </g>
+    <path id="Path_513" data-name="Path 513" d="M-22309.3,3322.153l1.959,2.117,5.229-5.228" transform="translate(7405.035 -4117.585)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="1"/>
+  </g>
+</svg>

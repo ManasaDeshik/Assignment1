@@ -1,0 +1,74 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.add-demo-product-container {
+    form {
+        .create-form-card {
+            position: relative;
+
+            .btn-layout {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+
+                .create-btn {
+                    width: 120px !important;
+                }
+            }
+        }
+
+        .display-scan-invoice-card {
+            >div:first-child {
+                height: calc(100vh - (70px + 40px + 40px + 8vh));
+                box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
+                border-radius: 5px;
+                @include background-clr($clr-white);
+
+                .content-block {
+                    padding: 20px;
+
+                    >div:first-child {
+                        display: flex;
+                        width: 100%;
+                        justify-content: flex-end;
+                    }
+
+                    >div:nth-child(2) {
+                        margin-top: 3em;
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    >div:nth-child(3) {
+                        position: absolute;
+                        bottom: 0;
+
+                        button {
+                            height: 40px;
+                            width: calc(100vw - 83vw);
+                            font-weight: bold;
+                            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+                            @include background-clr($header-text-secondary);
+                            border-radius: 10px !important;
+                            font-size: 16px;
+                            outline: none;
+                            color: #ffffff !important;
+                            overflow: none;
+                            border: none;
+                            right: 77px;
+                            margin-top: 10px;
+                        }
+                    }
+                }
+
+                perfect-scrollbar {
+                    height: calc(100vh - (81px + 20vh)) !important;
+                    max-width: 100vw;
+                }
+            }
+
+        }
+
+    }
+}

@@ -1,0 +1,188 @@
+<div class="d-flex h-100">
+    <div class="col-8 card h-100">
+     
+      <div class="titleText my-4 " >Step 2 - Survey Builder</div>
+      <div #parent [ngClass]="{'disableDiv': viewOnly}">
+         <app-survey-form-builder #survey [surveyIdInBuilder]="surveyId" [items]="itemArray" [type]="type" [item]="itemObject"></app-survey-form-builder>
+      </div>
+      <div #myDiv class="dottedDiv p-4" cdk-scrollable>
+        <p class="font-weight-100">Start Building!</p>
+        <p class="text-muted">Drag fields from the right panel and drop here to add them to your form</p>
+      </div>
+      
+    </div>
+    <div class="col-5 px-3 sidepanel h-100" style="padding-left: 2rem!important; max-width: 36.6%;" [ngClass]="{'disableDiv': viewOnly}">
+      <div class="">
+      <div class="row">
+            <p class="allfields w-100">All Fields</p>
+          </div>
+      <div 
+      cdkDropList
+      class="row pt-3 justify-content-between"  (cdkDropListDropped)="drop($event)" >
+       
+          <div id="string" class="card text-center p-2 itemsLeft d-flex flex-row"  cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Single Line.svg">
+            <span class="panel-text">Single Line</span>
+          </div>
+          <div id="multiline" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+            <img class="color-icon" src="../../../../../assets/img/Multi Line.svg">
+            <span class="panel-text">Multi Line</span>
+          </div>
+          
+      </div>
+      <div cdkDropList class="row pt-3 justify-content-between"  (cdkDropListDropped)="drop($event)">
+        
+        <div id="number" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Number.svg">
+          <span class="panel-text">Number</span>
+        </div>
+        <div id="decimal" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Decimal.svg">
+            <span class="panel-text">Decimal</span>
+      </div>
+    </div>
+      <div cdkDropList class="row pt-3 justify-content-between"  (cdkDropListDropped)="drop($event)">
+        <div id="name" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+        <img class="color-icon" src="../../../../../assets/img/Name.svg">
+          <span class="panel-text">Name</span>
+        </div>
+        <div id="phone" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Phone.svg">
+          <span class="panel-text">Phone</span>
+      </div>
+    </div>
+      <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="email" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Email.svg">
+          <span class="panel-text">Email</span>
+        </div>
+        <div id="address" class="card text-center p-2 itemsRight d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Address.svg">
+          <span class="panel-text">Address</span> 
+        </div>
+      </div>
+      <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="date" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Date.svg">
+          <span class="panel-text">Date</span>
+        </div>
+        <div id="time" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Time.svg">
+          <span class="panel-text">Time</span>
+      </div>
+    </div>
+      <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="datetime" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Date - Time.svg">
+          <span class="panel-text">Date-Time</span>
+        </div>
+        <div id="decisionbox" class="card text-center p-2 itemsRight d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Decision Box.svg">
+          <span class="panel-text">Decision box</span>
+      </div>
+    </div>
+      <div cdkDropList class="row pt-3 justify-content-between"  (cdkDropListDropped)="drop($event)">
+        <div id = "dropdown" class="card text-center p-2 itemsLeft d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Dropdown.svg">
+          <span class="panel-text">Dropdown</span>
+        </div>
+        <div id="radio" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Radio.svg">
+          <span class="panel-text">Radio</span>
+      </div>
+    </div>
+      <div cdkDropList class="row pt-3 justify-content-between " (cdkDropListDropped)="drop($event)">
+        <div id="image" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Image Upload.svg">
+          <span class="panel-text">Image</span>
+        </div>
+        <div id="checkbox" class="card text-center p-2 itemsRight d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Check Box.svg">
+          <span class="panel-text">Checkbox</span>
+      </div>
+    </div>
+      <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="websiteurl" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Website URL.svg">
+          <span class="panel-text">Website URL</span>
+        </div>
+        <div id="currency" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Currency.svg">
+          <span class="panel-text">Currency</span>
+      </div>
+    </div>
+      <!-- <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="fileupload" class="card text-center p-2 itemsLeft d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/File Upload.svg">
+          <span class="panel-text">File Upload</span>
+        </div>
+        <div id="imageupload" class="card text-center p-2 itemsRight d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Image Upload.svg">
+          <span class="panel-text">Image Upload</span>
+      </div>
+    </div> -->
+      <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="section" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Section.svg">
+          <span class="panel-text">Section</span>
+        </div>
+        <!-- <div  id="pagebreak" class="card text-center p-2 itemsRight d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Page Break.svg">
+          <span class="panel-text">Page Break</span>
+       </div> -->
+       <div id="description" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+        <img class="color-icon" src="../../../../../assets/img/Description.svg">
+        <span class="panel-text">Description</span>
+      </div>
+      </div>
+      <div cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="slider" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Slider.svg">
+          <span class="panel-text">Slider</span>
+        </div>
+        <div  id="rating" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Rating.svg">
+          <span class="panel-text">Rating</span>
+        </div>
+      </div>
+      <!-- <div  cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)"> -->
+        <!-- <div id="description" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Description.svg">
+          <span class="panel-text">Description</span>
+        </div> -->
+        <!-- <div id="video" class="card text-center p-2 itemsRight d-flex flex-row ">
+          <img class="color-icon" src="../../../../../assets/img/Unique ID.svg" cdkDrag>
+          <span class="panel-text">Video</span>
+        </div> -->
+      <!-- </div> -->
+      <div  cdkDropList class="row pt-3 justify-content-between " (cdkDropListDropped)="drop($event)">
+        <div id="imagechoice_radio" class="card text-center p-2 itemsLeft d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Image Choices.svg">
+          <span class="panel-text">Image Choice</span>
+        </div>
+        <!-- <div id="audio" class="card text-center p-2 itemsRight d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Audio.svg">
+          <span class="panel-text">Audio</span>
+        </div> -->
+        <div id="termsandconditions" class="card text-center p-2 itemsRight d-flex flex-row" cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Terms and Con...svg">
+          <span class="panel-text">Terms & Con..</span>
+        </div>
+      </div>
+      <div  cdkDropList class="row pt-3 justify-content-between" (cdkDropListDropped)="drop($event)">
+        <div id="matrix" class="card text-center p-2 itemsLeft d-flex flex-row " cdkDrag>
+          <img class="color-icon" src="../../../../../assets/img/Matrix.svg">
+          <span class="panel-text">Matrix</span>
+        </div> 
+      </div>
+</div>
+
+    <!--<div class="rightpane">
+      <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer1 class="example-sidenav" position="start">
+          abccdef
+        </mat-drawer>
+      </mat-drawer-container>
+        </div>-->
+  
+  

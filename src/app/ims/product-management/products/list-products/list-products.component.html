@@ -1,0 +1,243 @@
+<div class="product-management-container">
+  <div class="component-heading">
+    <div class="product-management-layout">
+      <div class="row justify-content-between mb-3">
+
+       <div class="col-6">Product Management</div>
+       <div class="row justify-content-end col-6 px-3 mr-1">
+        <div class="pl-2">
+          <button class="btn-orange px-3 py-2 mb-1" mat-button [routerLink]="['/product-management/category/list-category']"
+            *ngIf="permissionSetsCategory.read" routerLinkActive='active'>Category</button>
+        </div>
+        <div class="pl-2">
+          <button class="btn-orange px-3 py-2" mat-button [routerLink]="['/product-management/products/create-product']"
+            *ngIf="permissionSets.write" routerLinkActive='active'>Add Product
+          </button>
+        </div>
+      </div>
+      
+    </div>
+      <div class="row col-md-12 col-lg-12 p-0">
+          <div class="col-md-4 col-lg-4">
+            <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="categoryList" bindLabel="name"
+              (search)="getCategoryList($event)" [(ngModel)]="selectedCategory" (change)="selectedFieldKey()"
+              placeholder="Search Category"></ng-select>
+
+          </div>
+          <div class="form-group col-md-4 col-lg-4 search-position">
+            <input type="text" class="form-control txt-overflow" placeholder="Search Product or Brand"
+              (keyup)="searchText($event, false)" [(ngModel)]="selectedSearchText">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+          <div class="col-md-1 col-md-1">
+            <button (click)="searchText($event,true)" class="assignee-btn" mat-button>Search</button>
+          </div>
+          <div class="col-md-12 col-lg-3 col-xl-3 lang-list-view">
+        
+            <div class="cursor-pointer px-3 ml-3 mb-3" (click)="langSelected(chip)"
+              *ngFor="let chip of availableLang"
+              [ngClass]="{ 'completed-chip-style': this.selectedLang === chip.identity }">
+              {{chip.identity}}
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7 col-lg-7">
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <button class="create-btn move-btn py-2 px-2" [disabled]="isMoveDisable || !permissionSets.edit" (click)="moveToBranch()">Move Selected <span
+              style="font-size: large;">&#10132;</span></button>
+        </div>
+      </div>
+    
+        <div class="table-res-scroll products-table mt-2" >
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">
+                  <mat-checkbox (change)="selectAll($event)" [checked]="selectCheck" matTooltip="Select/Deslect all">
+                  </mat-checkbox>
+                </th>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item.header}}
+                    
+                  </div>
+                </th>
+                <th *ngIf="permissionSets.edit">
+                  <div class="label-text">
+                    Activity
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <!--<perfect-scrollbar style="max-width: 100vw; max-height: 55vh;">-->
+              <tbody infiniteScroll
+              [infiniteScrollDistance]="2"
+              (scrolled)="onScrollDown()" [scrollWindow]="false">
+                <!-- | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listProducts.totalRecords}; -->
+                <tr *ngFor="let item of listProducts.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listProducts.totalRecords};let i = index;">
+                  <td class="text-center">
+                    <mat-checkbox [checked]="item.checked" [disabled]="item.isPresent||item.is_disabled" (change)="updateCheck($event,i)"
+                      matTooltip="{{(item.isPresent && !item.checked)?'Product Disabled':''}}">
+                    </mat-checkbox>
+                  </td>
+                  <td matTooltip="{{item.title}}">
+                    {{(item.title.length>15)?(item.title | slice:0:20)+'...':item.title}}
+                  </td>
+                  <td>
+                    {{ item.brand}}
+                  </td>
+                  <td>
+                   <span *ngFor="let category of item.category ; index as i">
+                      <div>{{item.category.length === i+1? category.name:category.name+','}}</div>
+                    </span>
+                  </td>
+                  <td>
+                    <div class="row no-margin">
+                      <div class="ml-5" (click)="viewProductDetail(item,i)">
+                        <div class="cursor-pointer btn-link">
+                          View
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td *ngIf="permissionSets.edit">
+                    <div class="row no-margin">
+                      <div class="ml-5" (click)="editProductDetail(item,i)">
+                        <div class="ml-5">
+                          <img class="cursor-pointer" src="../../../../../assets/img/edit.svg" alt="">
+                        </div>
+                        <div class="delete-edit">
+                          Edit
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <div *ngIf="listProducts.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            <!--</perfect-scrollbar>-->
+          </table>
+        </div>
+        <!-- <pagination-controls class="pagination-card" previousLabel="" id="1" *ngIf="listProducts.totalRecords > 30"
+          nextLabel="" (pageChange)="getPage($event)">
+        </pagination-controls> -->
+        <!--<pagination-controls class="pagination-card" *ngIf="listProducts.totalRecords > 10" previousLabel="" id="1" nextLabel=""
+          (pageChange)="getPage($event)">
+        </pagination-controls>-->
+      
+    </div>
+    <div class="col-md-5 col-lg-5">
+      <div class="row">
+        <div class="col-md-8 col-lg-6">
+          <ng-select class="product-warehouse select-drop-down" [items]="branchData" bindLabel="name"
+            [(ngModel)]="selectedBranch" (search)="searchFieldKey($event)" (change)="selectBranch($event)"
+            placeholder="Select Warehouse"></ng-select>
+        </div>
+        <div class="col-md-4 col-lg-6">
+          <button class="create-btn move-btn-delete d-md-none d-lg-block d-xl-block" (click)="removeProduct()" [disabled]="isRemoveProduct || (!permissionSets.edit && !permissionSets.delete)"><img
+              class="arrow-up" src="assets/img/delete.svg" alt=""> Remove Selected </button>
+              <button class="create-btn move-btn-delete d-md-block d-lg-none d-xl-none" (click)="removeProduct()" [disabled]="isRemoveProduct || (!permissionSets.edit && !permissionSets.delete)"><img
+                class="arrow-up" src="assets/img/delete.svg" alt=""></button>
+        </div>
+      </div>
+
+        <div class="table-res-scroll products-table mt-2">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="text-center">
+                  <mat-checkbox (change)="selectAllBranch($event)" [checked]="selectCheckBranch"
+                    matTooltip="Select/Deslect all">
+                  </mat-checkbox>
+                </th>
+                <th *ngFor="let item of tableBranchHeaders">
+                  <div class="label-text">
+                    {{item.header}}
+                  
+                  </div>
+                </th>
+              </tr>
+            </thead>
+
+              <tbody cdk-scrollable style="height:400px; overflow-y:scroll">
+                <div cdkDropList (cdkDropListDropped)="drop($event)">
+                <tr *ngFor="let item of selectedBranchProducts.records ;let i=index;" cdkDrag>
+                  <td class="row" *cdkDragPreview style="width: 500px;">
+                    <div class="text-center col-md-1">
+                      <mat-checkbox [checked]="item.checked" (change)="updateCheckBranch($event,i)">
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-md-4 text-center" matTooltip="{{item.title}}" *ngIf="selectedLang == 'en'">
+                      {{(item.title.length>15)?(item.title | slice:0:20)+'...':item.title}}
+                    </div>
+                    <div class="col-md-4 text-center"  *ngIf="selectedLang != 'en'">
+                      {{item.product_detail_translations[0]?item.product_detail_translations[0].title :''}}
+                    </div>
+                    <div class="col-md-4 text-center" *ngIf="selectedLang == 'en'">
+                      {{ item.product.brand}}
+                    </div>
+                    <div class="col-md-4 text-center"  *ngIf="selectedLang != 'en'">
+                      {{item.product.brand?item.product.brand:''}}
+                    </div>
+                    <div class="col-md-3 text-center">
+                      {{ i+1}}
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <mat-checkbox [checked]="item.checked" (change)="updateCheckBranch($event,i)">
+                    </mat-checkbox>
+                  </td>
+                  <td matTooltip="{{item.title}}" *ngIf="selectedLang == 'en'">
+                    {{(item.title.length>15)?(item.title | slice:0:20)+'...':item.title}}
+                  </td>
+                  <td  *ngIf="selectedLang != 'en'">
+                    {{item.product_detail_translations[0]?item.product_detail_translations[0].title :''}}
+                  </td>
+                  <td *ngIf="selectedLang == 'en'" style="padding-left: 17px;">
+                    {{ item.product.brand}}
+                  </td>
+                  <td  *ngIf="selectedLang != 'en'" style="padding-left: 17px;">
+                    {{item.product.brand?item.product.brand:''}}
+                  </td>
+                  <td style="padding-left: 27px;">
+                    {{ i+1}}
+                  </td>
+                   <!-- <td><div class="row">
+                      <div class="col-4">
+                        <img class="arrow-up1 cursor-pointer" src="assets/img/arrow-down-solid.svg"
+                          (click)="moveTopDown(i, 1)">
+                      </div>
+                      <div class="col-4">
+                        <img class="arrow-down1 cursor-pointer" src="assets/img/arrow-up-solid.svg"
+                          (click)="moveTopDown(i, -1)">
+                      </div>
+                    </div></td>-->
+                </tr>
+                <div *ngIf="selectedBranchProducts.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </div>
+              </tbody>
+          
+          </table>
+       
+        <button class="create-btn save-btn pagination-card" *ngIf="selectedBranchProducts.records.length>0"
+          [disabled]="isSaveProduct" (click)="saveProduct()">Save</button>
+        <!-- <pagination-controls class="pagination-card" previousLabel="" id="2"
+          *ngIf="(selectedBranchProducts.page_info.remaining_pages * 30) > 30" nextLabel="" (pageChange)="getPage1($event)">
+        </pagination-controls> -->
+      </div>
+    </div>
+  </div>
+</div>

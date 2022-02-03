@@ -1,0 +1,184 @@
+<div class="component-heading">
+  <div class="row banner-layout justify-content-between">
+    <div class="col-2" style="font-weight: bold; left: 5%">
+    <span style="margin-left: -50px;
+    margin-right: 20px;">
+      <img class="cursor-pointer" src="../../../../assets/img/left-arrow.svg" alt="left-arrow" (click)="goBack()" 
+        routerLinkActive='active'>
+    </span>
+    <span>
+      {{survey_name}}
+      </span>
+    </div>
+    <div class="form-group search-position col-7 pl-5">
+      <!--*ngIf="permissionSets.write">-->
+      <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+        <mat-label style = "font-size: 12px; ">Respondent Name</mat-label>
+      
+        <input matInput [(ngModel)]="respname">
+    
+       
+    </mat-form-field>
+    <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+      <mat-label style = "font-size: 12px; ">MA Name</mat-label>
+    
+      <input matInput [(ngModel)]="maname">
+  
+     
+  </mat-form-field>
+      <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+        <mat-label style = "font-size: 12px; " 
+        (change)="loadData('state',$event)">State</mat-label>
+         <mat-select  (selectionChange)="loadData('state',$event)" [(ngModel)]="stateSelected"> 
+      <mat-option  [value]="item" *ngFor="let item of states">
+          {{item}}</mat-option>
+    </mat-select>
+   </mat-form-field>
+
+   <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+      <mat-label style = "font-size: 12px; " (click)="loadData('district',$event)">District</mat-label>
+       <mat-select [(ngModel)]="districtSelected" (selectionChange)="loadData('district',$event)">
+    <mat-option [value]="item" *ngFor="let item of districts">{{item}}</mat-option>
+  </mat-select>
+ </mat-form-field>
+
+ <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+  <mat-label style = "font-size: 12px; "(change)="loadData('branch',$event)">Branch</mat-label>
+   <mat-select [(ngModel)]="branchSelected" (selectionChange)="loadData('branch',$event)">
+<mat-option [value]="item" *ngFor="let item of branches" > {{item}}</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+<mat-label style = "font-size: 12px; "  (change)="loadData('village',$event)">Village</mat-label>
+<mat-select [(ngModel)]="villageSelected"  (selectionChange)="loadData('village',$event)">
+<mat-option [value]="item" *ngFor="let item of village">{{item}}</mat-option>
+</mat-select>
+</mat-form-field>
+
+<mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+  <mat-label style = "font-size: 12px; "  (change)="loadData('saheli',villageSelected)">Saheli Name</mat-label>
+
+  <input matInput [(ngModel)]="saheliSelected">
+
+ 
+</mat-form-field>
+    </div>
+    <div class="d-flex pr-4">
+    <div class="pr-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0" style="margin-right: 1%; margin-left: -3%;">
+      <!--*ngIf="permissionSets.write">-->
+      <button class="create-btn  px-3" (click)="searchSurvey()" mat-button>Search</button>
+    </div>
+    <div class="pr-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0" style="margin-right: 0.75%;">
+      <!--*ngIf="permissionSets.write">-->
+      <button class="create-btn px-3" (click)="clearSurvey()" mat-button>Clear</button>
+    </div>
+    <div class="pr-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+      <!--*ngIf="permissionSets.write">-->
+      <button class="create-btn px-3" (click)="downloadData()" mat-button>Download</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="component-heading">
+  <div class="d-flex"style="justify-content: space-evenly;">
+    <div style="width: 17%;">
+      <mat-card>
+        <div class="card1">
+          <div class="card-number" style="color: #1F7774;">{{ totalsurveys_card }}</div>
+          <div class="card-color">Total Submission</div>
+        </div>
+      </mat-card>
+    </div>
+    <div style="width: 18%;">
+      <mat-card>
+        <div class="card1">
+          <div class="card-number" style="color: #EF6500;">{{ active_card }}</div>
+          <div  class="card-color">Valid Submission</div>
+        </div>
+      </mat-card>
+    </div>
+    <div style="width: 18%;">
+      <mat-card>
+        <div class="card1">
+          <div class="card-number" style="color: #1B981B;">{{ inactive_card }}</div>
+          <div  class="card-color">Approved Submission</div>
+        </div>
+      </mat-card>
+    </div>
+    <div style="width: 18%;">
+      <mat-card>
+        <div class="card1">
+          <div class="card-number" style="color: #F54611;">{{ freeSurveys_card }}</div>
+          <div  class="card-color">Rejected Submission</div>
+        </div>
+      </mat-card>
+    </div>
+    <div style="width: 17%;">
+      <mat-card>
+        <div class="card1">
+          <div class="card-number" style="color: #EF7F1A;">{{ totalearnings_card }}</div>
+          <div  class="card-color">Total Earnings</div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<br />
+
+<div class="col-md-12 pl-2">
+  <div class="card w-100">
+    <div class="card-body">
+      <mat-tab-group (selectedTabChange)="tabChange($event)">
+        <mat-tab label="In Progress">
+          <div class="mt-4">
+            <!--<app-download-table (pagination)="getPage($event,1)" [tableHeaders]="tableHeaders" [user_survey_list]="user_survey_list"></app-download-table>-->
+            <app-survey-management-detail
+              (pagination)="getPage($event, 0)"
+              (onSubmit)="onSurveyStatusUpdate()"
+              [listUserSurvey]="listUserSurvey"
+              [tableHeaders]="tableHeaders"
+              [status]='0'
+            ></app-survey-management-detail>
+          </div>
+        </mat-tab>
+
+       
+        <mat-tab label="Validated">
+          <div class="mt-4">
+            <!--<app-download-table  (pagination)="getPage($event,2)" [tableHeaders]="tableHeaders" [user_survey_list]="user_survey_list"></app-download-table>-->
+            <app-survey-management-detail
+              (pagination)="getPage($event, 2)"
+              (onSubmit)="onSurveyStatusUpdate()"
+              [listUserSurvey]="listUserSurvey"
+              [tableHeaders]="tableHeaders"
+              [status]='2'
+            ></app-survey-management-detail>
+          </div>
+        </mat-tab>
+        <mat-tab label="Approved">
+          <div class="mt-4">
+            <app-survey-management-detail
+              (pagination)="getPage($event, 1)"
+              (onSubmit)="onSurveyStatusUpdate()"
+              [listUserSurvey]="listUserSurvey"
+              [tableHeaders]="tableHeaders"
+              [status]='1'
+            ></app-survey-management-detail>
+          </div>
+        </mat-tab>
+        <mat-tab label="Rejected">
+          <div class="mt-4">
+            <app-survey-management-detail
+              (pagination)="getPage($event, 3)"
+              (onSubmit)="onSurveyStatusUpdate()"
+              [listUserSurvey]="listUserSurvey"
+              [tableHeaders]="tableHeaders"
+              [status]='3'
+            ></app-survey-management-detail>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

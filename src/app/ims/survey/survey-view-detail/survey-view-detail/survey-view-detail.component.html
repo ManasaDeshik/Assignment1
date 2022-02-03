@@ -1,0 +1,115 @@
+<div class="component-heading">
+    <div class="row banner-layout">
+        <p style="font-size: 22px; color:black; margin-right: 30%; margin-left: 6%;">{{data?.survey?.name}}</p>
+        <!-- <button class="btn btn-outline-primary btn-sm p-0 px-2 mr-1 br-10" >
+            Close
+          </button> -->
+          <button class="create-btn w-120 mr-4" (click) = closeDialog() style="box-shadow: 0 0px 0px 0 #D1D1D1; color: black; background-color: #D1D1D1;" mat-button>Close</button>
+          <button class="create-btn w-120 mr-4" *ngIf="(tabIndex == 0 || tabIndex == 2 ) && !isSave" (click) = editClick() style="box-shadow: 0 0px 0px 0 #ef7f1a; background-color: #ef7f1a;" mat-button>Edit</button>
+          <button class="create-btn w-120 mr-4" (click) = saveClick($event) *ngIf = isSave style="box-shadow: 0 0px 0px 0 #ef7f1a; background-color: #ef7f1a;" mat-button>Save</button>
+          <button class="create-btn w-120 mr-4" *ngIf="tabIndex == 2" (click) = changeStatus(1) style="box-shadow: 0 0px 0px 0 #11891F; background-color: #11891F;" mat-button>Approve</button>
+          <button class="create-btn w-120 mr-4" *ngIf="tabIndex == 0" (click) = changeStatus(2) style="box-shadow: 0 0px 0px 0 #11891F; background-color: #11891F;" mat-button>Validate</button>
+          <button class="create-btn w-120 mr-4" *ngIf="tabIndex == 0 || tabIndex == 2" (click)= rejectStatus(3,surveyId) style="box-shadow: 0 0px 0px 0 #CC1E1E; background-color: #CC1E1E;" mat-button>Reject</button>
+    </div>
+    <hr>
+    <div class="row col-md-12 col-lg-12" style="justify-content: space-around;">
+            <div class="col-md-12 col-lg-3">
+                <label style = "margin-top: 20px;">Lead Name</label>
+                <input class="form-control " [value] = "data?.lead?.first_name" [disabled]= "readOnly"  name="startDt"/>
+            </div>
+            <div class="col-md-12 col-lg-3">                
+                <label style = "margin-top: 20px;">Lead Phone</label>
+                <input class="form-control " [value] = "data?.lead?.phone_number" [disabled]= "readOnly"  name="startDt"/>
+            </div>
+            <div class="col-md-12 col-lg-3"> 
+                <label style = "margin-top: 20px;">Lead Village</label>
+                <input class="form-control " [value] = "data?.lead?.Branch?.village" [disabled]= "readOnly" name="startDt"/>
+            </div>
+    </div>
+    <div class="row col-md-12 col-lg-12" style="justify-content: space-around;">
+        <div class="col-md-12 col-lg-3">
+            <label style = "margin-top: 20px;">Lead District</label>
+            <input class="form-control " [value] = "data.lead.Branch.district" [disabled]= "readOnly"  name="startDt"/>
+        </div>
+        <div class="col-md-12 col-lg-3">                
+            <label style = "margin-top: 20px;">Lead State</label>
+            <input class="form-control " [value] = "data.lead.Branch.state" [disabled]= "readOnly"  name="startDt"/>
+        </div>
+        <div class="col-md-12 col-lg-3"> 
+            <label style = "margin-top: 20px;">Lead Generation</label>
+            <input class="form-control " [value] = "data.lead.created_at | date" [disabled]= "readOnly" name="startDt"/>
+        </div>
+</div>
+    <div class="row col-md-12 col-lg-12" style="justify-content: space-around;">
+        <!-- <div class="col-md-12 col-lg-2"> -->
+            <div class="col-md-12 col-lg-3">
+                <label style = "margin-top: 20px;">Saheli Name</label>
+                <input class="form-control " [value] = "data.user.first_name" [disabled]= "readOnly"  name="startDt"/>
+            </div>
+            <div class="col-md-12 col-lg-3">                
+                <label style = "margin-top: 20px;">Saheli Id</label>
+                <input class="form-control " [value] = "data.user.vle_code" [disabled]= "readOnly"  name="startDt"/>
+            </div>
+            <div class="col-md-12 col-lg-3"> 
+                <label style = "margin-top: 20px;">Saheli Phone</label>
+                <input class="form-control " [value] = "data.user.phone_number" [disabled]= "readOnly" name="startDt"/>
+            </div>
+        </div>
+        <div class="row col-md-12 col-lg-12" style="justify-content: space-around;">
+            <div class="col-md-12 col-lg-3"> 
+                <label style = "margin-top: 20px;">Saheli Village</label>
+                <input class="form-control " [value] = "data.user.branch.village" [disabled]= "readOnly" name="startDt"/>
+            </div>
+            <div class="col-md-12 col-lg-3"> 
+                <label style = "margin-top: 20px;">Saheli District</label>
+                <input class="form-control " [value] = "data.user.branch.district" [disabled]= "readOnly" name="startDt"/>
+            </div>
+            <div class="col-md-12 col-lg-3"> 
+                <label style = "margin-top: 20px;">Saheli State</label>
+                <input class="form-control " [value] = "data.user.branch.state" [disabled]= "readOnly" name="startDt"/>
+            </div>
+        </div>
+        <div class="row col-md-12 col-lg-3" style="justify-content: space-around;margin-top: 40px;
+        margin-left: 0%;" [ngClass]="{'disableDiv': viewOnly}">
+         <p *ngIf = !isEnglish>Hindi<img  alt="Hindi"
+            src="../../../../../assets/img/Button_Left.svg" class="imgMargin" *ngIf = !isEnglish (click) = setEnglishData()  >English</p>
+            <p *ngIf = isEnglish>Hindi<img  alt="Hindi"
+              src="../../../../../assets/img/Button_Right.svg" class="imgMargin" *ngIf = isEnglish (click) = setHindiData()  >English</p> 
+            </div>
+              <!--  <div  *ngFor="let item of data.survey.questions; let i = index" style="justify-content: space-around;margin-left: 4%;" class="col-6"> 
+                <label *ngIf = isEnglish style = "margin-top: 20px;">{{item.label}}</label>
+                <div class="w-100" *ngFor="let answer of item.answers; let j = index" > 
+                    <label style = "margin-top: 20px;">{{answer.answer}}</label>
+                <input class="form-control w-100" [(ngmodel)] = "answerArray[item.id]" [value] = "answer.answer" name="startDt"/>
+                </div>
+              </div>
+                <div *ngFor="let item of data.survey.questions; let i = index" style="justify-content: space-around;margin-left: 4%;" class="col-6"> 
+                    <label *ngIf = isEnglish style = "margin-top: 20px;">{{item.question_translations.label}}</label>
+                    <div class="w-100" *ngFor="let answer of item.answers; let j = index"> 
+                         <label style = "margin-top: 20px;">{{answer.answer}}</label> -->
+                    <!-- <input class="form-control w-100" [(ngmodel)] = "answerArray[item.id]" [value] = "answer.answer" name="startDt"/>
+                    </div>
+            </div> --> 
+            <!-- <div class="form-fieldset-content">
+                <div>
+                    <app-survey-form-item
+                    [item]="data.survey.questions"
+                    [type]="data.survey.questions.type"
+                    ></app-survey-form-item>
+                </div>[disabled]= "readOnly"
+            </div> -->
+            <!-- <div #parent [ngClass]="{'disableDiv': viewOnly}">
+                <app-survey-form-builder #survey [surveyIdInBuilder]="surveyId" [items]="itemArray" [type]="type" [item]="itemObject"></app-survey-form-builder>
+             </div> -->
+             <div #parent [ngClass]="{'disableDiv': viewOnly}" class="builder-class">
+                <app-survey-form-builder #survey [surveyIdInBuilder]="surveyId" [items]="itemArray" editAnswer={{viewOnly}} [type]="type" [item]="itemObject"></app-survey-form-builder>
+               <!-- <div *ngFor = "let item of data.survey.questions; let i = index">  
+                   <app-survey-form-item
+                   [item]="item"
+              [type]="item.input_type.name"
+              [dest_lang]="data.language"
+                  (changes)="onItemChanges($event)"
+                    ></app-survey-form-item>
+             </div> -->
+            </div>
+    </div>

@@ -1,0 +1,103 @@
+<div>
+  <div class="component-heading">
+    <div class="row warehouse-franchise-manufacturer-layout justify-content-between px-3 mb-3">
+      <div>
+        <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/stock']"
+          routerLinkActive='active' alt="left-arrow" *ngIf="tableTypeData.pageTitle !== 'Warehouse'">
+        <span class="component-heading"
+          [ngClass]="tableTypeData.pageTitle !== 'Warehouse' ? 'ml-20':''">{{tableTypeData.pageTitle}} List</span>
+      </div>
+     
+      <div *ngIf="permissionSets.write">
+        <button (click)="route()" class="create-btn" mat-button>Add 
+          {{tableTypeData.pageTitle}}</button>
+      </div>
+    </div>
+    <div class="row justify-content-end px-3">
+      <div class="form-group search-position no-margin pr-2">
+        <input type="text" class="form-control txt-overflow" [placeholder]="tableTypeData.placeHolder"
+          (keyup)="setSearchText($event,false)" [(ngModel)]="searchText">
+       
+      </div>
+      <div class="col-md-1 col-lg-1" >
+        <button (click)="setSearchText($event,true)" class="assignee-btn" >search</button>
+      </div>
+    </div>
+
+        <table class="table mt-3">
+          <thead>
+            <tr>
+              <th *ngFor="let item of tableTypeData.tableHeaders">
+                <div class="label-text">
+                  {{item.header}}
+                  <div class="sorting-icons" *ngIf="item.sortText">
+                    <img class="arrow-up" src="assets/img/table-arrow-down.svg" (click)="sorting(item.sortText,1)"
+                      alt="">
+                    <img class="arrow-down" src="assets/img/table-arrow-up.svg" (click)="sorting(item.sortText, -1)"
+                      alt="">
+                  </div>
+                </div>
+              </th>
+              <th *ngIf="permissionSets.edit">
+                <div class="label-text">
+                  Activity
+                </div>
+              </th>
+            </tr>
+          </thead>
+ 
+            <tbody class="t-max">
+              <tr
+                *ngFor="let item of tableList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:tableList.totalRecords}">
+                <td>
+                  {{item.name}}
+                </td>
+                <td *ngIf="tableTypeData.pageTitle === 'Manufacturer'">
+                  {{item.address}}
+                </td>
+                <td *ngIf="tableTypeData.pageTitle === 'Franchise'">
+                  <span *ngFor="let franchise of item.address">
+                    <span *ngIf="franchise.deletedAt == null">
+                    {{ franchise? franchise.description : ''}},
+                  </span>
+                  </span>
+                </td>
+                <td *ngIf="tableTypeData.pageTitle === 'Manufacturer'">
+                  {{ item.reference_code}}
+                </td>
+                <td *ngIf="tableTypeData.pageTitle === 'Manufacturer'">
+                  {{ item.gst_code}}
+                </td>
+                <td *ngIf="tableTypeData.pageTitle === 'Warehouse'">
+                  {{item.location}}
+                </td>
+                <td *ngIf="tableTypeData.pageTitle === 'Warehouse'">
+                  {{item.branch}}
+                </td>
+                <td *ngIf="permissionSets.edit">
+                  <div class="row no-margin">
+                    <div class="p-0">
+                      <div class="ml-5">
+                        <img class="cursor-pointer" (click)="editWarehouseManufacturerFranchise(item.id)"
+                          src="../../../../../assets/img/edit.svg" alt="">
+                      </div>
+                      <div class="delete-edit">
+                        Edit
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <div *ngIf="tableList.records.length === 0" class="no-data">
+                <div>
+                  No Data Found
+                </div>
+              </div>
+            </tbody>
+      
+        </table>
+     
+      <pagination-controls class="pagination-card" *ngIf="tableList.totalRecords > 10" previousLabel="" id="1"
+        nextLabel="" (pageChange)="getPage($event)">
+      </pagination-controls>
+    </div>

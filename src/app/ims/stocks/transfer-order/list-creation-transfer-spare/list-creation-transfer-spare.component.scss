@@ -1,0 +1,32 @@
+@import '../../../../utils/styles/custom-palette.scss';
+.list-creation-to-spare-container {
+    >div:first-child {
+        button {
+            @include background-clr(#3b86ff);
+            @include text-color($clr-white);
+            @include border-single-radius(5px);
+            font-size: 15px;
+            padding: 10px 20px;
+            outline: none;
+            border: none;
+            float: right;
+        }
+    }
+    .table-card {
+        height: calc(100vh - (28vh)) !important;
+
+        .table-responsive {
+            height: calc(100vh - (28vh)) !important;
+            position: relative;
+
+            table {
+                perfect-scrollbar {
+                    max-height: calc(100vh - (120px + 16vh)) !important;
+                }
+            }
+        }
+        .form-control {
+             width: 70%;
+        }
+    }
+}

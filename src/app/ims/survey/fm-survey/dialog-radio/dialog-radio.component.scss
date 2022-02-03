@@ -1,0 +1,39 @@
+.w-80{
+    width: 8vw !important;
+}
+.w-3{
+    width: 3vw !important;
+}
+.w-5{
+    width: 5vw !important;
+}
+.label-center{
+    align-self: center !important;
+}
+.section{
+    font-size: 13px;
+    font-family: "Source Sans Pro", sans-serif;
+}
+.imgMargin {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.upload-button{
+    height: 35px;
+    width: 120px;
+    border-radius: 10px;
+    color: orange;
+    border: none;
+}
+.form-control{
+    border-radius: 0px;
+}
+.cancel-btn {
+    font-size: 24px;
+    height: 22px;
+    // color:black;
+    cursor: pointer;
+    // border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+}

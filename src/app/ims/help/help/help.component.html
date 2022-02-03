@@ -1,0 +1,114 @@
+<div>
+  <div class="component-heading">
+    <div class="row lead-management-layout">
+      <div class="col-md-3 col-lg-3" style="font-size: 22pt;">Help</div>
+      <div class="col-md-2 col-lg-2">
+        <mat-chip-list class="pull-right">
+          <mat-chip *ngFor="let chip of availableLang" class="cursor-pointer" (click)="langSelected(chip)"
+            [ngClass]="{ 'inactive-chip-style': selectedLang !== chip.identity , 'completed-chip-style': chip.isCompleted  }">
+            {{chip.identity}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="left-10 top-6">
+          <button (click)="addHelp(index)" *ngIf="permission.permission.edit || permission.permission.write"
+            class="create-btn" mat-button>Add Help</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-card mt-20">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 15%">
+              <div class="label-text">
+                Sequence Number
+              </div>
+            </th>
+            <th style="width: 20%">
+              <div class="label-text">
+                Video Title
+              </div>
+            </th>
+            <th style="width: 30%">
+              <div class="label-text">
+                URL
+              </div>
+            </th>
+             <th style="width: 30%; padding-left: 30px;">
+              <div class="label-text">
+                Actions
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <perfect-scrollbar style="max-width: 100vw; max-height: 55vh;">
+          <tbody>
+            <!-- | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listProducts.totalRecords}; -->
+            <tr *ngIf="newAdd">
+              <td style="width: 15%"></td>
+              <td *ngIf="selectedLang == 'en'" style="width: 20%">
+                <input type="text"  name="videotitle" style="width: 100%; height: 40px;" [(ngModel)]="videoAdd.title.en"
+                 required />
+              </td>
+                <td style="width: 20%" *ngIf="selectedLang == 'hi'" style="width: 20%;padding-left: 20px;">  <input type="text"  name="videotitlehi" style="width: 200px; height: 40px;" [(ngModel)]="videoAdd.title.hi"
+                  required /></td>
+                  <td style="width: 30%"> <input type="text" name="videourl" style="width: 100%; height: 40px;" [(ngModel)]="videoAdd.url"
+                    required /></td>
+            <td style="padding-left: 40px;">
+              <div class="row no-margin">
+                <div class="ml-5">
+                  <div class="ml-5">
+              <button (click)="saveHelp(item,1)" *ngIf=" (permission.permission.edit || permission.permission.write)"
+                    class="create-btn" mat-button>Save</button>
+              <button (click)="cancel(1)" style="background-color: white; margin-right: 10px; color: black !important;" *ngIf="(permission.permission.edit || permission.permission.write)"
+            class="create-btn" mat-button>Cancel</button>
+            </div>
+            </div>
+            </div>
+            </td>
+          </tr>
+            <tr *ngFor="let item of listHelpVideos; let i=index;">
+              <td style="width: 15%;">{{i+1}}</td>
+              <td *ngIf="selectedLang == 'en' && isSave" style="width: 20%;">
+                <div *ngIf="!isSave[i] || allDisp">{{item.title.en || ''}}</div>
+                <input *ngIf="isSave[i] && !newAdd" [attr.contenteditable]="isSave[i]"  [(ngModel)]="listHelpVideos[i].title.en"  style="width: 100%;height: 42px;padding: 12px; margin-top: -10px;">
+              </td>
+              <td *ngIf="selectedLang == 'hi'" style="width: 20%;">
+                <div *ngIf="!isSave[i] || allDisp">{{item.title.hi || ''}}</div>
+                <input *ngIf="isSave[i]  && !newAdd" [attr.contenteditable]="isSave[i]"  [(ngModel)]="listHelpVideos[i].title.hi"  style="width: 100%; height: 42px;padding: 12px;margin-top: -10px;">
+              </td>
+              <td style="width: 30%;">
+                <div  *ngIf="!isSave[i] || allDisp">{{item.url || ''}}</div>
+                <input *ngIf="isSave[i]  && !newAdd" [attr.contenteditable]="isSave[i]"  [(ngModel)]="listHelpVideos[i].url"  style="width: 100%; height: 42px;padding: 12px;margin-top: -10px;">
+              </td>
+              <td >
+                <div class="row no-margin">
+                  <div class="ml-5">
+                    <div class="ml-5">
+                      <img class="arrow-up1 cursor-pointer" *ngIf="(!isSave[i] && !isAddHelp) || allDisp" src="assets/img/arrow-down-solid.svg" alt=""
+                          (click)="moveTopDown(i, 1)">
+                          <img class="arrow-down1 cursor-pointer" *ngIf="(!isSave[i] && !isAddHelp) || allDisp" src="assets/img/arrow-up-solid.svg" alt=""
+                          (click)="moveTopDown(i, -1)">
+                      <img class="cursor-pointer" *ngIf="(!isSave[i] && !isAddHelp) || allDisp" src="../../../../../assets/img/edit.svg" style="margin-right: 40px;" (click)="editUser(item,i)" alt="">
+                      <img (click)="openDialog(item)" *ngIf="(!isSave[i] && !isAddHelp) || allDisp" src="../../../../assets/img/delete.svg" alt="">
+                    </div>
+                    <button (click)="saveHelp(listHelpVideos[i],i)"  *ngIf="((isSave[i]) || isAddHelp) && !allDisp && (permission.permission.edit || permission.permission.write)"
+                    class="create-btn" mat-button>Save</button>
+                    <button (click)="cancel(i)" style="background-color: white; margin-right: 10px; color: black !important;" *ngIf="((isSave[i] ) || isAddHelp)  && !allDisp && (permission.permission.edit || permission.permission.write)"
+            class="create-btn" mat-button>Cancel</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </perfect-scrollbar>
+      </table>
+    </div>
+    <button class="create-btn" *ngIf="(listHelpVideos.length > 0) && permission.permission.edit"
+      [disabled]="isSaveProduct" (click)="updateHelp()">Save</button>
+  </div>
+</div>

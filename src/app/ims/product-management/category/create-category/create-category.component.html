@@ -1,0 +1,77 @@
+<form name="form" [formGroup]="categoryForm" class="category-container">
+    <div class="card mt-40 create-form-card">
+        <div class="row no-margin p-25">
+            <div class="col-md-6 col-lg-6">
+                <div class="details">
+                   {{categoryAction.name}}
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+                <mat-chip-list class="pull-right">
+                    <mat-chip *ngFor="let chip of availableLang" class="cursor-pointer" (click)="langSelected(chip)"
+                        [ngClass]="{ 'inactive-chip-style': selectedLang !== chip.identity , 'completed-chip-style': chip.isCompleted  }">
+                        {{chip.name}}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
+
+        <perfect-scrollbar style="max-width: 100vw; max-height: 60vh;">
+            <div class="content-block">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <label name="categoryName" class="required">Category Name</label>
+                                <input type="text" class="form-control" formControlName="name"
+                                    [ngClass]="{ 'is-invalid': validationControl.name.errors && (validationControl.name.touched && validationControl.name.dirty) }"
+                                    required />
+                                <div class="invalid-feedback"
+                                    *ngIf="validationControl.name.invalid   && (validationControl.name.dirty || validationControl.name.touched)">
+                                    <div *ngIf="validationControl.name.errors.required">Category is
+                                        required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="col-md-8 col-lg-8">
+                            <div class="form-group">
+                                <label name="description" class="required">Description</label>
+                                <input type="text" class="form-control" formControlName="description"
+                                    [ngClass]="{ 'is-invalid': validationControl.description.errors && (validationControl.description.touched && validationControl.description.dirty) }"
+                                    required />
+                                <div class="invalid-feedback"
+                                    *ngIf="validationControl.description.invalid   && (validationControl.description.dirty || validationControl.description.touched)">
+                                    <div *ngIf="validationControl.description.errors.required">Description is
+                                        required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-lg-3">
+                        <div class="col-md-9 col-lg-8">
+                            <div class="form-group">
+                                <label name="status" class="required cursor-pointer"
+                                    (click)="categoryImageFileInput.click()">Upload Image</label>
+                                <input type="file" name="description" required #categoryImageFileInput
+                                    (change)="uploadImage($event)" style="display:none;"
+                                    accept="image/x-png,image/gif,image/jpeg" required />
+                                <div (click)="categoryImageFileInput.click()" class="imageUpload cursor-pointer"
+                                    *ngIf="fileName">
+                                    {{fileName.name}}</div>
+                                <img *ngIf="fileName" [src]="fileName" class="imageUpload" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+    <div>
+        <button class="create-btn" mat-button (click)="createUpdateCategory()" >{{categoryAction.key}}</button>
+    </div>
+</form>

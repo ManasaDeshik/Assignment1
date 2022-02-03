@@ -1,0 +1,111 @@
+<div class="row no-margin component-heading">
+  User Management
+</div>
+<div class="row no-margin user-management-layout">
+  <div class="no-padding col-12">
+    <nav class="disp-ib p-0" mat-tab-nav-bar aria-label="weather navigation links">
+      <a mat-tab-link routerLink="../users/list-users" [ngClass]="{'active': urlSegment[1].path == 'users'}">
+        Users
+        <div class="border-btm-line">
+
+        </div>
+      </a>
+      <a mat-tab-link routerLink="../roles/list-roles" [ngClass]="{'active': urlSegment[1].path == 'roles'}" *ngIf="rolePermissionSets.read">
+        Roles
+        <div class="border-btm-line">
+        </div>
+      </a>
+      <div class="create-tab-btn flex-grow-1">
+        <div class="pr-2 no-padding" *ngIf="userPermissionSets.write && urlSegment[2].path == 'list-users'">
+          <button (click)="create('user')" class="create-btn px-3" mat-button>Add
+            User</button>
+        </div>
+        <div class="no-padding pr-2"  *ngIf="rolePermissionSets.write && urlSegment[2].path == 'list-roles'">
+          <button (click)="create('role')" class="create-btn px-3" mat-button>Add Role
+          </button>
+        </div>
+      </div>
+    </nav>
+    
+  </div>
+
+  <div class="col-12 row  no-padding mt-2" *ngIf="urlSegment[2].path == 'list-users'">
+    <!-- <div class="form-group col-md-2 col-lg-2">
+      <input type="text" class="form-control date-filter" (ngModelChange)="fetchFilterData($event , 'filterDate')"
+        [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="regDate" placeholder="Registration Date"
+        [(ngModel)]="registrationDate" #arrivalDate="ngModel"  required />
+      <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+    </div>
+    <div class="form-group col-md-2 col-lg-2 search-position">
+      <input type="text" class="form-control" placeholder="Village Name"
+        (keyup)="fetchFilterData($event ,'village')" [(ngModel)]="villageName">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <ng-select class="select-drop-down p-0" [items]="roleCollections" bindLabel="name" 
+        placeholder="Role" (change)="fetchFilterData($event , 'role')"  (search)="searchRoleFieldKey($event)">
+      </ng-select>
+    </div>
+    <div class="form-group col-md-3 col-lg-3 search-position">
+      <input type="text" class="form-control" placeholder="Users , VLE Code"
+        (keyup)="fetchFilterData($event ,'user')" [(ngModel)]="userVLECode">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div> -->
+
+
+    <div class="form-group col-md-4 col-lg-3  col-xl-3  search-position">
+      <input type="text" class="form-control" placeholder="User Name, Mobile no"
+        (keyup)="fetchFilterData($event ,'user')" [(ngModel)]="userVLECode">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    <div class="form-group col-md-4 col-lg-3  col-xl-3 search-position">
+      <input type="text" class="form-control" placeholder="Village Name"
+        (keyup)="fetchFilterData($event ,'village')" [(ngModel)]="villageName">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    <!-- branch name -->
+    <div class="form-group col-md-4 col-lg-3  col-xl-3 search-position">
+      <input type="text" class="form-control" placeholder="Branch Name"
+        (keyup)="fetchFilterData($event ,'branch')" [(ngModel)]="branchName">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    <!-- district -->
+    <div class="form-group col-md-4 col-lg-3  col-xl-3 search-position">
+      <input type="text" class="form-control" placeholder="District"
+        (keyup)="fetchFilterData($event ,'district')" [(ngModel)]="districtName">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    
+    <!-- role -->
+    <div class="col-md-4 col-lg-3  col-xl-3 ">
+      <ng-select class="select-drop-down p-0" [items]="roleCollections" bindLabel="name" 
+        placeholder="Role" (change)="fetchFilterData($event , 'role')"  (search)="searchRoleFieldKey($event)">
+      </ng-select>
+    </div>
+    <!-- dor -->
+    <div class="form-group col-md-4 col-lg-3  col-xl-3 ">
+      <input type="text" class="form-control date-filter" (ngModelChange)="fetchFilterData($event , 'filterDate')"
+        [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="regDate" placeholder="Registration Date"
+        [(ngModel)]="registrationDate" #arrivalDate="ngModel"  required />
+      <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+    </div>
+  
+    <div class="col-md-12 col-lg-12  col-xl-6 mb-2">
+      <button (click)="searchFilter()" class="assignee-btn" mat-button>search</button>
+    </div>
+  
+  </div>
+ <div class="row col-12 mt-2 no-padding justify-content-end" *ngIf="urlSegment[2].path == 'list-roles'">
+    <div class="form-group search-position mr-2">
+      <input type="text" class="form-control" placeholder="Search Roles" [(ngModel)]="role" (keyup)="fetchFilterData($event ,'list-role')">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    
+  
+
+</div>
+</div>
+
+<div class="mat-body">
+  <router-outlet></router-outlet>
+</div>

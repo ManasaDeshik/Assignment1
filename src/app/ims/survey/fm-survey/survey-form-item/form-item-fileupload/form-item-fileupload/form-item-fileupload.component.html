@@ -1,0 +1,4 @@
+<input type="file" id="myFile" name="filename" (click)="fileInput.click()">
+<input  (change)="addFile(0,$event)"
+name="fileOption" type="file" #fileInput
+accept="image/x-png,image/gif,image/jpeg"  style="visibility: hidden;"/>

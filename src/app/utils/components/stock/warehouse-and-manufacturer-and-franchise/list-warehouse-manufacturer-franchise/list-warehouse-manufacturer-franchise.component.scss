@@ -1,0 +1,27 @@
+@import '../../../../styles/custom-palette.scss';
+
+.warehouse-franchise-manufacturer-layout ,  .create-lead-layout , .create-branch-layout{
+    .search-position {
+        position: relative;
+
+        img {
+            position: absolute;
+            right: 24px;
+            bottom: 12px;
+        }
+    }
+
+    .create-btn {
+        font-size: 14px;
+        @include height-width(40px, 140px, 20px);
+        @include border-single-radius(5px !important);
+    }
+}
+
+.table-card table tbody tr:first-child {
+    margin-top: 0px !important;
+}
+
+td,th {
+    text-align: left !important;
+}

@@ -1,0 +1,25 @@
+<div class="transfer-spare-share-container">
+  <div class="row">
+    <div class="col-md-8 col-lg-8 header">
+      {{data.name}}
+    </div>
+    <div class="col-md-4 col-lg-4 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+  <form #addSpareToForm="ngForm" class="row to-spare-content-block">
+    <div>
+      In Stock {{data.items}}
+    </div>
+    <div>
+      <label class="required">Quantity</label>
+      <input type="number" class="form-control customize-form-control" name="quantityNumber" [(ngModel)]="spareQuantity"
+        #quantityNumber="ngModel" pattern="^[0-9]+" (keyup)="checkQuantity($event)" required>
+    </div>
+    <div class="add-btn">
+      <button type="submit" class="create-btn cursor-pointer" [disabled]="!addSpareToForm.valid"
+        (click)="addToBucket()">ADD TO BUCKET</button>
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,59 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.user-management-layout {
+  .m-10{
+    margin: 0px 10px;
+  }
+    .no-padding {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  .search-position {
+    position: relative;
+
+    img {
+      bottom: 12px;
+      position: absolute;
+      right: 20px;
+    }
+  }
+
+  a {
+    @include text-color(#9f9ead);
+    width: 90px;
+    min-width: 90px;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .active {
+    position: relative;
+    @include text-color($active-btn-clr-secondary);
+
+    .border-btm-line {
+      @include background-clr($active-btn-clr-secondary);
+      font-size: 18px;
+      width: 90px;
+      height: 4px;
+      @include border-single-radius(5px);
+      position: absolute;
+      top: 44px;
+    }
+  }
+
+  >div:nth-child(2) {
+    margin-top: 20px;
+
+    button {
+      float: right !important;
+    }
+  }
+}
+
+.create-tab-btn{
+  display: flex;
+    justify-content: end;
+    width: 75%;
+}

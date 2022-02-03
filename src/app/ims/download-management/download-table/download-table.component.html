@@ -1,0 +1,94 @@
+<div class="table-card mt-10 role-managment-card">
+    <div class="table-responsive" style="overflow: hidden;height:55vh !important">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th *ngFor="let item of tableHeaders" [ngStyle]="{ 'width' : item.width }">
+                        <div class="label-text font-weight-bold table-header">
+                            {{item.header}}
+                            <div class="sorting-icons" *ngIf="item.sortText">
+                                <img class="arrow-up" src="assets/img/table-arrow-down.svg"
+                                    (click)="sorting(item.sortText,1)" alt="">
+                                <img class="arrow-down" src="assets/img/table-arrow-up.svg"
+                                    (click)="sorting(item.sortText, -1)" alt="">
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 45vh;">
+                <tbody class="role-managment-body">
+                    <tr
+                        *ngFor="let item of listDownloads.records | paginate: {id: '1', itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listDownloads.totalRecords}; let i = index;">
+                        <td style="width: 10%;">
+                            {{i+1}}
+                        </td>
+                        <td>
+                            {{item.module | titlecase}}
+                        </td>
+                        <td>
+                            {{ (item.email && item.email != '') ?item.email :'Super Admin'}}
+                        </td>
+                        <td>
+                            {{(item.createdAt) ? (item.createdAt | date: 'dd/MM/yyyy h:mm a' || ''): '-'}}
+                        </td>
+                        <td>
+                            <span class="cursor-pointer" [ngStyle]="{'color': '#ffb207'}" matTooltip="View"
+                                data-toggle="modal"  data-dismiss="modal" data-target="#exampleModalCenter" (click)=getFilter(item.params)><img class="approval-btn-view"
+                                    style="height: 20px;padding-right: 3px;"
+                                    src="../../../../../assets/img/eye-solid.svg" alt="">View</span>
+                        </td>
+                        <td *ngIf="item.status == 1">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': 50+(i*12) + '%' }">
+                                </div>
+                            </div>
+                        </td>
+                        <td *ngIf="item.status == 2"><span class="download-button" (click)="Download(item)">Download</span></td>
+                    </tr>
+                    <div *ngIf="listDownloads.totalRecords === 0" class="no-data">
+                        <div>
+                            No Data Found
+                        </div>
+                    </div>
+                </tbody>
+            </perfect-scrollbar>
+        </table>
+    </div>
+    <pagination-controls class="pagination-card" *ngIf="listDownloads.totalRecords > 10" previousLabel="" id="1"
+        nextLabel="" (pageChange)="getPage($event)">
+    </pagination-controls>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" style="color: #ef7f1a;" id="exampleModalLongTitle">Applied Filter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-2">
+                    <div class="col-md-4 font-medium">From Date</div>
+                    <div class="col-md-2 font-medium">:</div>
+                    <div class="col-md-4 font-medium">{{fromDate | date: 'dd/MM/yyyy' }}</div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-md-4 font-medium">To Date</div>
+                    <div class="col-md-2 font-medium">:</div>
+                    <div class="col-md-4 font-medium">{{toDate | date: 'dd/MM/yyyy' }}</div>
+                </div>
+                <ng-container *ngFor="let data of filter">
+                <div class="row p-2" *ngIf="data.value != '' && data.value != -1 && !['type','start date','end date','email','timezone'].includes(data.name)">
+                    <div class="col-md-4 font-medium">{{data.name | titlecase}}</div>
+                    <div class="col-md-2 font-medium">:</div>
+                    <div class="col-md-4 font-medium">{{data.value}}</div>
+                </div>
+            </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

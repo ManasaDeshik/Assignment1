@@ -1,0 +1,878 @@
+<div *ngIf="data.type === 'Received'">
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 component-heading">
+        <h3>Parent Order No: {{itemDetails.invoiceNo}}</h3>
+        <!-- <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()"> -->
+      </div>
+
+    </div>
+  </div>
+  <div class="ongoing-purchase-order p-10 m-lg-4">
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Name:
+      </div>
+      <div class="col-md-3 col-lg-3 break-word">
+        {{itemDetails.customer.customerName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Amount:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.value}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer mobile no:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerPhNo}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        No.of Quantity:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.quantity}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Village name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerVillageName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Saheli Name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.saheli.firstName}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Recieved date:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.orderDate | date}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Parent Order No:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.invoiceNo}}
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-5 col-lg-5 component-heading">
+        <h3>Order Details:</h3>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <div class="submit-block" *ngIf="!isEdit">
+          <button type="submit" class="reject-order-btn cursor-pointer" 
+            (click)="rejectSelected()">&nbsp;Reject-Selected&nbsp;</button>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="submit-block" *ngIf="isEdit">
+          <button type="submit" class="cancel-btn cursor-pointer" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="submit-block" *ngIf="!isEdit">
+          <button type="submit" class="create-btn cursor-pointer" (click)="makeEdit()">Edit Order</button>
+        </div>
+        <div class="submit-block" *ngIf="isEdit">
+          <button type="submit" class="create-btn cursor-pointer" (click)="saveOrder()">Save</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-card mt-20">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <!-- <th class="text-right" *ngIf="!isEdit">
+                  <mat-checkbox (change)="selectAll($event)" [checked]="selectCheck" matTooltip="Select/Deslect all">
+                  </mat-checkbox>
+                </th> -->
+                 <th class="text-right" *ngIf="!isEdit">
+                  
+                </th>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item.header}}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 47vh;">
+              <tbody>
+                <tr *ngFor="let item of dataChild.records; let i=index;">
+                  <td class="text-right" *ngIf="!isEdit">
+                    <mat-checkbox [checked]="item.checked" [disabled]="item.isPresent" (change)="updateCheck($event,i)"
+                      matTooltip="{{(item.isPresent && !item.checked)?'Product Disabled':''}}">
+                    </mat-checkbox>
+                  </td>
+                  <td>
+                    {{ item.order_code}}
+                  </td>
+                  <td matTooltip="{{item.product_detail.title}}">
+                    <img class="image-show" src="{{getImg(item.product_detail.images)}}" alt="">
+                    {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+                  </td>
+                  <td>
+                    <img class="quantity-icon cursor-pointer" src="assets/img/minus-square-solid.svg" alt=""
+                      *ngIf="isEdit" (click)="quantityChange(item,'minus',i)">
+                    &nbsp;{{ item.quantity}}&nbsp;
+                    <img class="quantity-icon cursor-pointer" src="assets/img/plus-square-solid.svg" alt=""
+                      *ngIf="isEdit" (click)="quantityChange(item,'plus',i)">
+                  </td>
+                  <td>
+                    {{ item.product_detail.delivery_price}}
+                  </td>
+                  <td>
+                    {{ item.value}}
+                  </td>
+                </tr>
+                <div class="text-right p-2">
+                  <h4> Total Amount : ₹ {{itemDetails.value}}</h4>
+                </div>
+                <div *ngIf="dataChild.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="data.type === 'Assign to TM'">
+  <div class="ongoing-purchase-order">
+    <div class="col-md-12 col-lg-12 component-heading">
+      <h3>Assing to TM</h3>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-lg-4">
+        <div class="col-md-12 col-lg-12">
+          <h6>Parent Order No: {{itemDetails.invoiceNo}}</h6>
+        </div>
+        <!-- <div class="col-md-12 col-lg-12">
+          <h4>No.of Quantity: {{itemDetails.quantity}}</h4>
+        </div> -->
+      </div>
+      <div class="col-md-8 col-lg-8">
+        <div class="col-md-12 col-lg-12">
+          <h6 name="state" class="required ">Assing to TM</h6>
+        </div>
+        <div class="col-md-12 col-lg-12">
+          <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="oeArray" bindLabel="first_name"
+            placeholder="Select" name="state" (search)="searchFieldKey($event)" (change)="selectedFieldKey($event)"
+            required>
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div *ngIf="data.type === 'Assign to TM' && isScan">
+    <div class="row">
+      <div class="col-md-6 col-lg-6 generate-pckg-txt">
+        Scan Packages
+      </div>
+      <div class="col-md-6 col-lg-6 txt-right">
+        <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialogScan()">
+      </div>
+    </div>
+
+    <div class="row mt-50">
+      <div class=" col-md-12 col-lg-12">
+        <div class="order-scan txt-center cursor-pointer">
+          <input type="text" class="hideInput" #itemOrderScan (keyup)="itemOrderScanBarcode($event)" autofocus />
+          <img class="mt-40" src="assets/img/barcode.svg" alt="">
+          <div class="scanned-complete mt-10">
+            <div *ngIf="scannedCount===quantity">
+              <img src="../../../../assets/img/check.png" alt="">
+            </div>
+            <div>
+              <span class="no">
+                {{scannedCount}}/{{quantity}}
+              </span>
+              <span class="txt">
+                SCANNED
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="txt-center mt-50">
+      <button class="finish-btn" (focus)="itemOrderScan.focus()"
+        (click)="displayScanMessage('You can start item scan now' , $event)"
+        [ngClass]="{ 'scan-complete-style': activeFinish}">START ITEM SCAN</button>
+      <button class="finish-btn" [disabled]="!activeFinish" (click)="finishOrderScan()">FINISH</button>
+    </div>
+
+  </div>
+  <div class="ongoing-purchase-order" *ngIf="!isScan">
+    <div class="row">
+      <div class="col-md-5 col-lg-5 component-heading">
+        <h3>Order Details </h3>
+      </div>
+      <!-- <div class="col-md-7 col-lg-7">
+        <div class="text-right">
+          <button class='btn cursor-pointer print-btn' (click)="printInvoice()">Print Invoice</button>
+        </div>
+      </div> -->
+    </div>
+    <!-- <hr> -->
+    <div class="row" *ngIf="scanner">
+      <div class="col-md-3 col-lg-3">
+        <div>
+          <button type="submit" class="create-btn cursor-pointer" (click)="scanItem()"><img
+              class="cursor-pointer reject-btn-order" src="../../../../../assets/img/qrcode-solid.svg" alt="">Scan
+            Item</button>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">or</div>
+      <div class="col-md-8 col-lg-8">
+        <div class="row">
+          <div class="col-md-6 col-lg-6">
+            <div class="form-group  col-md-6 col-lg-6 p-1 search-position">
+              <input type="text" class="form-control bar" placeholder="Search Barcode" (keyup)="searchBarcode($event)"
+                [(ngModel)]="selectedBarcodeSearchText">
+              <img src="assets/img/icon_search.svg" alt="">
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+            <div>
+              Status:
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-card mt-20">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of tableHeadersAssign" style="width: {{item.width}};">
+                  <div class="label-text">
+                    <span *ngIf="!isEdit && item.header =='Product Order No'">
+                      <mat-checkbox [checked]="selectCheck" (change)="selectAllAssign($event)"
+                        matTooltip="Select/Deslect all">
+                      </mat-checkbox>
+                    </span>&nbsp;
+                     {{item.header}}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 47vh;">
+              <tbody>
+                <tr *ngFor="let item of dataChild.records; let i=index;">
+                  <td style="width: 25%;"> 
+                    <span *ngIf="!isEdit">
+                      <mat-checkbox [checked]="item.checked" [disabled]="item.isPresent"
+                        (change)="updateCheckAssign($event,i)"
+                        matTooltip="{{(item.isPresent && !item.checked)?'Product Disabled':''}}">
+                      </mat-checkbox>
+                    </span>&nbsp; {{ item.order_code}}
+                  </td>
+                  <td matTooltip="{{item.product_detail.title}}" style="width: 20%;">
+                    <img class="image-show" src="{{getImg(item.product_detail.images)}}" alt="">
+                    {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+                  </td>
+                  <td style="width: 10%; text-align: center;">
+                    {{ item.quantity}}
+                  </td>
+                  <td style="width: 20%;">
+                      {{item.barcode}}
+                </td>
+                <td style="width: 15%;text-align: center;">
+                      NA
+                </td>
+                <td style="width: 10%;text-align: center;">
+                  <tr >
+                    <img class="cursor-pointer reject-btn-order" (click)="removeBarcode(item,i)"
+                      src="../../../../../assets/img/times-circle-regular.svg" disabled alt="" matTooltip="Reject">
+                  </tr>
+
+                </td>
+                </tr>
+                <div *ngIf="dataChild.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+          <div class="row">
+            <div class="col-md-5 col-lg-5 component-heading p-1">
+              <!-- <div class=row>
+            <div class="col-md-6 col-lg-6 text-right component-heading p-1">Assinged:
+              {{this.itemDetails.quantity-barcodeLength}}</div>
+            <div class="col-md-6 col-lg-6 text-right component-heading p-1">Shortage:
+              {{this.itemDetails.quantity- (this.itemDetails.quantity-barcodeLength)}}</div>
+          </div> -->
+            </div>
+            <div class="col-md-7 col-lg-7">
+              <div class="row float-right">
+                <div class="cancel">
+                  <div class="p-3">
+                    <button type="submit" class="cancel-btn cursor-pointer px-2" (click)="cancelAssign()">Cancel</button>
+                  </div>
+                </div>
+                <div class="assign">
+                  <div class="p-3">
+                    <button type="submit" [disabled]='!printInvoice.executive_id' class="create-btn cursor-pointer"
+                      (click)="assignSelected()">Assign
+                      Selected</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="data.type === 'View'">
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 component-heading">
+        <h3>Parent Order No: {{itemDetails.invoiceNo}}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="ongoing-purchase-order p-10 m-lg-4">
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Name:
+      </div>
+      <div class="col-md-3 col-lg-3 break-word">
+        {{itemDetails.customer.customerName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Amount:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.value}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer mobile no:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerPhNo}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        No.of Quantity:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.quantity}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Village name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerVillageName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Saheli Name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.saheli.firstName}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Recieved date:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.orderDate | date}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Parent Order No:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.invoiceNo}}
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-5 col-lg-5 component-heading">
+        <h3>Order Details:</h3>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <!-- <div class="submit-block" *ngIf="!isEdit">
+          <button type="submit" class="reject-order-btn cursor-pointer"
+            (click)="rejectSelected()">&nbsp;Reject-Selected&nbsp;</button>
+        </div> -->
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="submit-block" *ngIf="isEdit">
+          <button type="submit" class="cancel-btn cursor-pointer" (click)="cancel()">Cancel</button>
+        </div>
+
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <!-- <div class="submit-block" *ngIf="!isEdit">
+          <button type="submit" class="create-btn cursor-pointer" (click)="makeEdit()">Edit Order</button>
+        </div> -->
+        <div class="submit-block" *ngIf="isEdit">
+          <button type="submit" class="create-btn cursor-pointer" (click)="saveOrder()">Save</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-card mt-20">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <!-- <th class="text-right" *ngIf="!isEdit">
+                  <mat-checkbox (change)="selectAll($event)" [checked]="selectCheck" matTooltip="Select/Deslect all">
+                  </mat-checkbox>
+                </th> -->
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item.header}}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 47vh;">
+              <tbody>
+                <tr *ngFor="let item of dataChild.records; let i=index;">
+                  <!-- <td class="text-right" *ngIf="!isEdit">
+                  <mat-checkbox [checked]="item.checked" [disabled]="item.isPresent" (change)="updateCheck($event,i)"
+                    matTooltip="{{(item.isPresent && !item.checked)?'Product Disabled':''}}">
+                  </mat-checkbox>
+                </td> -->
+                  <td>
+                    {{ item.order_code}}
+                  </td>
+                  <td matTooltip="{{item.product_detail.title}}">
+                    <img class="image-show" src="{{getImg(item.product_detail.images)}}" alt="">
+                    {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+                  </td>
+                  <td>
+                    <img class="quantity-icon cursor-pointer" src="assets/img/minus-square-solid.svg" alt=""
+                      *ngIf="isEdit" (click)="quantityChange(item,'minus',i)">
+                    &nbsp;{{ item.quantity}}&nbsp;
+                    <img class="quantity-icon cursor-pointer" src="assets/img/plus-square-solid.svg" alt=""
+                      *ngIf="isEdit" (click)="quantityChange(item,'plus',i)">
+                  </td>
+                  <td>
+                    {{ item.product_detail.delivery_price}}
+                  </td>
+                  <td>
+                    {{ item.value}}
+                  </td>
+                </tr>
+                <div class="text-right p-2">
+                  <h4> Total Amount : ₹ {{itemDetails.value}}</h4>
+                </div>
+                <div *ngIf="dataChild.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="data.type === 'Ongoing' || data.type==='Rejected' || data.type=== 'Completed' || data.type === 'Dispatched' || data.type === 'Delivered' || data.type === 'RTS' || data.type === 'Could not deliver'">
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 component-heading">
+        <h3>Parent Order No: {{dataChild[0]?dataChild[0].order_code:'NA'}}</h3>
+      </div>
+
+    </div>
+  </div>
+  <div class="ongoing-purchase-order p-10 m-lg-4">
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Name:
+      </div>
+      <div class="col-md-3 col-lg-3 break-word">
+        {{itemDetails.customer.customerName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Amount:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.totalPrice}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer mobile no:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerPhNo}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        No.of Quantity:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.quantity}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Village name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerVillageName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Assigned :
+      </div>
+      <div class="col-md-3 col-lg-3" *ngIf="itemDetails.executive_assign_date == 'NA'">
+        {{itemDetails.executive_assign_date}}
+      </div>
+      <div class="col-md-3 col-lg-3" *ngIf="itemDetails.executive_assign_date !== 'NA'">
+        {{itemDetails.executive_assign_date | date}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Warehouse Name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.warehouseName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Invoice No:
+      </div>
+      <div class="col-md-3 col-lg-3" *ngIf="dataChild[0]?.parent_order.invoice_code !== null">
+        {{dataChild[0]?dataChild[0].parent_order.invoice_code:'NA'}}
+      </div>
+      <div class="col-md-3 col-lg-3" *ngIf="dataChild[0]?.parent_order.invoice_code == null">
+        NA
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Saheli Name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.saheli.firstName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        OE Name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.saheliCoordinator.firstName}}
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-5 col-lg-5 component-heading">
+        <h3>Order Details</h3>
+      </div>
+      <div class="col-md-3 col-lg-3">
+        <!-- <div class="submit-block" *ngIf="!isEdit">
+          <button type="submit" class="reject-order-btn cursor-pointer"
+            (click)="rejectSelected()">&nbsp;Reject-Selected&nbsp;</button>
+        </div> -->
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="submit-block" *ngIf="isEdit">
+          <button type="submit" class="cancel-btn cursor-pointer" (click)="cancel()">Cancel</button>
+        </div>
+
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <!-- <div class="submit-block" *ngIf="data.type === 'Ongoing'">
+          <button type="submit" class="cancel-btn cursor-pointer" (click)="onGoingInvoice()">Invoice</button>
+        </div> -->
+        <div class="submit-block" *ngIf="isEdit">
+          <button type="submit" class="create-btn cursor-pointer" (click)="saveOrder()">Save</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-card mt-20">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>
+                  Product Name
+                </th>
+                <th>
+                  Quantity
+                </th>
+                <th>
+                  Total Value
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 47vh;">
+              <tbody>
+                <tr *ngFor="let item of dataChild; let i=index;">
+                  <td matTooltip="{{item.product_detail.title}}">
+                    <img class="image-show" src="{{getImg(item.product_detail.images)}}" alt="">
+                    {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+                  </td>
+                  <td>
+                    {{item.quantity}}
+                  </td>
+                  <td>
+                    {{ item.value}}
+                  </td>
+                </tr>
+                <div class="text-right p-2">
+                  <h4> Total Amount : ₹ {{itemDetails.totalPrice}}</h4>
+                </div>
+                <div *ngIf="dataChild.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="data.type === 'C'">
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-10 col-lg-10 component-heading">
+        <h3>TID: {{itemDetails.tid}}</h3>
+      </div>
+      <div class="col-md-2 col-lg-2 txt-right">
+        <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+      </div>
+    </div>
+  </div>
+  <div class="ongoing-purchase-order p-10 m-lg-4">
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Name:
+      </div>
+      <div class="col-md-3 col-lg-3 break-word">
+        {{itemDetails.customer.customerName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Mobile No:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.payment ? itemDetails.payment.ref_obj ? itemDetails.payment.ref_obj.customer_mobile: 'NA': 'NA'}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Tracking No:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.payment ? itemDetails.payment.ref_obj ? itemDetails.payment.ref_obj.response.data.bank_ref_num: 'NA': 'NA'}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Client Reference ID:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.payment ? itemDetails.payment.ref_obj ? itemDetails.payment.ref_obj.client_ref_id: 'NA': 'NA'}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Narratatation:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.payment ? itemDetails.payment.ref_obj ? itemDetails.payment.ref_obj.response ? itemDetails.payment.ref_obj.response.message: 'NA': 'NA': 'NA'}}
+      </div>
+      <hr>
+    </div>
+  </div>
+</div>
+<div *ngIf="data.type === 'Hold'">
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 component-heading">
+        <h3>Parent Order No: {{itemDetails.invoiceNo}}</h3>
+      </div>
+
+    </div>
+  </div>
+  <div class="ongoing-purchase-order p-10 m-lg-4">
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Name:
+      </div>
+      <div class="col-md-3 col-lg-3 break-word">
+        {{itemDetails.customer.customerName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Amount:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.value}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer mobile no:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerPhNo}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        No.of Quantity:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.quantity}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Customer Village name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.customer.customerVillageName}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Saheli Name:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.saheli.firstName}}
+      </div>
+    </div>
+    <div class="row p-2">
+      <div class="col-md-3 col-lg-3">
+        Recieved date:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.orderDate | date}}
+      </div>
+      <div class="col-md-3 col-lg-3">
+        Parent Order No:
+      </div>
+      <div class="col-md-3 col-lg-3">
+        {{itemDetails.invoiceNo}}
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="ongoing-purchase-order">
+    <div class="row">
+      <div class="col-md-5 col-lg-5 component-heading">
+        <h3>Order Details:</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-card mt-20">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <!-- <th class="text-right" *ngIf="!isEdit">
+                  <mat-checkbox (change)="selectAll($event)" [checked]="selectCheck" matTooltip="Select/Deslect all">
+                  </mat-checkbox>
+                </th> -->
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{item.header}}
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 47vh;">
+              <!-- <tbody>
+                <tr *ngFor="let item of dataChild.records; let i=index;">
+                  <td>
+                    {{ item.order_code}}
+                  </td>
+                  <td matTooltip="{{item.product_detail.title}}">
+                    <img class="image-show" src="{{item.product_detail.images[0]}}" alt="">
+                    {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+                  </td>
+                  <td>
+                    {{ item.quantity}}
+                  </td>
+                  <td>
+                    {{ item.product_detail.delivery_price}}
+                  </td>
+                  <td>
+                    {{ item.value}}
+                  </td>
+                </tr>
+                <div class="text-right">
+                  <h4> Total Amount : ₹ {{itemDetails.value}}</h4>
+                </div>
+                <div *ngIf="dataChild.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div> -->
+
+              <tbody>
+                <tr *ngFor="let item of dataChild.records; let i=index;">
+                  <td>
+                    {{ item.order_code}}
+                  </td>
+                  <td matTooltip="{{item.product_detail.title}}">
+                    <img class="image-show" src="{{getImg(item.product_detail.images)}}" alt="">
+                    {{(item.product_detail.title.length>20)?(item.product_detail.title | slice:0:20)+'...':item.product_detail.title}}
+                  </td>
+                  <td>
+                    {{ item.quantity}}
+                  </td>
+                  <td>
+                    {{ item.product_detail.delivery_price}}
+                  </td>
+                  <td>
+                    {{ item.value}}
+                  </td>
+                </tr>
+                <div class="text-right p-2">
+                  <h4> Total Amount : ₹ {{itemDetails.value}}</h4>
+                </div>
+                <div *ngIf="dataChild.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

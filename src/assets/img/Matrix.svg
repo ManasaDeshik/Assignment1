@@ -1,0 +1,13 @@
+<svg id="Matrix" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect id="Rectangle_3" data-name="Rectangle 3" width="48" height="48" fill="none"/>
+  <g id="Group_814" data-name="Group 814" transform="translate(14936 749)">
+    <rect id="Rectangle_1598" data-name="Rectangle 1598" width="27" height="27" transform="translate(-14925 -738)" fill="none"/>
+    <rect id="Rectangle_1599" data-name="Rectangle 1599" width="20" height="20" rx="2" transform="translate(-14921 -735)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_73" data-name="Line 73" y2="4" transform="translate(-14905 -736)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_74" data-name="Line 74" y2="4" transform="translate(-14916 -736)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_75" data-name="Line 75" x2="20" transform="translate(-14921 -729)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <rect id="Rectangle_1600" data-name="Rectangle 1600" width="12" height="12" transform="translate(-14917 -728)" fill="none"/>
+    <circle id="Ellipse_32" data-name="Ellipse 32" cx="5" cy="5" r="5" transform="translate(-14916 -727)" fill="none" stroke="#000" stroke-width="1"/>
+    <path id="Path_483" data-name="Path 483" d="M128,72v2.378h2.378" transform="translate(-15038.862 -795.829)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>

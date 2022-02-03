@@ -1,0 +1,38 @@
+<div class="table-card mt-10 role-managment-card">
+    <div class="table-responsive" style="overflow: hidden;height:55vh !important">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th *ngFor="let item of tableHeaders" [ngStyle]="{ 'width' : item.width }">
+                        <div class="label-text font-weight-bold table-header">
+                            {{item.header}}
+                            <div class="sorting-icons" *ngIf="item.sortText">
+                                <img class="arrow-up" src="assets/img/table-arrow-down.svg"
+                                    (click)="sorting(item.sortText,1)" alt="">
+                                <img class="arrow-down" src="assets/img/table-arrow-up.svg"
+                                    (click)="sorting(item.sortText, -1)" alt="">
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <perfect-scrollbar style="max-width: 100vw; max-height: 45vh;">
+                <tbody class="role-managment-body">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <div *ngIf="listDownloads1.totalRecords === 0" class="no-data">
+                        <div>
+                            No Data Found
+                        </div>
+                    </div>
+                </tbody>
+            </perfect-scrollbar>
+        </table>
+    </div>
+</div>

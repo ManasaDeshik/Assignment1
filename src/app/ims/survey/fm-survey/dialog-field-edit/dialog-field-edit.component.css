@@ -1,0 +1,22 @@
+.mat-dialog-content{
+    height: 100%;
+    max-height: 75vh;
+}
+.btn-outline-orange{
+    border: 1px solid #ef7f1a;
+    border-radius: 25px;
+    background: #fff 0% 0% no-repeat padding-box; 
+    box-shadow: 0 0px 3px 0 #ef7f1a; color:#EF7F1A !important;
+}
+.btn-orange{
+    border-radius: 25px;
+    color: white;
+    
+}
+
+.w-120{
+    width: 130px;
+  }
+  .create-btn{
+    height: 35px;
+  }

@@ -1,0 +1,293 @@
+<div class="list-stocks">
+  <div class="row custom-row-col">
+    <div class="row col-md-2 col-lg-2 col-xl-2 component-heading">
+      Stocks
+    </div>
+    <div class="col-md-10 col-lg-10 col-xl-5  total-stock-section mt-1">
+      <div class="row">
+      <div class="col-md-4 col-lg-4 col-xl-4 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <span class="txt-info">Total Stock :</span> <span class="value">{{total_stocks}}</span>
+      </div>
+      <div class="col-md-4 col-lg-4 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <span class="txt-info"> Total Demo Stock :</span> <span class="value">{{total_demo}}</span>
+      </div>
+      <div class="col-md-4 col-lg-4 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <span class="txt-info"> Sold Stock :</span> <span class="value">{{sold_quantity}}</span>
+      </div>
+    </div>
+    </div>
+    <div class="row col-md-12 col-lg-12 col-xl-5 justify-content-end mt-2 mt-lg-0 mt-xl-0">
+      <div class="d-flex flex-wrap flex-md-nowrap flex-lg-nowrap flex-xl-nowrap col-12 col-xl-12 col-md-12 col-lg-12 justify-content-end">
+      <!-- <div class="col-md-2 col-lg-2  reduce-width center">
+        <button class="create-btn" (click)="makeActive('stock/franchise/list-franchise','0')"
+          *ngIf="permissionSetsModule.franchise.read">
+          Stock Position
+        </button>
+      </div> -->
+      <div class="pr-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <button class="create-btn " (click)="makeActive('stock/franchise/list-franchise','1')"
+          *ngIf="permissionSetsModule.franchise.read">
+          Franchise
+        </button>
+      </div>
+      <div class="pr-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <button class="create-btn" (click)="makeActive('stock/manufacturer/list-manufacturer','2')"
+          *ngIf="permissionSetsModule.manufacturer.read">
+          Manufacturer
+        </button>
+      </div>
+      <div class="pr-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <button class="create-btn" (click)="makeActive('stock/ongoing-transit','3')"
+          *ngIf="permissionSetsModule.transportation.read">
+          Ongoing Transit's
+        </button>
+      </div>
+      <div class="pr-1 pl-0 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+        <button class="create-btn" (click)="makeActive('stock/ongoing-orders','4')"
+          *ngIf="permissionSetsModule.purchaseorder.read">
+          Ongoing PO's
+        </button>
+      </div>
+    </div>
+    </div>
+  </div>
+<div class="d-none d-xl-block d-lg-block d-md-block">
+  <div class="row filter-row">
+    <div class="col-md-6 col-xl-3 col-lg-3 mt-1 mt-lg-0 mt-xl-0 mt-md-1">
+      <ng-select class="ng-select-custom-drop-down p-0" [items]="allowedStockWarehouse" bindLabel="name" id="currentWarehouse"
+        [clearable]="false" placeholder="Select Warehouse" name="warehouseList" [(ngModel)]="currentWarehouse"
+        (change)="selectedFieldKey($event)" (search)="searchFieldKey($event)" required>
+      </ng-select>
+    </div>
+    <div class="col-md-6  col-xl-3 col-sm-3 col-lg-3 search-position mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+      <input type="text" class="form-control" placeholder="Search Item" (keyup)="searchStocks($event)">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div>
+    <!-- <div class="col-md-3 col-lg-3 search-position">
+      <input type="text" class="form-control" placeholder="Village" (keyup)="searchVillage($event)">
+      <img src="assets/img/icon_search.svg" alt="">
+    </div> -->
+    <div class="col-md-6 col-xl-2 col-lg-2 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+      <ng-select class="ng-select-custom-drop-down p-0" bindLabel="name" [items]="filterPurchaseOrder"
+        (change)="selectedFilterKey($event)" placeholder="Filter">
+      </ng-select>
+    </div>
+    <div class="col-md-6 col-xl-3 col-lg-3 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+      <ng-select class="ng-select-custom-drop-down p-0" bindLabel="name" [items]="categoryList"
+        (change)="selectedCategoryKey($event)" (search)="searchCategoryKey($event)" placeholder="Category">
+      </ng-select>
+    </div>
+    <div class="col-md-12 col-lg-1 col-xl-1 col-sm-1 mt-1 mt-lg-0 mt-xl-0 mt-md-0">
+      <button (click)="searchFilter()" class="assignee-btn  float-right" mat-button>Search</button>
+    </div>
+    <!-- <div class="col-md-1 col-lg-1 col-sm-1 left-10">
+      <button (click)="resetAll()" class="assignee-btn" mat-button>Clear filter</button>
+    </div> -->
+  </div>
+</div>
+  <div class="row view-list">
+    <div class="col-md-12 col-lg-12 p-0">
+      <div class="row  no-margin br-btm-black  items-list">
+        <div class="d-flex col-md-11 col-lg-11 align-center">
+          <div class="col-md-2 col-lg-2 cursor-pointer" [ngClass]="selectedList === 'allitems'? 'active':' '"
+            (click)="changeTab('allitems',1)">
+            <span *ngIf="viewType === 'grid'">In Stocks</span>
+            <span *ngIf="viewType === 'table'">All Items</span>
+
+          </div>
+          <div class="col-md-10 col-lg-10 cursor-pointer" [ngClass]="selectedList === 'outofstocks'? 'active':' '"
+            (click)="changeTab('outofstocks',2)">
+            Out Of Stocks
+          </div>
+        </div>
+        <div class="d-none d-xl-block d-lg-block col-md-1 col-lg-1">
+        <div class="row  grid-table-view-list">
+          <div class="col-md-4 col-lg-4 cursor-pointer" (click)="gridTable('grid')">
+            <img src="assets/img/squares.png" alt="">
+          </div>
+          <div class="col-md-4 col-lg-4 cursor-pointer" (click)="gridTable('table')">
+            <img src="assets/img/menu.png" alt="">
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="mt-20 grid-view" *ngIf="viewType === 'grid'">
+        <perfect-scrollbar class="stock-list-scroll" >
+          <div class="row no-margin pb-1">
+            <div class="col-lg-4 col-xl-3 col-md-6 mt-2 pl-0 view-records-layout" 
+              *ngFor="let item of alItems.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:alItems.totalRecords}">
+              
+              <div class="row no-margin"
+                [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? 'in-of-stock-items':' out-of-stock-items'">
+                <div class="col-lg-4 col-md-4 p-2 txt-center"
+                  [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? '':'out-of-stock-img'">
+                  <img src="{{item.image[0]}}" alt="" class="img-height">
+                </div>
+                <div class="col-lg-8 col-md-8 p-2 product-details"
+                  [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? '':'out-of-stock-info'">
+                  <div class="row mt-5-px">
+                    <div class=" product-name pr-0" matTooltip="{{item.title}}"
+                      [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? 'col-md-12 col-lg-12':'col-md-6 col-lg-6'">
+                      {{(item.title.length>25)?(item.title | slice:0:25)+'...':item.title}}
+                    </div>
+                    <div class="col-md-6 col-lg-6 out-of-stock-warning" *ngIf="selectedList === 'outofstocks'">
+                      <div class="row pr-2">
+                        <div class="col-md-12 col-lg-12 p-0 txt-right">
+                          Out of Stock <span><img src="../../../../assets/img/exclamation-mark.png" alt=""></span>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row product-price bold-txt mt-5-px">
+                    <div class="col-md-12 col-lg-12 pr-0">
+                      Rs. {{item.deliveryPrice}}
+                    </div>
+                  </div>
+                  <div class="row product-view mt-5-px">
+                    <div class="col-md-12 col-lg-12 pr-0 cursor-pointer"
+                      *ngIf="selectedList === 'service' || selectedList === 'allitems'"
+                      (click)="route('stock/product-details',item.product_id)">
+                      View Details
+                    </div>
+                    <div class="col-md-12 col-lg-12 pr-0 cursor-pointer" *ngIf="item.disabled">
+                      Disabled
+                    </div>
+                  </div>
+                </div>
+                <div class="d-xl-flex d-md-flex px-2 col-12 product-view my-2 product-details-info align-center"  [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? 'justify-content-between ':'justify-content-end'">
+                  <div class="pr-0"
+                    *ngIf="selectedList === 'service' || selectedList === 'allitems'">
+                    <span class="in-stock">
+                      In Stock
+                    </span>
+                    <span class="in-stock-quanity ">
+                      {{item.itemCount}}
+                    </span>
+                  </div>
+                  <div class="p-0 cursor-pointer"
+                   >
+                    <div class="row share-stock no-margin">
+                      <div *ngIf="selectedList === 'outofstocks'"
+                       >
+
+                      </div>
+                      <div class="p-0 mr-2" *ngIf="(selectedList === 'service' || selectedList === 'allitems')  && currentWarehouse !== 'All' && item.type === 0 && !item.disabled"
+                        >
+                        <button *ngIf="(permissionSetsModule.stockmanagement.write || permissionSetsModule.stockmanagement.edit)"
+                          
+                          class="share-stock-btn" (click)="shareStock('stock/create-transfer-order',item)"> Share
+                          Stock</button>
+                      </div>
+                      <div class="p-0"
+                        >
+                        <button (click)="purchaseOrderRoute(item.product_id)"
+                          *ngIf="((permissionSetsModule.stockmanagement.write || permissionSetsModule.stockmanagement.edit) && item.type === 0)&& !item.disabled"
+                          [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? 'in-stock-place-order-btn':'place-order-btn'">
+                          Place
+                          a
+                          Order</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                  <!-- <div class="row product-view mt-5-px">
+                    <div class="col-md-8 col-lg-8 pr-0">
+                      <span class="in-stock">
+                        Total Spares <span class="in-stock-quanity ">
+                          {{item.spare_count}}
+                        </span>
+                      </span>
+
+                    </div>
+                  </div> -->
+                
+                
+             
+            </div>
+            <div *ngIf="alItems.totalRecords === 0" class="no-data">
+              <div>
+                No Data Found
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <div class="mt-20 table-view" *ngIf="viewType === 'table'">
+        <div class="table-card all-items">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let item of tableHeaders">
+                    <div class="label-text">
+                      {{item.header}}
+                      <div class="product-sorting-icons" *ngIf="item.sortText">
+                        <img class="arrow-up" src="../../../../assets/img/table-arrow-down.svg"
+                          (click)="sorting(item.sortText,1)" alt="">
+                        <img class="arrow-down" src="../../../../assets/img/table-arrow-up.svg"
+                          (click)="sorting(item.sortText, -1)" alt="">
+                      </div>
+                    </div>
+                  </th>
+                  <!-- <th>
+                    view
+                  </th> -->
+                  <th *ngIf="permissionSetsModule.transportation.read || permissionSetsModule.purchaseorder.read">
+                    <div class="label-text">
+                      Activity
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <perfect-scrollbar style="max-width: 100vw;" class="out-of-stock-scroll">
+                <tbody>
+                  <tr
+                    *ngFor="let item of alItems.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:alItems.totalRecords}">
+                    <td>
+                      {{ item.title }}
+                    </td>
+                    <td>
+                      {{ item.deliveryPrice}}
+                    </td>
+                    <td *ngIf="selectedList === 'allitems'">
+                      {{ item.itemCount}}
+                    </td>
+                    <td class="product-view cursor-pointer" (click)="route('stock/product-details',item.product_id)"
+                      *ngIf="selectedList == 'allitems'">
+                      View Details
+                    </td>
+                    <td *ngIf="permissionSetsModule.transportation.read || permissionSetsModule.purchaseorder.read" style="padding-left: 0px;">
+                      <span class="share-stock-btn cursor-pointer"
+                        (click)="shareStock('stock/create-transfer-order',item)"
+                        *ngIf="(selectedList === 'service' || selectedList === 'allitems') && permissionSetsModule.transportation.read && currentWarehouse !== 'All' && item.type === 0">share
+                        Stock </span>
+                      <span class="cursor-pointer"
+                        *ngIf="(permissionSetsModule.purchaseorder.read && item.type === 0)&& !item.disabled"
+                        [ngClass]="selectedList === 'service' || selectedList === 'allitems' ? 'in-stock-place-order-btn':'place-order-btn'"
+                        (click)="purchaseOrderRoute(item.product_id)"> place a
+                        order</span>
+                    </td>
+                  </tr>
+                  <div *ngIf="alItems.totalRecords === 0" class="no-data">
+                    <div>
+                      No Data Found
+                    </div>
+                  </div>
+                </tbody>
+              </perfect-scrollbar>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <pagination-controls class="pagination-card stock-paginatipon" *ngIf="alItems.totalRecords > 12" previousLabel=""
+        id="1" nextLabel="" (pageChange)="getPage($event)">
+      </pagination-controls>
+    </div>
+
+
+  </div>
+
+</div>

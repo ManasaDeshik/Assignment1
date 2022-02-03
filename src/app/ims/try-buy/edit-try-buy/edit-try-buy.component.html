@@ -1,0 +1,119 @@
+<form name="form" #userForm="ngForm">
+  <div class="card mt-40 create-form-card">
+    <div class="row no-margin p-25">
+      <div class="details">
+        Edit Try & Buy
+      </div>
+    </div>
+    <perfect-scrollbar style="max-width: 100vw; max-height: 60vh;">
+      <div class="content-block" *ngIf="showData">
+        <div class="row">
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="leadName" class="required">Customer Name</label>
+                <input type="text" class="form-control" name="leadName" [(ngModel)]="tryAndBuyList.leadName"
+                pattern="^[a-zA-Z0-9.!? ]*$" #leadName="ngModel"
+                  [ngClass]="{ 'is-invalid': leadName.invalid   && (leadName.dirty || leadName.touched)}" required
+                  readonly />
+                <div *ngIf="leadName.invalid   && (leadName.dirty || leadName.touched)" class="invalid-feedback">
+                  <div *ngIf="leadName.errors.required">Customer Name is required</div>
+                  <div *ngIf="leadName.errors.pattern">Please enter a valid Customer Name</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="contactNumber" class="required">Customer Contact Number</label>
+                <input type="text" class="form-control" name="contactNumber" [(ngModel)]="tryAndBuyList.phoneNo"
+                  #contactNumber="ngModel" pattern="^\d{10}$" [maxlength]="10"
+                  [ngClass]="{'is-invalid':contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)}"
+                  required readonly />
+                <div *ngIf="contactNumber.invalid && (contactNumber.dirty || contactNumber.touched)"
+                  class="invalid-feedback">
+                  <div *ngIf="contactNumber.errors.required">Contact Number is required</div>
+                  <div *ngIf="contactNumber.errors.pattern">Please enter a valid Contact Number</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="VLE" class="required">VLE Code</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="vleCode" bindLabel="vle_code"
+                  [clearable]="false" placeholder="Select" name="VLE" (change)="selectedVle($event)" [(ngModel)]="vles"
+                  (search)="searchVleCode($event)" disabled required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="status" class="required">Try & Buy Status</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="orderTabs" bindLabel="name"
+                  [clearable]="false" placeholder="Select" name="status" [searchable]="false" [(ngModel)]="statusInfo"
+                  (change)="selectedStatus($event)" required>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="intrested">Products</label>
+                <ng-select class="select-drop-down col-md-12 col-sm-12 p-0" [items]="intrestedProduct" bindLabel="title"
+                  [clearable]="false" placeholder="Select" name="intrested" [searchable]="false" bindValue="title"
+                  [selectableGroup]="true" (change)="selectedIntrestedProduct($event)" [(ngModel)]="productTitle">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="buyDate">Buying Date</label>
+                <input type="text" class="form-control" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="buyDate"
+                   [(ngModel)]="tryAndBuyList.buying_date" [min]="tryAndBuyList.buying_date" [disabled]="isBuyDateDisabled"
+                   />
+                <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="startDate" class="required">Start Date</label>
+                <input type="text" class="form-control" [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3" name="startDate"
+                  required [(ngModel)]="tryAndBuyList.start_date" [min]="tryAndBuyList.start_date"
+                  (dateTimeChange)="clearEndDate()" readonly />
+                <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-lg-3">
+            <div class="col-md-9 col-lg-8">
+              <div class="form-group">
+                <label name="endDate" class="required">End Date</label>
+                <input type="text" class="form-control" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" name="endDate"
+                  required [(ngModel)]="tryAndBuyList.end_date" [min]="tryAndBuyList.start_date" readonly />
+                <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+  <div>
+    <button class="create-btn" mat-button (click)="updateUser()"
+      [disabled]="!userForm.valid || isSubmit">Update</button>
+  </div>
+</form>

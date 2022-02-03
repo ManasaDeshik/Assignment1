@@ -1,0 +1,141 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+
+
+.mat-standard-chip {
+    @include background-clr($header-text-secondary);
+    @include text-color($clr-white);
+    cursor: pointer;
+}
+
+.inactive-chip-style {
+    @include background-clr($label-clr-primary);
+}
+
+.completed-chip-style {
+    opacity: .2;
+    @include background-clr($header-text-secondary);
+}
+
+.create-btn {
+    height: 33px;
+    border-radius: 8px !important;
+    width: 110px !important;
+}
+
+.help {
+    background-color: white;
+    padding: 7px 22px 0px 23px;
+}
+
+.newHelp {
+    background-color: rgb(228, 228, 228);
+    padding: 8px 12px 8px 20px;
+}
+
+.img-box {
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    width: 107%;
+    min-height: 181px;
+    border-style: dashed;
+}
+
+div.img {
+    margin-top: 30% !important;
+}
+
+.cancel-btn-pd {
+    background-color: white;
+    border-style: solid 2px;
+    border-radius: 10px;
+    width: 95px;
+    height: 35px;
+    border-style: solid 1px black;
+    color: black;
+    outline: none;
+}
+
+.create-btn-pd {
+    background-color: #ef7f1a;
+    border-radius: 10px;
+    width: 95px;
+    height: 35px;
+    border-style: none;
+    color: white;
+    outline: none;
+}
+
+.mt-70 {
+    margin-top: 77px !important;
+}
+
+.arrow-up1 {
+    width: 20px !important;
+    height: 30px !important;
+    margin-right: 40px;
+}
+
+.arrow-down1 {
+    width: 20px !important;
+    height: 30px !important;
+    margin-right: 40px;
+}
+
+.create-btn-en:active,
+.create-btn-en:focus {
+    background-color: #ef7f1a;
+    border-radius: 10px;
+    width: 130px;
+    height: 35px;
+    border-style: none;
+    color: white;
+    outline: none;
+}
+
+.create-btn-hi:active,
+.create-btn-hi:focus {
+    background-color: #ef7f1a;
+    border-radius: 10px;
+    width: 130px;
+    height: 35px;
+    border-style: none;
+    color: white;
+    outline: none;
+}
+
+.create-btn-en {
+    // background-color: #ef7f1a;
+    border-radius: 10px;
+    width: 130px;
+    height: 35px;
+    // border-style: none;
+    // color: white;
+    // outline: none;
+}
+
+.create-btn-hi {
+    // background-color: #ef7f1a;
+    border-radius: 10px;
+    width: 130px;
+    height: 35px;
+    // border-style: none;
+    // color: white;
+    // outline: none;
+}
+
+.create-btn {
+    width: 80px !important;
+}
+
+[contenteditable=true] {
+border : solid 1px black !important;
+}
+
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+    }
+    .editabletable {
+        border-spacing: 10px !important;
+    }

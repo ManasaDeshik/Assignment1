@@ -1,0 +1,71 @@
+<div class="m-0 container-font" style="margin-left: 0px;">
+  <div class="w-100" >
+    <div class="d-flex col-12 justify-content-between mb-4">
+      <div class="titleText">
+        <span style="margin-left: 0px;
+        margin-right: 20px;">
+          <img class="cursor-pointer" src="../../../../assets/img/left-arrow.svg" alt="left-arrow" (click)="goBack()" 
+            routerLinkActive='active'>
+        </span>
+       <b *ngIf="urlsegment[2].path == 'edit-survey'">{{surveydata.surveyName}}</b>
+       <b *ngIf="urlsegment[2].path == 'create-survey'">New Survey</b>
+      </div>
+      <div class="">
+        <div class="d-flex">
+          <div><!--*ngIf="permissionSets.write">-->
+            <button class="create-btn w-120 mr-4" style="box-shadow: 0 0px 0px 0 #ef7f1a;" (click)="previousClicked()" *ngIf="tabIndex==1 || tabIndex==2" mat-button>Previous</button>
+          </div>
+    <div><!--*ngIf="permissionSets.write">-->
+      <button class="create-btn w-120 mr-4" style="box-shadow: 0 0px 0px 0 #ef7f1a;" (click)="saveAndNextClicked($event)" *ngIf="!viewOnly" mat-button>Save and next</button>
+    </div>
+    <div><!--*ngIf="permissionSets.write">-->
+      <button class="create-btn w-120 mr-4" style="box-shadow: 0 0px 0px 0 #ef7f1a;" (click)="saveAndNextClicked($event)" *ngIf="viewOnly" mat-button>Next</button>
+    </div>
+    <div><!--*ngIf="permissionSets.write">-->
+        <button class="create-btn w-120 mr-3" style="background: #AFAFAF 0% 0% no-repeat padding-box; box-shadow: 0 0px 0px 0 #ef7f1a;"(click)="saveAsDraftClicked($event)" *ngIf="!viewOnly" mat-button>Save as Draft</button>
+      </div>
+      <div><!--*ngIf="permissionSets.write">-->
+        <button class="create-btn w-120" style="background: #F5F7FA 0% 0% no-repeat padding-box; box-shadow: 0 0px 3px 0 #ef7f1a; color:#EF7F1A !important;" (click)="cancelClicked()" mat-button>Cancel</button>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+	<div class="d-flex w-100">
+        <div class="col-2">
+            <div class="bhoechie-tab-menu">
+              <div class="list-group">
+                <a style="padding-top: 20px;" class="list-group-item" [ngClass]="{ 'active': (tabIndex ==0)}">
+                  <h6 class="glyphicon glyphicon-plane"><b>Step 1</b></h6>
+                  <p>Creation</p>
+                </a>
+                <a class="list-group-item" [ngClass]="{ 'active': (tabIndex ==1)}">
+                  <h6 class="glyphicon glyphicon-road"><b>Step 2</b></h6>
+                  <p>Survey Builder</p>
+                </a>
+                <!--<a class="list-group-item" [ngClass]="{ 'active': (tabIndex ==3)}">
+                  <h6 class="glyphicon glyphicon-home" click = confirm() ><b>Step 3</b></h6>
+                  <p>Rules</p>
+                </a>-->
+                <a class="list-group-item" [ngClass]="{ 'active': (tabIndex ==2)}">
+                  <h6 class="glyphicon glyphicon-home" click = confirm() ><b>Step 3</b></h6>
+                  <p>Confirmation</p>
+                </a>
+                <a  class="list-group-item" style="height: 85vh;">
+                    <h6 class="glyphicon glyphicon-home" ></h6>
+                    <p></p>
+                  </a>
+              </div>
+            </div>
+          </div>
+          <div class="middlepane">
+            <app-create-survey #createSurvey [surveydata]="surveydata" [surveyIdForEdit]="surveyIdForEdit" [viewOnly]="viewOnly" (refresh)="onTabClick($event.status)" *ngIf="tabIndex === 0"></app-create-survey>
+            <app-builder #builder [prevClicked]="previous_Clicked" [surveydata]="surveydata" [viewOnly]="viewOnly" [surveyId]="survey_temp" (refresh)="onTabClick($event.status)" *ngIf="tabIndex === 1"></app-builder>
+            <!--<app-rules [prevClicked]="previous_Clicked" [surveydata]="surveydata" [viewOnly]="viewOnly" [surveyId]="survey_temp" (refresh)="onTabClick($event.status)" *ngIf="tabIndex === 3"></app-rules>-->
+            <app-confirmation #confirmSurvey [surveydata]="surveydata" [viewOnly]="viewOnly" [surveyid]="surveyid" (refresh)="onTabClick($event.status)"  *ngIf="tabIndex === 2"></app-confirmation>
+          </div>
+      
+    </div>
+    
+
+  </div> 

@@ -1,0 +1,125 @@
+@import "../../../styles/custom-palette.scss";
+
+.stock-product-info-container {
+    margin: 10px 0;
+    @include background-clr($clr-white);
+    height: auto;
+    // height: calc(100vh - (70px + 40px + 200px + 40vh));
+    @include border-single-radius(5px);
+    @include box-shadows(0, 2px, 6px, 0, rgba(0, 0, 0, 0.04));
+
+    //first child of container
+    >div:first-child {
+        padding: 20px;
+
+        //first child of first row class
+        >div:first-child {
+            .product-img-block {
+                border: 1px solid $info-text-clr;
+                height: 100%;
+                // height: calc(100vh - (70px + 40px + 200px + 40vh + 40px));
+               // height: calc(100vh - (70px + 40px + 200px + 40vh + 40px));
+                position: relative;
+                width: 80%;
+            }
+        }
+
+        //second child of first row class
+        >div:nth-child(2) {
+            .product-info-content-block {
+                position: relative;
+
+                .block-1 {
+                    .form-group {
+                        label {
+                            text-transform: uppercase;
+                            font-weight: 600;
+                            font-size: 12px;
+                            @include text-color($create-form-text-clr);
+                        }
+
+                        .form-control {
+                            @include border-single-radius(2px);
+                        }
+
+                        &.share-stock-btn-layout {
+                            font-size: 16px;
+                            display: flex;
+                            justify-content: space-around;
+                            @include text-color($border-clr-primary);
+
+                            button {
+                                border: none;
+                                outline: none;
+                                font-size: 10px;
+                                @include background-clr(#3b86ff);
+                                @include text-color($clr-white);
+                                width: 80px;
+                                padding: 10px 0;
+                                border-radius: 5px;
+                            }
+                        }
+
+                    }
+                }
+
+                .block-2 {
+                    .company-info-block {
+                        font-size: 14px;
+
+                        >div:first-child {
+                            font-size: 24px;
+                        }
+                    }
+
+                    .invoice-info-block {
+                        font-size: 14px;
+
+                        >div:first-child {
+                            font-size: 24px;
+                        }
+                    }
+
+                    .variants-info-block {
+                        font-size: 20px;
+
+                        .variants-box {
+                            border: 1px solid $info-text-clr;
+                            height: 50px;
+                            width: 80%;
+                            position: relative;
+                        }
+                    }
+                }
+            }
+        }
+
+        .img-box {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+            img {
+                width: 5vw;
+            }
+        }
+    }
+}
+
+
+/** media screens **/
+@media screen and (min-height: 1000px) and (max-height: 1080px) {
+    .stock-product-info-container {
+        height: 30vh !important;
+
+        >div:first-child {
+            .product-img-block {
+                height: calc(30vh - 40px) !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<svg id="Check_Box" data-name="Check Box" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect id="Rectangle_3" data-name="Rectangle 3" width="48" height="48" fill="none"/>
+  <g id="Group_805" data-name="Group 805" transform="translate(14676.438 1267.437)">
+    <g id="Rectangle_1630" data-name="Rectangle 1630" transform="translate(-14665.438 -1254.437)" fill="none" stroke="#000" stroke-width="0.5">
+      <rect width="10.007" height="10.007" stroke="none"/>
+      <rect x="0.25" y="0.25" width="9.507" height="9.507" fill="none"/>
+    </g>
+    <g id="Rectangle_1631" data-name="Rectangle 1631" transform="translate(-14665.438 -1241.57)" fill="none" stroke="#000" stroke-width="0.5">
+      <rect width="10.007" height="10.007" stroke="none"/>
+      <rect x="0.25" y="0.25" width="9.507" height="9.507" fill="none"/>
+    </g>
+    <path id="Path_499" data-name="Path 499" d="M4.547,12.837l1.807,1.807,4.276-4.276" transform="translate(-14668.021 -1261.938)" fill="none" stroke="#000" stroke-width="0.5"/>
+    <line id="Line_93" data-name="Line 93" x2="13.581" transform="translate(-14653.643 -1252.65)" fill="none" stroke="#000" stroke-width="1"/>
+    <line id="Line_96" data-name="Line 96" x2="13.581" transform="translate(-14653.643 -1239.069)" fill="none" stroke="#000" stroke-width="1"/>
+    <line id="Line_94" data-name="Line 94" x2="7.863" transform="translate(-14653.643 -1248.361)" fill="none" stroke="#000" stroke-width="1"/>
+    <line id="Line_95" data-name="Line 95" x2="7.863" transform="translate(-14653.643 -1234.78)" fill="none" stroke="#000" stroke-width="1"/>
+  </g>
+</svg>

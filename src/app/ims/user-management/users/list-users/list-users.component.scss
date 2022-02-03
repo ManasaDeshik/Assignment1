@@ -1,0 +1,40 @@
+table {
+  thead {
+    tr {
+      th {
+        &:last-child {
+          .sorting-icons {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  tbody {
+    td {
+      vertical-align: middle;
+      padding: 12px 10px;
+
+      .row {
+        .delete-edit {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-height: 600px) and (max-height: 800px) {
+
+  table {
+    tbody {
+      td {
+        .row {
+          font-size: 12px;
+
+        }
+      }
+    }
+  }
+}

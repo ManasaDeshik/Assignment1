@@ -1,0 +1,24 @@
+<div class="container-fluid row">
+        <div class="col-md-6">
+           <h4>Download Management</h4>
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-12 pl-2">
+            <div class="card w-100">
+                <div class="card-body">
+                    <mat-tab-group (selectedTabChange)="tabChange($event)">
+                        <mat-tab label="Inprogress"> 
+                            <div class="mt-4">
+                                <app-download-table (pagination)="getPage($event,1)" [tableHeaders]="tableHeaders" [listDownloads]="listDownloads"></app-download-table>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Completed"> 
+                            <div class="mt-4">
+                                <app-download-table  (pagination)="getPage($event,2)" [tableHeaders]="tableHeaders" [listDownloads]="listDownloads"></app-download-table>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+              </div>
+        </div>
+</div>

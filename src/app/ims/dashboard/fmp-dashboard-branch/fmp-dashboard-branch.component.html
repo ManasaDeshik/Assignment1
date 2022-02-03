@@ -1,0 +1,78 @@
+<div class="fmp-branch-container">
+  <div class="row">
+    <div class="col-md-5 col-lg-5">
+      <div class="component-heading">
+        FM Performance Dashboard - Branches
+      </div>
+    </div>
+    <div class="col-md- col-lg-9">
+    </div>
+  </div>
+  <div class="row">
+    <div class="table-card mt-40">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th *ngFor="let item of tableHeaders">
+                <div class="label-text">
+                  {{item.header}}
+                </div>
+                <div class="sorting-icons" *ngIf="item.sortText">
+                  <img class="arrow-up" src="assets/img/table-arrow-down.svg" (click)="sorting(item.sortText,1)" alt="">
+                  <img class="arrow-down" src="assets/img/table-arrow-up.svg" (click)="sorting(item.sortText, -1)"
+                    alt="">
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <perfect-scrollbar style="max-width: 100vw; max-height: 57vh;">
+            <tbody>
+              <tr
+                *ngFor="let item of listBranch.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listBranch.totalRecords}">
+                <td class="cursor-pointer txt-underline" (click)="routeToInfo(item)">
+                  {{item.name}}
+                </td>
+                <td>
+                  {{ item.state }}
+                </td>
+                <td>
+                  {{ item.totalVLE }}
+                </td>
+                <td>
+                  {{ item.totalLeads }}
+                </td>
+                <td>
+                 0 
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+              <div *ngIf="listBranch.records.length === 0" class="no-data">
+                <div>
+                  No Data Found
+                </div>
+              </div>
+            </tbody>
+          </perfect-scrollbar>
+        </table>
+      </div>
+      <pagination-controls class="pagination-card" *ngIf="listBranch.totalRecords > 10" previousLabel="" id="1"
+        nextLabel="" (pageChange)="getPage($event)">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

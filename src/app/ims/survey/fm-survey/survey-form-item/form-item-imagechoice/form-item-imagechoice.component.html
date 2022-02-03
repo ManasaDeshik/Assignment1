@@ -1,0 +1,11 @@
+<div class="main-section">
+    <div class="main-img" *ngFor="let items of item.imageChoices['en']; let i = index;">
+    <div *ngIf="items.imageUploaded">
+        <img [src]="items.imageUploaded" alt="choice" height="70px;" width="120px">
+    </div>
+    <div style="margin: 10px;">
+        <input [type]="items.type" style="margin-right: 10px;" name="{{item.id}}"  [value]="item.id" [checked]="(item.answer_radio && item.answer_radio.includes(items.group_id))?true:false" >
+        <label>{{items.title2}}</label>
+    </div>
+</div>
+</div>

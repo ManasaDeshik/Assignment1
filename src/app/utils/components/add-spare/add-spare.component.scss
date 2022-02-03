@@ -1,0 +1,113 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.add-spare-container {
+    padding: 2px 10px;
+
+    h5 {
+        @include text-color($header-text-secondary);
+        font-size: 22px;
+    }
+
+    >div:nth-child(2) {
+        label {
+            @include text-color ($header-text-secondary);
+            font-size: 20px;
+        }
+
+        .mat-form-field {
+            padding-left: 0 !important;
+        }
+
+        >div:first-child {
+            .mat-form-field {
+                width: 30%;
+            }
+        }
+
+        >div:nth-child(2) {
+            position: relative;
+
+            .warranty-field {
+                >div:first-child {
+                    position: relative;
+
+                    .mat-form-field {
+                        width: 90%;
+                    }
+
+                    .custom-required:after {
+                        position: absolute;
+                        bottom: 29px;
+                        right: 0;
+                        content: " *";
+                        @include text-color(lightgrey);
+                    }
+
+                    .warranty-text-label {
+                        margin-top: 4px;
+                    }
+                }
+
+                .warranty-text-label {
+                    @include text-color(#727272);
+                    font-size: 16px;
+                }
+            }
+
+            .spare-type-field {
+                position: relative;
+
+                mat-radio-button {
+                    @include text-color(#727272);
+
+                    .description-style {
+                        position: absolute;
+                        top: 22px;
+                        font-size: 10px;
+                        color: rgba(0, 0, 0, .54);
+                    }
+                }
+            }
+
+            .warranty-custom-error {
+                position: absolute;
+                bottom: 0;
+                left: 15px;
+                font-size: 75%;
+                color: rgba(0, 0, 0, .54);
+            }
+        }
+
+        >div:nth-child(4) {
+            .add-tax {
+                position: relative;
+                border: 1px solid $header-text-secondary;
+                border-radius: 60px;
+                display: flex;
+                justify-content: center;
+                padding: 8px;
+                @include text-color ($header-text-secondary);
+                margin-left: 20px;
+                font-size: 14px;
+                cursor: pointer;
+
+                img {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+
+    .button-layout {
+        position: relative;
+
+        button {
+            width: 130px;
+        }
+
+        button:nth-child(2) {
+            right: 20px;
+            @include background-clr(lightgrey);
+        }
+    }
+}

@@ -1,0 +1,23 @@
+@import "../../../../utils/styles/custom-palette.scss";
+
+.category-container {
+    img {
+        width: 120%;
+    }
+
+    .mat-standard-chip {
+        @include background-clr($header-text-secondary);
+        @include text-color($clr-white);
+        cursor: pointer;
+    }
+
+    .inactive-chip-style {
+        @include background-clr($label-clr-primary);
+    }
+
+    .completed-chip-style {
+      //  opacity: .2;
+        @include background-clr($header-text-secondary);
+    }
+
+}

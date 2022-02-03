@@ -1,0 +1,22 @@
+<!--<div class="col-md-12 col-lg-12 txt-right">
+    <img style="margin-left:6.3rem;width: 10px;" src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+  </div>-->
+<div class="col-md-12 col-lg-12">
+    <table class="dialog-table text-muted">
+        <tr style="border-bottom:1px solid #F5F7FA;height: 35px;padding-top: 5%;
+        padding-bottom: 5%;">
+            <td (click)="editClicked(id)">Edit</td>
+        </tr>
+        <tr style="border-bottom:1px solid #F5F7FA;height: 35px;padding-top: 5%;
+        padding-bottom: 5%;">
+            <td (click)="duplicateClicked(id)">Duplicate</td>
+        </tr>
+        <tr style="border-bottom:1px solid #F5F7FA;height:35px;padding-top: 5%;
+        padding-bottom: 5%;">
+            <td (click)="exportClicked(id)">Export CSV</td>
+        </tr>
+        <tr>
+            <td style="height:35px;" (click)="deleteClicked()">Delete</td>
+        </tr>
+    </table>
+</div>

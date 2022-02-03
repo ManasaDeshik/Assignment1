@@ -1,0 +1,190 @@
+<div>
+  <div class="component-heading">
+    <div class="row lead-management-layout">
+      <div class="col-md-12 col-lg-12">Customer Management</div>
+      <div class="col-md-12 col-lg-12 mt-2 p-0">
+        <div class="row no-margin">
+          <div class="form-group  col-md-3 col-lg-3 search-position no-margin pb-2">
+            <input type="text" class="form-control txt-overflow" placeholder="Village Name, Code"
+              (keyup)="searchVillageName($event)" [(ngModel)]="selectedVillageName">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+
+          <div class="form-group col-md-3 col-lg-3 search-position no-margin">
+          <ng-select class="select-drop-down" [clearable]="false" [items]="delivery_days"
+          bindLabel="name" placeholder="Select" name="delivery_day" [(ngModel)]="delivery_day"
+          (ngModelChange)="selectDeliveryDay($event)"
+          >
+        </ng-select>
+          </div>
+          <div class="form-group col-md-3 col-lg-3 search-position no-margin">
+            <input type="text" class="form-control txt-overflow" placeholder="Saheli ID, Mobile"
+              (keyup)="searchSaheli($event)" [(ngModel)]="selectedSaheliId">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+          <div class="form-group col-md-3 col-lg-3 search-position no-margin">
+            <input type="text" class="form-control txt-overflow" placeholder="Cust. Name, Mobile"
+              (keyup)="searchLead($event)" [(ngModel)]="selectedSearchText">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+          <div class="col-md-3 col-lg-3 pb-2">
+            <div>
+              <input type="text" class="form-control date-filter" (ngModelChange)="getScheduledTime($event , 'from')"
+                [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="endDate" required placeholder="Date:From"
+                [max]="maxFromDate" [(ngModel)]="tableDateFields.fromDate" #arrivalDate="ngModel" readonly required />
+              <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+            </div>
+          </div>
+          <div class="col-md-3 col-lg-3 pb-2">
+            <div>
+              <input type="text" class="form-control date-filter" (ngModelChange)="getScheduledTime($event , 'to')"
+                [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="endDate" required placeholder="Date:To"
+                [min]="minToDate" [(ngModel)]="tableDateFields.toDate" #arrivalDate="ngModel" readonly required />
+              <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+            </div>
+          </div>
+          <div class="col-md-3 col-lg-3 search-position no-margin">
+            <ng-select class="select-drop-down" [items]="customer_stage" bindLabel="customer_stage" placeholder="Select"
+              name="customer_stage" [searchable]="false" [(ngModel)]="customerStage"
+              (ngModelChange)="selectStage($event)" [clearable]="false" [disabled]='this.selectedBtnVal != 0'>
+            </ng-select>
+          </div>
+
+          <div class="form-group col-md-3 col-lg-3 search-position no-margin">
+            <ng-select class="select-drop-down" [items]="userTabs" bindLabel="first_name" [clearable]="false"
+              placeholder="User" [(ngModel)]="SCName" (change)="selectedUserData($event)">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-lg-12 p-0">
+        <div class="tab-row mt-10">
+          <div class="layout row no-margin col-lg-12">
+            <div class="order-tab-btn" *ngFor="let item of leadTabs" (click)="makeActive(item)"
+              [class.active]="item.val == selectedBtnVal">
+              <div>
+                {{item.key}}
+              </div>
+            </div>
+           
+
+            <div class="row justify-content-end flex-grow-1">
+              <button (click)="searchFilter()" class="assignee-btn" mat-button>Search</button>
+              <button (click)="resetFilter()" class="assignee-btn" mat-button>Clear</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="table-res-scroll mt-2">
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let item of tableHeaders">
+              <div class="label-text">
+                {{item.header}}
+               
+              </div>
+            </th>
+          </tr>
+        </thead>
+       
+          <tbody *ngIf="showData">
+            <ng-container *ngFor="let item of leadList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:leadList.totalRecords}">
+            <tr>
+              <td>
+                {{ item.leadId }}
+              </td>
+              <td>
+                {{ item.leadName }}
+              </td>
+              <td>
+                {{item.phoneNo}}
+              </td>
+              <td>
+                {{ item.villageName }}
+              </td>
+              <td>
+                {{ item.villageCode }}
+              </td>
+              <td>
+                {{item.branchName}}
+              </td>
+              <td>
+                {{item.deliveryDay}}
+              </td>
+              <td>
+                {{item.saheliId}}
+              </td>
+              <td>
+                {{item.saheliName}}
+              </td>
+              <td>
+                {{item.territoryManager}}
+              </td>
+              <td>
+                {{(item.completedDate !='NA')? (item.completedDate | date) :item.completedDate}}
+              </td>
+              <td matTooltip="{{item.productName}}" (click)= "gridVisibility = !gridVisibility ;rowId = item.leadId; cartItemId = item.cartList">
+                {{(item.productName.length>20)?(item.productName | slice:0:20)+'...':item.productName}}
+              </td>
+              <td>
+                {{item.quantity}}
+              </td>
+              <td>
+                {{item.value}}
+              </td>
+              <td>
+                {{item.customer_type}}
+                <div *ngIf="item.view" class="cursor-pointer btn-link" (click)="viewOrders(item)"
+                alt="">View Orders</div>
+              </td>
+            </tr>
+            <ng-container *ngIf = "gridVisibility && rowId == item.leadId">
+              <thead>
+                <tr>
+                  <th *ngFor="let item of cartTableHeaders">
+                    <div class="label-text">
+                      {{item.header}}
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let cartItem of cartItemId">
+                  <td>
+                    {{cartItem.order_code}}
+                  </td>
+                  <td>
+                    {{cartItem.product_detail.title}}
+                  </td>
+                  <td>
+                    {{cartItem.quantity}}
+                  </td>
+                  <td>
+                    {{cartItem.price}}
+                  </td>
+                  <td>
+                    {{cartItem.value}}
+                  </td>
+              </tr>
+            </tbody>
+            </ng-container>
+            <div *ngIf="leadList.totalRecords === 0" class="no-data">
+              <div>
+                No Data Found
+              </div>
+            </div>
+          </ng-container>
+          </tbody>
+      
+      </table>
+    </div>
+    <pagination-controls class="pagination-card" *ngIf="leadList.totalRecords > 10 && showData" previousLabel="" id="1" nextLabel=""
+      (pageChange)="getPage($event)">
+    </pagination-controls>
+ 

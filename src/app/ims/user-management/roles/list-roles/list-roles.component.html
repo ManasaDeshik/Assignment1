@@ -1,0 +1,66 @@
+
+   <table class="table table-fit">
+      <thead>
+        <tr>
+          <th *ngFor="let item of tableHeaders">
+            <div class="label-text">
+              {{item.header}}
+              <div class="sorting-icons" *ngIf="item.sortText">
+                <img class="arrow-up" src="assets/img/table-arrow-down.svg" (click)="sorting(item.sortText,1)" alt="">
+                <img class="arrow-down" src="assets/img/table-arrow-up.svg" (click)="sorting(item.sortText, -1)" alt="">
+              </div>
+            </div>
+          </th>
+          <th *ngIf="permissionSets.edit || permissionSets.delete">
+            <div class="label-text">
+              Activity
+            </div>
+          </th>
+        </tr>
+      </thead>
+      
+        <tbody class="role-managment-body t-max">
+          <tr
+            *ngFor="let item of listRoles.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listRoles.totalRecords}">
+            <td>
+              {{item.name}}
+            </td>
+            <td>
+              {{item.description}}
+            </td>
+            <td *ngIf="permissionSets.edit || permissionSets.delete">
+              <div class="row no-margin">
+                <div *ngIf="permissionSets.delete">
+                  <div class="txt-center">
+                    <img class="cursor-pointer" (click)="openDialog(item.id, item.name)"
+                      src="../../../../../assets/img/delete.svg" alt="">
+                  </div>
+                  <div class="delete-edit">
+                    Delete
+                  </div>
+                </div>
+                <div class="ml-5" *ngIf="permissionSets.edit">
+                  <div class="ml-5">
+                    <img class="cursor-pointer" (click)="editRole(item)" src="../../../../../assets/img/edit.svg"
+                      alt="">
+                  </div>
+                  <div class="delete-edit">
+                    Edit
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <div *ngIf="listRoles.totalRecords === 0" class="no-data">
+            <div>
+              No Data Found
+            </div>
+          </div>
+        </tbody>
+      
+    </table>
+
+
+  <pagination-controls class="pagination-card" *ngIf="listRoles.totalRecords > 10" previousLabel="" id="1" nextLabel=""
+    (pageChange)="getPage($event)">
+  </pagination-controls>

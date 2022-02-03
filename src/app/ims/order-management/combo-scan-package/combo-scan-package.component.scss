@@ -1,0 +1,69 @@
+@import '../../../utils/styles/custom-palette.scss';
+
+.combo-product-container {
+    .row {
+        margin-right: 0;
+        margin-left: 0;
+
+        [class*="col-"] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+
+    .content {
+        .block-style {
+            height: calc(100vh - (170px));
+            @include background-clr($clr-white);
+            @include box-shadows(0, 0, 5px, 0, rgba(0, 0, 0, 0.16));
+            @include text-color(#52575a);
+            padding: 20px;
+
+            h3 {
+                @include text-color($header-text-secondary);
+            }
+        }
+
+        .layout-1 {
+            width: 96%;
+
+            .active, .check-icon{
+                @include text-color($header-text-secondary);
+            }
+            
+        }
+
+        .layout-2 {
+            position: relative;
+            width: 100%;
+
+            .btn-layout {
+                position: absolute;
+                bottom: 18px;
+                right: 20px;
+            }
+        }
+
+        .layout-1,
+        .layout-2 {
+            >div {
+                div {
+                    padding: 6px 10px 6px 0;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .perfect-scroll {
+        max-width: 100vw;
+        height: calc(100vh - (320px));
+    }
+    .hideInput {
+        border: none;
+        color: white;
+        caret-color: white;
+        outline: none;
+        width: 1%;
+    }
+}
+

@@ -1,0 +1,156 @@
+<div class="list-branch-container">
+  <div class="row justify-content-between">
+   
+      <div class="component-heading">
+        Village Profile
+      </div>
+      <div class="col-md-2 col-lg-2 col-xl-2">
+        <button type="button" *ngIf="permissionSets.write" class="btn-createBranch pull-right"
+          (click)="createBranch()">Add Village</button>
+      </div>
+  
+    </div>
+    <div class="row col-md-12 col-lg-12 col-xl-12 mt-2 branchSearch p-0">
+      
+        <div class="form-group search-position col-md-3 col-lg-3 p-0">
+          <input type="text" class="form-control" [(ngModel)]="searchField.searchVillage"
+            placeholder="Village Name, Code" (keyup)="searchFieldKey($event , 'searchVillage', false)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+        <div class="form-group search-position col-md-3 col-lg-3 pl-2">
+          <input type="text" class="form-control" [(ngModel)]="searchField.searchBranch" placeholder="Branch"
+            (keyup)="searchFieldKey($event , 'searchBranch', false)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+        <div class="form-group search-position col-md-3 col-lg-3 pl-2">
+          <input type="text" class="form-control" [(ngModel)]="searchField.searchDistrict" placeholder="District"
+            (keyup)="searchFieldKey($event , 'searchDistrict', false)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+       
+          <div class="form-group search-position  col-md-3 col-lg-3 pl-2">
+            <input type="text" class="form-control" [(ngModel)]="searchField.searchState" placeholder="State"
+              (keyup)="searchFieldKey($event , 'searchState', false)">
+            <img src="assets/img/icon_search.svg" alt="">
+          </div>
+      <div class="row justify-content-between col-12">
+          <div class="form-group search-position col-md-3 col-lg-3 p-0">
+            <ng-select class="select-drop-down m-0" [clearable]="false" [items]="delivery_days"
+            bindLabel="name" placeholder="Select" name="delivery_day" [(ngModel)]="searchField.delivery_day"
+            (ngModelChange)="selectDeliveryDay($event)"
+            >
+          </ng-select>
+          </div>
+
+          <div class="form-group search-position row" >
+            <div class="mb-2 pr-2">
+              <button (click)="searchFieldKey($event,'',true)" class="assignee-btn m-0" mat-button>Search</button>
+            </div>
+            <div>
+              <button (click)="clearFilter()" class="assignee-btn float-right m-0"
+                mat-button>Clear</button>
+            </div>
+          </div>
+        </div>
+     
+    </div>
+  
+  
+      <div class="table-res-scroll">
+        <table class="table">
+          <thead>
+            <tr>
+              <th *ngFor="let item of tableHeaders">
+                <div class="label-text">
+                  {{item.header}}
+                </div>
+                <div class="sorting-icons" *ngIf="item.sortText">
+                  <img class="arrow-up" src="assets/img/table-arrow-down.svg" (click)="sorting(item.sortText,1)" alt="">
+                  <img class="arrow-down" src="assets/img/table-arrow-up.svg" (click)="sorting(item.sortText, -1)"
+                    alt="">
+                </div>
+              </th>
+              <th *ngIf="permissionSets.edit">
+                <div class="label-text">
+                  Action
+                </div>
+              </th>
+            </tr>
+          </thead>
+          
+            <tbody>
+              <tr
+                *ngFor="let item of listBranch.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:listBranch.totalRecords}">
+                <td title="{{ item.name }}">
+                  {{item.name}}
+                </td>
+                <td title="{{ item.village }}">
+                  {{ item.village }}
+                </td>
+                <td title="{{ item.villageCode }}">
+                  {{ item.villageCode }}
+                </td>
+                <td title="{{ item.village_status }}">
+                  {{item.village_status}}
+                </td>
+                <td title="{{ item.district }}">
+                  {{ item.district }}
+                </td>
+                <td title="{{ item.state }}">
+                  {{ item.state }}
+                </td>
+                <td title="{{ item.household_count }}">
+                  {{ item.household_count }}
+                </td>
+                <td title="{{ item.population_count }}">
+                  {{ item.population_count }}
+                </td>
+                <td title="{{ item.shg_group_count }}">
+                  {{ item.shg_group_count }}
+                </td>
+                <td title="{{ item.shg_member_count }}">
+                  {{ item.shg_member_count }}
+                </td>
+                <!-- <td>
+                  {{ item.TMName }}
+                </td> -->
+                <td title="{{ item.delivery_day }}">
+                  {{item.delivery_day}}
+                </td>
+                <td>
+                  {{ item.saheli_count }}
+                </td>
+                <td>
+                  {{ item.total_contacts }}
+                </td>
+                <!-- <td>
+                  {{item.totalVLE}}
+                </td> -->
+                <td>
+                  {{ item.totalLeads }}
+                </td>
+                <td *ngIf="permissionSets.edit">
+                  <div class="p-0">
+                    <div class="ml-5">
+                      <img class="cursor-pointer" (click)="editUser(item.id)" src="../../../../../assets/img/edit.svg"
+                        alt="">
+                    </div>
+                    <div class="delete-edit">
+                      Edit
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <div *ngIf="listBranch.records.length === 0" class="no-data">
+                <div>
+                  No Data Found
+                </div>
+              </div>
+            </tbody>
+          
+        </table>
+      </div>
+      <pagination-controls class="pagination-card" *ngIf="listBranch.totalRecords > 10" previousLabel="" id="1"
+        nextLabel="" (pageChange)="getPage($event)">
+      </pagination-controls>
+  

@@ -1,0 +1,114 @@
+<div class="list-demo-container">
+  <div class="component-heading">
+    <div class="row">
+      <div class="col-md-2 col-lg-2">Demo Management</div>
+      <div class="col-md-10 col-lg-10 search-position">
+        <div class="col-md-4 col-lg-4 float-left p-0 no-margin">
+          <input type="text" [(ngModel)]="villageName" class="form-control txt-overflow" placeholder="Search Product"
+            (keyup)="searchVillageName($event)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+        <div class="col-md-1 col-lg-1 col-sm-1 float-left">
+          <button (click)="searchFilter()" class="assignee-btn" mat-button>Search</button>
+        </div>
+        <div *ngIf="permissionSets.write && (selectedBtnVal == 4)">
+          <button class="create-btn" mat-button [routerLink]="['/demo-management/add-issue-demo-product']"
+            routerLinkActive='active'>Issue Demo Product
+          </button>
+        </div>
+        <div>
+          <button class="create-btn mr-10" mat-button (click)="applyFilter()">Apply Filter
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row tab-row">
+      <div class="row col-md-8 col-lg-8">
+        <div class="tab-btn" *ngFor="let item of demoListStatus" (click)="makeActive(item)"
+          [class.active]="item.val === selectedBtnVal">
+          <div>
+            {{item.name}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-res-scroll">
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of tableHeaders">
+                  <div class="label-text">
+                    {{((item.header == 'Returned Quantity') && (selectedBtnVal== 5)) ? 'Barcode' : ((item.header == 'Quantity') && (selectedBtnVal== 5)) ? 'Invoice Number': item.header }}
+                  </div>
+                </th>
+                <th *ngIf="selectedBtnVal === 4">RTS</th>
+              </tr>
+            </thead>
+           
+              <tbody>
+                <tr
+                  *ngFor="let item of  demoProductList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:demoProductList.totalRecords}">
+                  <td>
+                    {{ item.productName }}
+                  </td>
+                  <td>
+                    {{ item.fmUserName }}
+                  </td>
+                  <td>
+                    {{ item.warehouseName }}
+                  </td>
+                  <td>
+                    {{item.fmUserBranch}}
+                  </td>
+
+                  <td>
+                    {{ item.demoProductAssignUser.first_name }}
+                  </td>
+                  <td>
+                    {{item.demoProductAssignUser.phone_number}}
+                  </td>
+                  <td>
+                    {{item.demoProductAssignUser.village}}
+                  </td>
+                  <td>
+                    {{item.demoProductAssignUser.role}}
+                  </td>
+                  <td>
+                    {{ (selectedBtnVal === 4) ? item.quantity : item.invoiceNumber }}
+                  </td>
+                  <td>
+                    {{ (selectedBtnVal === 4) ? item.returned_quantity : item.returnBarCode}}
+                  </td>
+                  <td>
+                    {{ item.price }}
+                  </td>
+                  <td>
+                    {{ item.issuedDate | date:'medium'}}
+                  </td>
+                  <td>
+                    {{ item.recievedDate | date:'medium'}}
+                  </td>
+                  <td *ngIf="selectedBtnVal === 4">
+                    <button class="btn-outline" (focus)="scanDemo.focus()"
+                      (click)="displayScanMessage('You can able to scan now')">Scan</button>
+                    <button class="btn-outline mt-2" (click)="approveItem(item)">Without Scan</button>
+                    <input type="text" class="hideInput" #scanDemo (keyup)="scanItem($event , item)" />
+                  </td>
+                </tr>
+                <div *ngIf="demoProductList.totalRecords === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+         
+          </table>
+      
+        <pagination-controls class="pagination-card" *ngIf="demoProductList.totalRecords > 10" previousLabel="" id="1"
+          nextLabel="" (pageChange)="getPage($event)">
+        </pagination-controls>
+    
+  </div>
+</div>

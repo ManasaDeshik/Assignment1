@@ -1,0 +1,76 @@
+<div class="table-card mt-40 lead-managment-card">
+  <div class="table-responsive">
+    <table class="table" style="border-collapse: collapse;">
+      <perfect-scrollbar style="max-width: 100vw; max-height: 60vh;">
+        <thead>
+          <tr>
+            <!--<th *ngFor="let item of tableHeaders">
+              {{ item.header }}
+            </th>-->
+            <th class="sm-w">Sl No</th>
+            <th class="md-w">Saheli Name</th>
+            <th class="md-w">Respondent Name</th>
+            <th class="md-w">Phone number</th>
+            <th class="md-w">State</th>
+            <th class="md-w">District</th>
+            <th class="md-w" *ngIf="status==2">Validated On</th>
+            <th class="md-w" *ngIf="status==1">Approved On</th>
+            <th class="md-w" *ngIf="status==1">Earnings</th>
+            <!--<th class="md-w" *ngIf="status==1">Earnings</th>-->
+            <th class="md-w" *ngIf="status==3">Rejected On</th>
+            <th class="md-w" *ngIf="status==3">Rejected Reason</th>
+            
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listUserSurvey; let i = index">
+            <td class="sm-w">
+              {{ i + 1 }}
+            </td>
+            <td class="md-w">{{ (item.user && item.user.first_name)?item.user.first_name :'' }}</td>
+            <td class="md-w">{{ (item.lead && item.lead.first_name)?item.lead.first_name :'' }}</td>
+            <td class="md-w">{{ (item.lead && item.lead.phone_number)?item.lead.phone_number :'' }}</td>
+           
+            <td class="md-w">{{ (item.user && item.user.branch)? item.user.branch.state : ''}}</td>
+            <td class="md-w">{{ (item.user && item.user.branch)? item.user.branch.district : '' }}</td>
+            <td class="md-w" *ngIf="status==2">{{ item.validatedAt | date : 'dd/MM/yyyy'}}</td>
+            <td class="md-w" *ngIf="status==1">{{ item.approvedAt | date : 'dd/MM/yyyy'}}</td>
+            <td class="md-w" *ngIf="status==1">{{ item.earnings }}</td>
+            <td class="md-w" *ngIf="status==3">{{ item.rejectedAt | date : 'dd/MM/yyyy'}}</td>
+            <td class="md-w" *ngIf="status==3">{{ item.reason }}</td>
+            <td>
+              <button class="btn btn-outline-primary btn-sm p-0 px-2 mr-1 br-10" *ngIf="item.status == 0" (click)="updateStatus(2,item)">
+                Validate
+              </button>
+              <button class="btn btn-outline-success btn-sm p-0 px-2 mr-1 br-10" *ngIf="item.status == 2" (click)="updateStatus(1,item)">
+                Approve
+              </button>
+              <button class="btn btn-outline-danger btn-sm p-0 px-2 mr-1 br-10" style="margin-left: 2%;" *ngIf="item.status == 0 || item.status == 2" (click)="rejectStatus(3,item)">
+                Reject
+              </button> 
+
+              <button class="btn" *ngIf = "status == 2 || status == ' ' " style="margin-left: 5%;" (click)="openSectionDialog(i,item)"><img
+                class="cursor-pointer" style="height: 18px;" src="../../../../../assets/img/eye-solid.svg" alt=""></button>
+
+               <button class="btn" *ngIf = "status==1 || status ==3" (click)="openSectionDialog(i,item)"><img
+                  class="cursor-pointer" style="height: 18px;" src="../../../../../assets/img/eye-solid.svg" alt=""></button>
+
+              <button class="btn" style="margin-left: 5%;" (click)="delete(item)" *ngIf="status ==2 || status == 0">
+                <img class="cursor-pointer" src="../../../../../assets/img/delete.svg"
+                      alt="">
+              </button>
+             
+            </td>
+          </tr>
+
+          <div *ngIf="listUserSurvey&&listUserSurvey.length === 0" class="no-data">
+            <div>
+              No Data Found
+            </div>
+          </div>
+        </tbody>
+      </perfect-scrollbar>
+    </table>
+  </div>
+</div>

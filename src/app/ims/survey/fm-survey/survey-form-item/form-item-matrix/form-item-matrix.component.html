@@ -1,0 +1,27 @@
+<div [formGroup]="form" class="d-flex border" style="overflow-x: scroll;" *ngIf="item.matrixtype !='select'">
+            <div class="d-flex flex-column  m-2 p-0" [ngClass]="{'col-4': i == 0,'col-2': i != 0}" *ngFor="let row of add(item.properties[0].matrixcol,item.properties[0].matrixrow);let i=index">
+                <div class="d-flex mb-2">
+                  <div  *ngIf="i==0" class="w-100 mr-2 "></div>
+                <label [title]="item && item.coldata && item.coldata['en'] && item.coldata['en'][i] ?item.coldata['en'][i]:''" class="w-100 text-center overflow-ellipsis">{{item && item.coldata && item.coldata['en'] && item.coldata['en'][i] ?item.coldata['en'][i]:''}}</label>
+              </div>
+                <div *ngFor="let col of row.controls; let j=index" class="d-flex mb-2">
+                  <label  [ngModelOptions]="{standalone: true}"  *ngIf="i == 0" [title]="item && item.rowdata && item.rowdata['en'] && item.rowdata['en'][j] ?item.rowdata['en'][j]:''" class="w-100 mt-2 overflow-ellipsis">{{item && item.rowdata && item.rowdata['en'] && item.rowdata['en'][j] ?item.rowdata['en'][j]:''}}</label> 
+                  <input type="{{item.matrixtype}}" disabled class="form-control" [value]="item && item.rowData && item.rowdata['en'] &&  item.rowData['en'][j] ?item.rowData['en'][j]:''">
+                </div>
+</div>
+</div>
+
+<div [formGroup]="form" class="d-flex border" style="overflow-x: scroll;" *ngIf="item.matrixtype == 'select'">
+  
+  <div class="d-flex flex-column  m-2 p-0" [ngClass]="{'col-4': i == 0,'col-2': i != 0}" *ngFor="let row of add(item.properties[0].matrixcol,item.properties[0].matrixrow);let i=index">
+      <div class="d-flex mb-2">
+        <div  *ngIf="i==0" class="w-100 mr-2 "></div>
+      <label [title]="item && item.coldata && item.coldata['en'] && item.coldata['en'][i] ?item.coldata['en'][i]:''" class="w-100 text-center overflow-ellipsis">{{item && item.coldata && item.coldata['en'] && item.coldata['en'][i] ?item.coldata['en'][i]:''}}</label>
+    </div>
+      <div *ngFor="let col of row.controls; let j=index" class="d-flex mb-2">
+        <label  [ngModelOptions]="{standalone: true}"  *ngIf="i == 0" [title]="item && item.rowdata && item.rowdata['en'] && item.rowdata['en'][j] ?item.rowdata['en'][j]:''" class="w-100 mt-2 overflow-ellipsis">{{item && item.rowdata && item.rowdata['en'] && item.rowdata['en'][j] ?item.rowdata['en'][j]:''}}</label> 
+      <select class="form-control" disabled>
+        <option>Select</option>
+        </select> 
+      </div>
+</div>

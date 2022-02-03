@@ -1,0 +1,49 @@
+@import '../../../utils/styles/custom-palette.scss';
+
+.view-product-details-container {
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+
+    [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+
+  >div:nth-child(3) {
+    .view-product-details-block {
+      .stock-product-details-card {
+        height: calc(100vh - (70px + 40px + 8px + 50vh));
+
+        table thead tr .label-text {
+          .product-sorting-icons {
+            position: relative;
+            display: inline-block;
+            left: 6px;
+            top: 2px;
+
+            .arrow-up {
+              position: absolute;
+              top: -15px;
+              width: 8px;
+              cursor: pointer;
+            }
+
+            .arrow-down {
+              position: absolute;
+              top: -6px;
+              width: 8px;
+              cursor: pointer;
+            }
+          }
+        }
+
+        .highlight-view {
+          color: #005480;
+        }
+      }
+    }
+  }
+}

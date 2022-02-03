@@ -1,0 +1,120 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.fmp-branch-info-container {
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+
+    [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  > div:first-child {
+    > div:first-child {
+      span {
+        font-size: 16px;
+        @include text-color($header-text-primary);
+      }
+    }
+  }
+
+  .fmp-branch-info-card {
+    @include background-clr($clr-white);
+    height: 20vh;
+    padding: 10px 20px;
+    position: relative;
+    @include box-shadows(0, 2px, 6px, 0, rgba(0, 0, 0, 0.06));
+
+    .content-layout {
+      > div:first-child {
+        > div:first-child {
+          @include text-color($header-text-primary);
+          font-size: 18px;
+        }
+
+        > div:nth-child(2) {
+          font-size: 16px;
+          @include text-color($header-text-primary);
+          padding-top: 10px;
+        }
+      }
+
+      > div:nth-child(2) {
+        .search-layout {
+          position: relative;
+
+          .select-drop-down {
+            @include border-single-radius(20px !important);
+          }
+
+          .ng-dropdown-panel.ng-select-bottom {
+            @include border-single-radius(30px !important);
+          }
+
+          img {
+            position: absolute;
+            top: 10px;
+            left: 60px;
+          }
+        }
+      }
+    }
+
+    > div:nth-child(3) {
+      font-size: 26px;
+      @include text-color($header-text-primary);
+      position: absolute;
+      bottom: 10px;
+    }
+  }
+
+  .fmp-branch-table-filter {
+    > div:first-child {
+      @include text-color($header-text-primary);
+      font-size: 20px;
+    }
+
+    > div:nth-child(2) {
+      .search-position {
+        position: relative;
+
+        img {
+          position: absolute;
+          bottom: 8px;
+          right: 10px;
+        }
+      }
+    }
+  }
+  .fmp-dashboard-table {
+    .table-card {
+      .table-responsive {
+        height: calc(100vh - (70px + 70px + 30vh + 50px + 20px));
+        box-shadow: 0 0 5px 0 rgba(232, 232, 232, 0.53);
+        table {
+          thead {
+            box-shadow: none;
+            tr {
+              th {
+                border-bottom: 1px solid #dee2e6;
+                color: #94979b;
+              }
+            }
+          }
+          tbody {
+            tr {
+              td {
+                color: #52575a;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.ht-32 {
+  height: 18vh;
+}

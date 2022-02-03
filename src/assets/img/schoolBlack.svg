@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23.018" height="20.394" viewBox="0 0 23.018 20.394">
+    <defs>
+        <style>
+            .cls-1{fill:#727272}
+        </style>
+    </defs>
+    <g id="icon" transform="translate(0 -1.54)">
+        <path id="Path_412" d="M3.674 22.088a.478.478 0 0 0 .482.515l5.8-.007.009-4.754s-.082-.784.679-.784h2.407a.746.746 0 0 1 .844.784l-.01 4.739h5.68a.6.6 0 0 0 .609-.641v-8.765l-8-7.12-8.5 7.12z" class="cls-1" data-name="Path 412" transform="translate(-.544 -.669)"/>
+        <path id="Path_413" d="M0 11.844s.722 1.33 2.295 0l9.4-7.955 8.816 7.906c1.821 1.314 2.5 0 2.5 0L11.7 1.54z" class="cls-1" data-name="Path 413"/>
+        <path id="Path_414" d="M23.436 4.275h-2.268l.009 2.75 2.258 1.916z" class="cls-1" data-name="Path 414" transform="translate(-3.135 -.405)"/>
+    </g>
+</svg>

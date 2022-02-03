@@ -1,0 +1,20 @@
+  <div mat-dialog-actions class="justify-content-between">
+    <h1 mat-dialog-title class="mb-3"><b>Properties</b></h1>
+    <div class="d-flex">
+      <button  (click)="onTranslateClick()" class="create-btn w-120 btn-orange mr-4 mb-3" [disabled]="readOnly" cdkFocusInitial>Translate</button>
+      <button  (click)="onOkClick()" class="create-btn w-120 btn-orange mr-4 mb-3" [disabled]="readOnly" cdkFocusInitial>Save</button>
+    <button  (click)="onNoClick()" class="create-btn w-120 btn-outline-orange">Cancel</button>
+    
+  </div>
+</div>
+<hr class="mt-3"/>
+
+<div mat-dialog-content class="w-100 mt-3">
+  <!--<app-dialog-form [surveyid]="surveyId" [type]="text" #dialog></app-dialog-form>-->
+  <!--<app-dialog-text *ngIf="dialogType == 'text'" [fields]="fields" [surveyid]="surveyId" #dialog></app-dialog-text>-->
+  <app-dialog-radio *ngIf=" dialogType == 'radio'" [fields]="fields" [surveyid]="surveyId" #dialog></app-dialog-radio>
+  <app-dialog-edit-matrix *ngIf="dialogType == 'matrix'" [fields]="fields" [surveyid]="surveyId" #dialog></app-dialog-edit-matrix>  
+  <app-dialog-edit-imagechoice *ngIf="dialogType == 'imagechoice'" [fields]="fields" [surveyid]="surveyId" #dialog></app-dialog-edit-imagechoice>    
+  <!--<app-dialog-edit-number *ngIf="dialogType == 'number'" [fields]="fields" [surveyid]="surveyId" #dialog></app-dialog-edit-number>  -->
+  <!--<app-dialog-edit-checkbox *ngIf="dialogType == 'checkbox'" [fields]="fields" [surveyid]="surveyId" #dialog></app-dialog-edit-checkbox>-->
+</div>

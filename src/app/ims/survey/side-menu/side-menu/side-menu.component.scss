@@ -1,0 +1,119 @@
+div.bhoechie-tab-container{
+    z-index: 10;
+    background-color: #ffffff;
+    padding: 0 !important;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    border:1px solid #ddd;
+    margin-left: 40px;
+    padding: 40px !important;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    background-clip: padding-box;
+    opacity: 0.97;
+    filter: alpha(opacity=97);
+  }
+  div.bhoechie-tab-menu{
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    max-width: 90% !important;
+    background-color: #f5f7fa;
+  }
+  
+  div.bhoechie-tab-menu div.list-group{
+    margin-bottom: 0;
+    border-bottom: 1px solid lightgrey;
+  }
+  div.bhoechie-tab-menu div.list-group>a{
+    margin-bottom: 0;
+    border-bottom: 1px solid lightgrey;
+  }
+  div.bhoechie-tab-menu div.list-group>a .glyphicon,
+  div.bhoechie-tab-menu div.list-group>a .fa {
+    color: black;
+    border-color: #ef7f1a;
+  }
+  div.bhoechie-tab-menu div.list-group>a:first-child{
+    border-top-right-radius: 0;
+    -moz-border-top-right-radius: 0;
+  }
+  div.bhoechie-tab-menu div.list-group>a:last-child{
+    border-bottom-right-radius: 0;
+    -moz-border-bottom-right-radius: 0;
+  }
+  div.bhoechie-tab-menu div.list-group>a.active,
+  div.bhoechie-tab-menu div.list-group>a.active .glyphicon,
+  div.bhoechie-tab-menu div.list-group>a.active .fa{
+    background-color: #ef7f1a;
+    background-image: #ef7f1a;
+    color: #ffffff;
+  }
+  div.bhoechie-tab-menu div.list-group>a.active:after{
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -13px;
+    border-left: 0;
+    border-bottom: 13px solid transparent;
+    border-top: 13px solid transparent;
+    border-left: 10px solid #ef7f1a;
+  }
+  
+  div.bhoechie-tab-content{
+    background-color: #ffffff;
+    /* border: 1px solid #eeeeee; */
+    padding-left: 20px;
+    padding-top: 10px;
+  }
+  
+  div.bhoechie-tab div.bhoechie-tab-content:not(.active){
+    display: none;
+  }
+  .leftpane {
+    width: 700px;
+    float:right;
+    border-collapse: collapse;
+    background: #F5F6F6;
+    padding-left: 10px;
+}
+.middlepane {
+      width: 80%;
+      height: 70%;
+      float: left;
+      border-collapse: collapse;
+  }  
+  .list-group-item{
+    border: 1px solid #fff;
+    cursor:pointer;
+  }
+  .active{
+    border: 1px solid orange;
+    cursor:pointer;
+  }
+  .container-font{
+    font-size: 14px;
+    font-family: "Source Sans Pro", sans-serif;
+  }
+  .w-120{
+    width: 130px;
+  }
+  .create-btn{
+    height: 35px;
+    font-size:14px;
+  }
+  .titleText{
+    color:#ef7f1a;
+    font-size: 18px !important;
+  }
+  .mr-11{
+    margin-right: 1rem !important;
+  }
+  .mr-21{
+    margin-right:2rem !important;
+  }
+  .right{
+    left: 15%;
+  }

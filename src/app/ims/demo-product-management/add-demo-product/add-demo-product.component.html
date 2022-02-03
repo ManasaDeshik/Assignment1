@@ -1,0 +1,126 @@
+<div class="add-demo-product-container">
+  <div class="component-heading">
+    <div class="row">
+      <div class="col-md-7 col-lg-7">
+        <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/demo-management']"
+          routerLinkActive='active' alt="left-arrow">
+        <span class="details ml-10">
+          Issue Demo Product
+        </span>
+      </div>
+    </div>
+  </div>
+  <form name="form" #demoProductForm="ngForm">
+    <div class="row">
+      <div class="card mt-40 create-form-card"
+        [ngClass]="isScanPrintVoice? 'col-lg-9 col-md-9' : 'col-lg-12 col-md-12'">
+        <perfect-scrollbar style="max-width: 100vw; max-height: 60vh;">
+          <div class="content-block">
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label name="warehouse" class="required">Warehouse</label>
+                    <ng-select class="select-drop-down col-md-12 col-sm-12 p-0"
+                      [items]="typeCollections.warehouse.collections" bindLabel="name" [clearable]="false"
+                      [disabled]="isScanPrintVoice" placeholder="Select Warehouse" name="warehouse"
+                      (search)="searchFieldKey($event , 'warehouse')" [(ngModel)]="typeCollections.warehouse.bindLabel"
+                      (change)="selectedFieldKey($event , 'warehouse' , 'name')" required>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label name="warehouse" class="required">Product</label>
+                    <ng-select class="select-drop-down col-md-12 col-sm-12 p-0"
+                      [items]="typeCollections.productDetail.collections"  bindLabel="title" [clearable]="false"
+                      [disabled]="isScanPrintVoice || (warehouseID=='')" placeholder="Select Product" name="product"
+                      (search)="searchFieldKeyProduct($event , 'productDetail')"
+                      [(ngModel)]="typeCollections.productDetail.bindLabel"
+                      (change)="selectedFieldKey($event , 'productDetail' , 'title')" required>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label name="quantity" class="required">Quantity</label>
+                    <input type="number" class="form-control" name="quantityName" pattern="^[0-9]+"
+                      disabled={{isScanPrintVoice}} #quantityName="ngModel" [(ngModel)]="demoProductOrder.quantity"
+                      [ngClass]="{'is-invalid':quantityName.invalid && (quantityName.dirty || quantityName.touched)}"
+                      required />
+                    <div *ngIf="quantityName.invalid && (quantityName.dirty || quantityName.touched)"
+                      class="invalid-feedback">
+                      <div *ngIf="quantityName.errors.required">Quantity</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <div class="col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label name="vleCode" class="required">VLE CODE</label>
+                    <ng-select class="select-drop-down col-md-12 col-sm-12 p-0"
+                      [items]="typeCollections.frontierMarketingUser.collections" bindLabel="vle_code"
+                      [disabled]="!typeCollections.warehouse.selectedField || isScanPrintVoice" [clearable]="false"
+                      [(ngModel)]="typeCollections.frontierMarketingUser.bindLabel" placeholder="Select VLE Code"
+                      name="vleCode" (search)="searchFieldKey($event , 'frontierMarketingUser')"
+                      (change)="selectedFieldKey($event , 'frontierMarketingUser' , 'first_name')" required>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="col-md-12 col-lg-12">
+                  <div class="form-group">
+                    <label name="vleName" class="required">VLE NAME</label>
+                    <input type="text" class="form-control" name="fmName" #vleName="ngModel"
+                      [(ngModel)]="typeCollections['frontierMarketingUser'].keyName" disabled=true
+                      [ngClass]="{'is-invalid':vleName.invalid && (vleName.dirty || vleName.touched)}" required />
+                    <div *ngIf="vleName.invalid && (vleName.dirty || vleName.touched)" class="invalid-feedback">
+                      <div *ngIf="vleName.errors.required">VLE Name is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+        <div class="btn-layout">
+          <button class="create-btn" mat-button (click)="createProduct()"
+            [disabled]="!demoProductForm.valid">Add</button>
+        </div>
+      </div>
+      <div class="display-scan-invoice-card col-lg-3 col-md-3 mt-40" *ngIf="isScanPrintVoice">
+        <div class="col-lg-11 col-md-11 pull-right">
+          <perfect-scrollbar>
+            <div class="content-block row">
+              <div>
+                <img src="assets/img/close.png" class=" cursor-pointer" alt="no" (click)="closeScanPrintVoice()">
+              </div>
+              <div>
+                {{typeCollections['productDetail'].keyName}}
+              </div>
+              <div>
+                <div class="txt-center">
+                  <button (click)="scanItem()">
+                    Scan Item</button>
+                  <button (click)="orderPlaceWithoutScan()">Place Order without
+                    Scan</button>
+                  <button (click)="printInvoice()" [disabled]="!isPrintInvoice">Print Invoice</button>
+                </div>
+              </div>
+            </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

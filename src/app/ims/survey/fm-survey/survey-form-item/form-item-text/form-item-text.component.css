@@ -1,0 +1,18 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  .form-control{
+    border-radius: 0px;
+    background: #FFE8C615 0% 0% no-repeat padding-box;
+    border: 1px solid #EF7F1A48;
+}
+
+.img-size {
+  height: 100px;
+}

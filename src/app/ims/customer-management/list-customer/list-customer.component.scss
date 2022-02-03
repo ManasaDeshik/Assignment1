@@ -1,0 +1,105 @@
+@import '../../../utils/styles/custom-palette.scss';
+.lead-management-layout {
+  .pb-2{
+    padding-bottom: 2px !important;
+  }
+  .search-position {
+    position: relative;
+
+    img {
+      position: absolute;
+      right: 24px;
+      bottom: 12px;
+    }
+  }
+  .search-position-bottom {
+    position: relative;
+
+    img {
+      position: absolute;
+      right: 24px;
+      bottom: 30px;
+    }
+  }
+
+  .create-btn {
+   width: 100%;
+   margin-right: -22px
+  }
+
+  tbody {
+    td {
+      vertical-align: middle;
+      padding: 5px 10px;
+
+      .row {
+        .delete-edit {
+          font-size: 14px;
+        }
+      }
+
+      .dip {
+        display: inline-flex;
+
+        div {
+          font-size: 12px;
+          margin: 0px 5px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .left-10{
+   left: 10px;
+  }
+  .top-6{
+    top: 6px;
+  }
+}
+
+.tab-row {
+  position: relative;
+  .layout {
+    padding: 0px 15px;
+    .order-tab-btn {
+      font-size: 14px;
+      color: #808181;
+      cursor: pointer;
+      border: 1px solid #0000002e;
+      @include text-color(#94979b);
+      @include border-single-radius(5px);
+      @include background-clr($clr-white);
+      margin-left: 10px;
+      margin-top: 4px;
+
+      div {
+        padding: 1em;
+        padding-top: 0.79em;
+        padding-bottom: 0.79em;
+      }
+    }
+    .order-tab-btn:first-child {
+      margin-left: 0;
+    }
+
+    .order-tab-btn:hover {
+      @include text-color($clr-white);
+      @include background-clr(#ffb207);
+      border: 1px solid #ffb207;
+    }
+
+    .order-tab-btn.active {
+      @include text-color($clr-white);
+      @include background-clr(#ffb207);
+      font-weight: bold;
+      border: 1px solid #ffb207;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .order-tab-btn:focus {
+      outline: none;
+    }
+  }
+
+}
+

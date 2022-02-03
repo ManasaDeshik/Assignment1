@@ -1,0 +1,14 @@
+<div class="main-img">
+    <div class="img-box" *ngIf="!imageUploaded[0]">
+        <img  alt="product-img"
+            src="../../../../../assets/img/photo-camera.svg" (click)="fileInput.click()" >
+            <input  (change)="addFile(0,$event)"
+            name="fileOption" type="file" #fileInput
+            accept="image/x-png,image/gif,image/jpeg"  style="visibility: hidden;"/>
+    </div>
+    <div class="img-box1" *ngIf="imageUploaded[0]">
+        <img alt="product-img" [src]="imageUploaded[0]" width="120px" height="70px">
+        <i class="fa fa-times cursor-pointer img-display-remove main-img-remove"
+            (click)="removeFile(i)"></i>
+    </div>
+</div>

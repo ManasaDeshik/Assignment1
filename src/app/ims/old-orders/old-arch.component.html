@@ -1,0 +1,23 @@
+  <div class="row">
+    <div class="col-12">
+        <mat-tab-group (selectedTabChange)="tabChange($event)">
+            <mat-tab label="Orders"> 
+                <div class="mt-3">
+                   <embed [attr.src]=path style="height:calc(100vh - 70px);width: 100%;" />
+                </div>
+            </mat-tab>
+            <mat-tab label="Customer Management"> 
+                <div class="mt-3">
+                   <embed [attr.src]=path style="height:calc(100vh - 70px);width: 100%;" />
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Demo Management"> 
+                <div class="mt-3">
+                   <embed [attr.src]=path style="height:calc(100vh - 70px);width: 100%;" />
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+     
+    </div>
+  

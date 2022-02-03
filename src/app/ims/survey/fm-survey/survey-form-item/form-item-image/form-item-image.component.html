@@ -1,0 +1,16 @@
+<div class="main-img">
+    <div class="img-box" *ngIf="!item.answer_image[0]">
+        <img  alt="product-img"
+            src="../../../../../assets/img/photo-camera.svg" (click)="fileInput.click()" >
+            <input  (change)="addFile(0,$event)"
+            name="fileOption" type="file" #fileInput
+            accept="image/x-png,image/gif,image/jpeg"  style="visibility: hidden;"/>
+    </div>
+    <div class="w-100" *ngIf="item.answer_image[0]">
+        <i class="fa fa-times cursor-pointer img-display-remove main-img-remove"
+            (click)="removeFile()"></i>
+        <img alt="product-img" [src]="item.answer_image[0]" height="70px" width="120px">
+        
+    </div>
+    
+</div>

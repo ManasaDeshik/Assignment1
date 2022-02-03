@@ -1,0 +1,14 @@
+<svg id="Date" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect id="Rectangle_3" data-name="Rectangle 3" width="48" height="48" fill="none"/>
+  <g id="Group_799" data-name="Group 799" transform="translate(14935 1488)">
+    <rect id="Rectangle_1598" data-name="Rectangle 1598" width="30" height="30" transform="translate(-14926 -1479)" fill="none"/>
+    <rect id="Rectangle_1599" data-name="Rectangle 1599" width="22" height="22" rx="3" transform="translate(-14922 -1475)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_73" data-name="Line 73" y2="5" transform="translate(-14905 -1477)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_77" data-name="Line 77" y2="3" transform="translate(-14913.5 -1458.5) rotate(90)" fill="none" stroke="#000" stroke-linecap="square" stroke-linejoin="round" stroke-width="2"/>
+    <line id="Line_79" data-name="Line 79" y2="3" transform="translate(-14905 -1458.5) rotate(90)" fill="none" stroke="#000" stroke-linecap="square" stroke-linejoin="round" stroke-width="2"/>
+    <line id="Line_74" data-name="Line 74" y2="5" transform="translate(-14917 -1477)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_76" data-name="Line 76" y2="3" transform="translate(-14913.5 -1463.313) rotate(90)" fill="none" stroke="#000" stroke-linecap="square" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_484" data-name="Path 484" d="M0,0V3" transform="translate(-14905 -1463.313) rotate(90)" fill="none" stroke="#000" stroke-linecap="square" stroke-width="2"/>
+    <line id="Line_75" data-name="Line 75" x2="22" transform="translate(-14922 -1469)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>

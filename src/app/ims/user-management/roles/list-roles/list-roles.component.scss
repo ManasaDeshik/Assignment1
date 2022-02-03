@@ -1,0 +1,32 @@
+table {
+  thead {
+    tr {
+      th {
+        &:last-child {
+          .sorting-icons {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  tbody {
+    td {
+      vertical-align: middle;
+      padding: 5px 10px;
+      .row {
+        .delete-edit {
+          font-size: 14px;
+        }
+      }
+      .dip {
+        display: inline-flex;
+        div {
+          font-size: 12px;
+          margin: 0px 5px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+<form name="surveyForm" class="survey-style">
+  <div class="container p-0">
+    <div class="col p-0 survey-items-field" *ngFor="let item of surveyItems;let i = index">
+    <div class="card mb-2" id="{{item.id}}" (click)="componentClicked(title)">
+      
+      <div class="card-body">
+        <div class="card-title">
+         <span><span>{{i+1}}) {{item.label.en}}</span><span *ngIf="item.label.hi">/{{i+1}}) {{item.label.hi}}</span></span>
+         <!--<span *ngIf="item.label.hi">{{i+1}}) {{item.label.hi}}</span>-->
+         <span class="text-danger px-1" *ngIf="item.is_required">*</span>
+         <span class="float-right">
+          <button  class="btn p-0" aria-label="Toggle menu"
+          matTooltip="Edit Section" matTooltipPosition="above" 
+          (click)="openSectionDialog(i,item.type,item)" *ngIf="!editAnswer">
+        <mat-icon> <img class="color-icon" src="../../../../../assets/img/edit.svg"> </mat-icon>
+      </button>
+      <button  class="btn p-0" aria-label="Toggle menu"
+          matTooltip="Delete Section"
+          matTooltipPosition="above"
+          (click)="delete(item.id,i)" *ngIf="!editAnswer"
+      >
+      <mat-icon> <img class="color-icon" src="../../../../../assets/img/delete.svg"> </mat-icon>
+      </button>
+    </span>
+        </div>
+        <span *ngFor="let qImage of item?.question_images">
+          <img [src]="qImage" alt="" height="70px;" width="120px" class="mr-2">
+        </span>
+        <div class="form-fieldset-content">
+          <div>
+              <app-survey-form-item
+              [item]="item"
+              [type]="item.type"
+              [editAnswer]="editAnswer"
+              [dest_lang]="item.langSelected"
+                  (changes)="onItemChanges($event)"
+              ></app-survey-form-item>
+          </div>
+      </div>
+      </div>
+      <!--<fieldset>-->
+       <!--<legend>  <button mat-icon-button class="form-item-actions-button" aria-label="Toggle menu"
+          matTooltip="Edit Section"
+          matTooltipPosition="above"
+          
+          (click)="openSectionDialog()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+       <button mat-icon-button class="form-item-actions-button " aria-label="Toggle menu"
+          matTooltip="Delete Section"
+          matTooltipPosition="above"
+      >
+        <mat-icon>delete</mat-icon>
+      </button></legend>-->
+         <!-- <mat-card-header class="section-header">
+          <mat-card-title class="section-title">
+            <div class="section-title-text">
+              <span>{{title}}</span>
+            </div> -->
+
+          
+            <!--
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item (click)="openSectionDialog(section)">Edit Section</button>
+              <button mat-menu-item (click)="removeSection(section)">Remove</button>
+            </mat-menu>
+            -->
+          
+          <!-- </mat-card-title> -->
+        
+        <!-- </mat-card-header> -->
+     
+       
+         
+      <!--</fieldset>-->
+    </div>
+  </div>
+</div>
+</form>
+

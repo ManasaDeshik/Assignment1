@@ -1,0 +1,56 @@
+<div class="stock-product-info-container">
+  <div class="row">
+    <div class="col-md-3 col-lg-3">
+      <div class="product-img-block">
+        <div class="img-box">
+          <img src="{{productDetails.images[0]}}" alt="product-img">
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-9 col-lg-9">
+      <div class="product-info-content-block">
+        <div class="row block-1">
+          <div class="form-group col-md-4 col-lg-4 p-0">
+            <label name="productName">Product Name</label>
+            <input type="text" class="form-control" [(ngModel)]="productDetails.title" readonly>
+          </div>
+          <div class="form-group col-md-4 col-lg-4">
+            <label name="categoryName">Category</label>
+            <input type="text" class="form-control" [(ngModel)]="productDetails.category" readonly>
+          </div>
+          <div class="form-group col-md-4 col-lg-4">
+            <label name="brandName">Brand</label>
+            <input type="text" class="form-control" [(ngModel)]="productDetails.brand" readonly>
+          </div>
+          <!-- <div class="form-group align-center row share-stock-btn-layout col-md-3 col-lg-3"  *ngIf="!isProductDetailPath">
+            <span name="">In stock 4</span>
+            <button type="button">Share Stock</button>
+          </div> -->
+        </div>
+        <div class="row block-1" *ngIf="!isProductDetailPath">
+          <div class="col-md-4 col-lg-4 p-0 form-group">
+            <label name="mnaufacturer" class="required">Manufacturer</label>
+            <ng-select class="select-drop-down" [items]="manufacturerData.branch.collections" bindLabel="name"
+              [clearable]="false" (search)="searchFieldKey($event)" (change)="selectedFieldKey($event)"
+              [(ngModel)]="manufacturerData.branch.searchrequest" placeholder="Search Manufacturer">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="row block-2 mt-10" *ngIf="!isProductDetailPath">
+          <div class="company-info-block p-0 col-sm-6 col-lg-6">
+            <div>Company {{manufacurerDetails.name}}</div>
+            <div class="mt-10">{{manufacurerDetails.address}}</div>
+          </div>
+          <div class="col-md-6 col-lg-6 invoice-info-block">
+            <div>Shipment to {{branchWarehouse.name}}</div>
+            <div class="mt-10">
+              <div>{{branchWarehouse.location}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="sidenav_container" [@onSideNavChange]="sideNavState ? 'open' : 'close'">
+    <div>
+        <div class="main-logo">
+            <span>
+                <img class="side-logo" *ngIf="imgToggle === false" src="../../../../assets/img/fm-logo.png" alt="">
+                <img class="side-logo-expand" [@animateText]="linkText ? 'show' : 'hide'"
+                    src="../../../../assets/img/fm-logo.png" alt=""> 
+            </span>
+        </div>
+        <div [ngClass]="imgToggle? 'mt-10' : 'mt-20'">
+            <mat-nav-list>
+                <div class="side-menus" *ngFor="let page of moduleIdentifier">
+                    <div >
+                        
+                        <a routerLinkActive="active" [routerLink]="page.routerLink" class="module-text" (click)="check(page,moduleIdentifier)" mat-list-item>
+                            <div class="side-logos" mat-line >
+                                <mat-icon> <img class="color-icon" src=" {{page.iconBlack}}" alt=""> <img
+                                        class="bw-icon" src="{{page.iconBw}}" alt=""> </mat-icon>
+                                <span  class="side-menu-text"
+                                    [@animateText]="linkText ? 'show' : 'hide'">{{ page.title }} 
+                                </span>
+                            </div>
+                            <div class="make-active"></div>
+                        </a>
+                        <ng-container *ngIf="page.title!=='Stocks'">
+                        <div *ngFor="let subtitle of page.subtitle" [@animateText]="(linkText && page.active) ? 'show' : 'hide'"   [class.active]="subtitle.val == selectedBtnVal" [ngClass]="(subtitle.active) ? 'side-menu-subtext-active':'side-menu-subtext'" (click)="navigateTo(page.routerLink,subtitle,page.subtitle)" mat-line>
+                            <span class="side-menus">- {{subtitle.name}}</span>
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="page.title==='Stocks'">
+                        <div *ngFor="let subtitle of page.subtitle" [@animateText]="(linkText && page.active) ? 'show' : 'hide'"   [class.active]="subtitle.val == selectedBtnVal" [ngClass]="(subtitle.active) ? 'side-menu-subtext-active':'side-menu-subtext'" (click)="navigateTo(subtitle.routerLink,subtitle,page.subtitle)" mat-line>
+                            <span class="side-menus">- {{subtitle.name}}</span>
+                        </div>
+                        </ng-container>
+                        
+                    </div>
+                   
+                    
+                </div>
+
+               
+            </mat-nav-list>
+        </div>
+    </div>
+</div>

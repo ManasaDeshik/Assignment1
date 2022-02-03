@@ -1,0 +1,654 @@
+<div class="create-product-container">
+    <div class="row">
+        <div class="col-md-8 col-lg-8 row">
+            <img class="cursor-pointer route-arrow-img-style" src="../../../../assets/img/left-arrow.svg"
+                alt="left-arrow" [routerLink]="['/product-management/products']" routerLinkActive='active'>
+            <span class="component-heading ml-20">{{varientAction.name}}</span>
+            <mat-chip-list class="ml-10">
+                <mat-chip *ngFor="let chip of availableLang" class="cursor-pointer" (click)="langSelected(chip)"
+                    [ngClass]="{ 'inactive-chip-style': selectedLang !== chip.identity , 'completed-chip-style': chip.isCompleted && selectedLang !== chip.identity}">
+                    {{chip.name}}
+                   
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+        <div class="col-md-4 col-lg-4 row action-block" *ngIf="productAction.key === 'Update'">
+            <img class="cursor-pointer mr-30" (click)="deleteProduct(data)" *ngIf="product_stock_count == 0" src="../../../../../assets/img/delete.svg"
+                alt="">
+            <button class="create-btn" (click)="updateProduct()" mat-button
+                [disabled]="!productForm.valid">Update</button>
+        </div>
+    </div>
+    <div class="row create-product-card mt-20" [formGroup]="productForm">
+        <div [ngClass]="productAction.key === 'Update' ? 'col-md-10 col-lg-10': 'col-md-10 col-lg-10'">
+            <div class="col-md-4 col-lg-4">
+                <mat-form-field class="col-md-11 col-lg-11">
+                    <input matInput placeholder="Title" [readonly]="isView" formControlName="title" required>
+                    <mat-error
+                        *ngIf="validationControl.title.errors && (validationControl.title.dirty || validationControl.title.touched)">
+                        <mat-hint [hidden]="!validationControl.title.errors.required">Title is required</mat-hint>
+                        <mat-hint [hidden]="!validationControl.title.errors.pattern">Please enter a valid Title
+                        </mat-hint>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 col-lg-3" *ngIf="!isView">
+                <ng-select class="ng-drop-down col-md-11 col-lg-11" [items]="categoryList" bindLabel="name"
+                    formControlName="category" [clearable]="false" placeholder="Select Category" name="category"
+                    [selectableGroup]="true" (search)="getCategoryList($event)" (change)="changeCategoryProduct($event)"
+                    [multiple]="true" required>
+                </ng-select>
+            </div>
+            <div class="col-md-3 col-lg-3" *ngIf="isView">
+                <mat-form-field class="col-md-11 col-lg-11">
+                    <input matInput placeholder="Category" [readonly]="isView" formControlName="categoryView" required>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <mat-form-field class="col-md-11 col-lg-11">
+                    <input matInput placeholder="Brand" [readonly]="isView" formControlName="brand" required [(ngModel)]="brand"
+                   >
+                    <mat-error
+                        *ngIf="validationControl.brand.errors && (validationControl.brand.dirty || validationControl.brand.touched)">
+                        <mat-hint [hidden]="!validationControl.brand.errors.required">Brand is required</mat-hint>
+                        <mat-hint [hidden]="!validationControl.brand.errors.pattern">Please enter a valid Brand
+                        </mat-hint>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-2 col-lg-2 row">
+            <div class="col-md-11 col-lg-11">
+                <mat-slide-toggle class="pull-right" *ngIf="!isView" (click)="disableProduct($event , productForm.value.title)"
+                    [checked]="productRequestObj.is_disabled">Disable</mat-slide-toggle>
+            </div>
+        </div>
+    </div>
+    <div class="row create-product-details-card mt-30">
+        <div class="col-md-3 col-lg-3">
+            <div class="card-style layout-1">
+                <div class="header row">
+                    <div class="col-md-8 col-lg-8">Variants</div>
+                    <div class="col-md-4 col-lg-4" > 
+                        <button class=" create-btn" *ngIf = !isView (click)="addNewVarient()" mat-button>Add</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="display-content mt-20" *ngIf="viewCreatedVarients.length > 0">
+                    <perfect-scrollbar style="max-width: 100vw">
+                        <div *ngFor='let data of viewCreatedVarients;let i = index' class="row">
+                            <div class="row title-action-box col-md-12 col-lg-12">
+                                <div class="col-md-12 col-lg-12 cursor-pointer break-word"
+                                    [ngClass]="{ 'active-title': selectedVarient === data.id  }"><span
+                                        (click)="onEditVarientDetail(data.id,false,true)">{{data.title}}</span></div>
+                            </div>
+                        </div>
+                    </perfect-scrollbar>
+                </div>
+                <div *ngIf="viewCreatedVarients.length === 0" class="no-product-data">
+                    No Variants Found
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-lg-9">
+            <div class="card-style layout-2">
+                <div class="header col-md-12 col-lg-12 row">
+                    <div class="col-md-8 col-lg-8">
+                        Variant Details
+                    </div>
+                    <div class="col-md-4 col-lg-4  justify-content-space">
+                        <div class="checkbox-layout">
+                            <label>
+                                <mat-checkbox [(ngModel)]="varientActionDisplay.is_default"
+                                    [disabled]="varientActionDisplay.is_default" name="isDefault"
+                                    (click)="updateDefaultDialogBox($event)"><span class="checkbox-label">Default
+                                        Variant</span>
+                                </mat-checkbox>
+                            </label>
+                        </div>
+                        <div>
+                            <img class="cursor-pointer" (click)="deleteVarient()" *ngIf="varientActionDisplay.product_stocks_counts == 0"
+                                src="../../../../../assets/img/delete.svg" alt="">
+                        </div>
+                        <mat-slide-toggle (click)="disableVarient($event)" [checked]="varientActionDisplay.is_disabled">
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+                <mat-tab-group (selectedTabChange)="tabChanged($event)">
+                    <mat-tab label="Details">
+                        <div class="content-box mt-15" [formGroup]="productDetailForm">
+                            <perfect-scrollbar style="max-width: 100vw;">
+                                <div class="row block-1">
+                                    <div class="col-md-5 col-lg-5">
+                                        <div class="upload-img-block row col-md-11 col-lg-11">
+                                            <div class="col-md-9 col-lg-9">
+                                                <div class="main-img">
+                                                    <div class="img-box" *ngIf="!displayImages[0]">
+                                                        <img alt="product-img" *ngIf="!isView"
+                                                            src="../../../../../assets/img/photo-camera.svg"
+                                                            class="cursor-pointer" (click)="fileInput.click()">
+                                                        <input  (change)="addFile(0,$event)"
+                                                            name="fileOption" type="file" #fileInput
+                                                            accept="image/x-png,image/gif,image/jpeg" multiple />
+
+                                                    </div>
+                                                    <div class="img-box" *ngIf="displayImages[0]">
+                                                        <img alt="product-img" [src]="displayImages[0]">
+                                                        <em *ngIf="!isView"
+                                                            class="fa fa-times cursor-pointer img-display-remove main-img-remove"
+                                                            (click)="removeFile(i)"></em>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3">
+                                                <div class="sub-img" *ngFor='let val of [1,2,3,4]'>
+                                                    <div class="img-box" *ngIf="!displayImages[val]">
+
+                                                        <img *ngIf="!isView"
+                                                            src="../../../../../assets/img/photo-camera.svg"
+                                                            alt="product-img" (click)="fileInput.click()"
+                                                            class="cursor-pointer">
+                                                        <input (change)="addFile(val,$event)" [disabled]="isView"
+                                                            name="fileOption" type="file" #fileInput
+                                                            accept="image/x-png,image/gif,image/jpeg" multiple />
+                                                    </div>
+                                                    <div class="img-box" *ngIf="displayImages[val]">
+
+                                                        <img alt="product-img" [src]="displayImages[val]">
+                                                        <em *ngIf="!isView"
+                                                            class="fa fa-times cursor-pointer img-display-remove sub-remove"
+                                                            (click)="removeFile(val)"></em>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 col-lg-7">
+                                        <div class="details-block col-md-12 col-lg-12">
+                                            <div class="col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label name="variantCode" class="required">Variant code</label>
+                                                    <input type="text" [readonly]="isView" class="form-control" [(ngModel)]="variantCode" (change)="variantCodeChanged()"
+                                                        formControlName="variant_code"
+                                                        [ngClass]="{ 'is-invalid': productDetailsValidationControl.variant_code.errors && (productDetailsValidationControl.variant_code.touched && productDetailsValidationControl.variant_code.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="productDetailsValidationControl.variant_code.invalid   && (productDetailsValidationControl.variant_code.dirty || productDetailsValidationControl.variant_code.touched)">
+                                                        <div
+                                                            *ngIf="productDetailsValidationControl.variant_code.errors.required">
+                                                            Variant code
+                                                            is
+                                                            required</div>
+                                                        <div
+                                                            *ngIf="productDetailsValidationControl.variant_code.errors.pattern">
+                                                            Please
+                                                            enter a valid variant code</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <label name="title" class="required">Title</label>
+                                                    <input type="text" [readonly]="isView" class="form-control"
+                                                        formControlName="title"
+                                                        [ngClass]="{ 'is-invalid': productDetailsValidationControl.title.errors && (productDetailsValidationControl.title.touched && productDetailsValidationControl.title.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="productDetailsValidationControl.title.invalid   && (productDetailsValidationControl.title.dirty || productDetailsValidationControl.title.touched)">
+                                                        <div
+                                                            *ngIf="productDetailsValidationControl.title.errors.required">
+                                                            Title
+                                                            is
+                                                            required</div>
+                                                        <div
+                                                            *ngIf="productDetailsValidationControl.title.errors.pattern">
+                                                            Please
+                                                            enter a valid Title</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12">
+                                                <div class="form-group col-md-12 col-lg-12">
+                                                    <label name="description" class="required">Description</label>
+                                                    <textarea class="form-control scroll" [readonly]="isView"
+                                                    maxlength="5000"
+                                                        formControlName="description"
+                                                        [ngClass]="{ 'is-invalid': productDetailsValidationControl.description.errors && (productDetailsValidationControl.description.touched && productDetailsValidationControl.description.dirty) }"
+                                                        required></textarea>
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="productDetailsValidationControl.description.invalid && (productDetailsValidationControl.description.dirty || productDetailsValidationControl.description.touched)">
+                                                        <div
+                                                            *ngIf="productDetailsValidationControl.description.errors.required">
+                                                            Description is required</div>
+                                                        <div
+                                                            *ngIf="productDetailsValidationControl.description.errors.pattern">
+                                                            Please enter a valid Description</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 block" [formGroup]="productPriceDetailForm">
+                                                <div class="form-group width d-flex flex-row">
+                                                    <div class="w-35 p-6 col-4 required">Purchase Price</div>
+                                                    <input type="text" [readonly]="isView"
+                                                        class="form-control w-35 w-35 col-4" formControlName="actualPrice"
+                                                        [ngClass]="{ 'is-invalid': productPriceDetailValidationControl.actualPrice.errors && (productPriceDetailValidationControl.actualPrice.touched && productPriceDetailValidationControl.actualPrice.dirty) }"
+                                                        required />
+                                                    
+                                                     <div class="invalid-feedback col-4 ml-10" 
+                                                        *ngIf="productPriceDetailValidationControl.actualPrice.invalid   && (productPriceDetailValidationControl.actualPrice.dirty || productPriceDetailValidationControl.actualPrice.touched)">
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.actualPrice.errors.required">
+                                                            Purchase Price is required</div>
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.actualPrice.errors.pattern">
+                                                            Please enter a valid Price</div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="form-group width d-flex flex-row">
+                                                    <div class="w-35 p-6 col-4 required">MRP</div>
+                                                    <input type="text" [readonly]="isView" class="form-control w-35 col-4"
+                                                        formControlName="mrp"
+                                                        [ngClass]="{ 'is-invalid': productPriceDetailValidationControl.mrp.errors && (productPriceDetailValidationControl.mrp.touched && productPriceDetailValidationControl.mrp.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback col-4 ml-10" 
+                                                        *ngIf="productPriceDetailValidationControl.mrp.invalid   && (productPriceDetailValidationControl.mrp.dirty || productPriceDetailValidationControl.mrp.touched)">
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.mrp.errors.required">
+                                                            MRP is required</div>
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.mrp.errors.pattern">
+                                                            Please enter a valid Price</div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group width d-flex flex-row">
+                                                    <div class="w-35 p-6 col-4 required">Offer/Discounts</div>
+                                                    <input type="text" [readonly]="isView" class="form-control w-35 col-4"
+                                                        formControlName="discountPrice"
+                                                        [ngClass]="{ 'is-invalid': productPriceDetailValidationControl.discountPrice.errors && (productPriceDetailValidationControl.discountPrice.touched && productPriceDetailValidationControl.discountPrice.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback col-4 ml-10"
+                                                        *ngIf="productPriceDetailValidationControl.discountPrice.invalid   && (productPriceDetailValidationControl.discountPrice.dirty || productPriceDetailValidationControl.discountPrice.touched)">
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.discountPrice.errors.required">
+                                                            Offer/Discounts Price is required</div>
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.discountPrice.errors.pattern">
+                                                            Please enter a valid Price</div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="form-group width d-flex flex-row">
+                                                    <div class="w-35 p-6 col-4 required">Additional Delivery Price</div>
+                                                    <input type="text" [readonly]="isView" class="form-control w-35 col-4"
+                                                        formControlName="extraPrice"
+                                                        [ngClass]="{ 'is-invalid': productPriceDetailValidationControl.extraPrice.errors && (productPriceDetailValidationControl.extraPrice.touched && productPriceDetailValidationControl.extraPrice.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback col-4 ml-10"
+                                                        *ngIf="productPriceDetailValidationControl.extraPrice.invalid   && (productPriceDetailValidationControl.extraPrice.dirty || productPriceDetailValidationControl.extraPrice.touched)">
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.extraPrice.errors.required">
+                                                            Additional Delivery Price is required</div>
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.extraPrice.errors.pattern">
+                                                            Please enter a valid Price</div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group width d-flex flex-row">
+                                                    <div class="w-35 p-6 col-4 required">Final Costumer Price</div>
+                                                    <input type="text" [readonly]="isView" class="form-control w-35 col-4"
+                                                        formControlName="deliveryPrice"
+                                                        [ngClass]="{ 'is-invalid': productPriceDetailValidationControl.deliveryPrice.errors && (productPriceDetailValidationControl.deliveryPrice.touched && productPriceDetailValidationControl.deliveryPrice.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback col-4 ml-10"
+                                                        *ngIf="productPriceDetailValidationControl.deliveryPrice.invalid   && (productPriceDetailValidationControl.deliveryPrice.dirty || productPriceDetailValidationControl.deliveryPrice.touched)">
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.deliveryPrice.errors.required">
+                                                            Final Costumer Price is required</div>
+                                                        <div
+                                                            *ngIf="productPriceDetailValidationControl.deliveryPrice.errors.pattern">
+                                                            Please enter a valid Price</div>
+                                                    </div>
+
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row block-2 mt-20">
+                                    <div class="block-1  row col-md-12 col-lg-12">
+                                        <div>Features</div>
+                                        <div (click)="generateFeatures()" *ngIf="!isView" class="d-flex col-8">
+                                            <img src="../../../../../assets/img/plus.svg" alt="">
+                                            <div class="align-self-center ml-3">
+                                                Add Features
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12 col-lg-12 mt-20 content-details-box"
+                                            formArrayName="featuresDataArray"
+                                            *ngFor="let data of  featureValidationControl.controls;let i=index">
+
+                                            <div class="col-md-4 col-lg-4" [formGroupName]="i">
+                                                <div class="form-group col-md-11 col-lg-11">
+                                                    <label name="featureName" class="required">Feature Name</label>
+                                                    <p *ngIf="isView" class="viewFeature">{{selectedFeature[i]}}</p>
+                                                    <ng-select *ngIf="!isView"
+                                                        class="form-control select-drop-down col-md-12 col-sm-12 p-0 capitalize"
+                                                        [items]="fearturesList" [(ngModel)]="selectedFeature[i]"
+                                                        (search)="searchFeatureField($event , i)" bindLabel="name"
+                                                        placeholder="Select" formControlName="name" [addTag]="true"
+                                                        (change)="changeSelectedFeature($event , i)" 
+                                                        [ngClass]="{ 'is-invalid': featureValidationControl.controls[i].get('name').errors && (featureValidationControl.controls[i].get('name').touched && featureValidationControl.controls[i].get('name').dirty) }" required>
+                                                    </ng-select>
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="featureValidationControl.controls[i].get('name').invalid   && (featureValidationControl.controls[i].get('name').dirty || featureValidationControl.controls[i].get('name').touched)">
+                                                        <div
+                                                            *ngIf="featureValidationControl.controls[i].get('name').errors.required">
+                                                            Feature Name is required</div>
+                                                        <div
+                                                            *ngIf="featureValidationControl.controls[i].get('name').errors.pattern">
+                                                            Please enter a valid Feature Name</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-7 col-lg-7" [formGroupName]="i">
+                                                <div class="form-group">
+                                                    <label name="feature_option" class="required">Feature option</label>
+                                                    <input type="text" [readOnly]="isView" class="form-control"
+                                                        name="feature_option" formControlName='feature_option'
+                                                        [(ngModel)]="selectedFeatureOpt[i]"
+                                                        [ngClass]="{ 'is-invalid': featureValidationControl.controls[i].get('feature_option').errors && (featureValidationControl.controls[i].get('feature_option').touched && featureValidationControl.controls[i].get('feature_option').dirty) }" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="featureValidationControl.controls[i].get('feature_option').invalid   && (featureValidationControl.controls[i].get('feature_option').dirty || featureValidationControl.controls[i].get('feature_option').touched)">
+                                                        <div
+                                                            *ngIf="featureValidationControl.controls[i].get('feature_option').errors.required">
+                                                            Feature Option is required</div>
+                                                        <div
+                                                            *ngIf="featureValidationControl.controls[i].get('feature_option').errors.pattern">
+                                                            Please enter a valid Feature Option</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1"
+                                                *ngIf="featureValidationControl.controls.length > 1">
+                                                <img *ngIf="!isView" class="cursor-pointer"
+                                                    (click)="deleteInputData(i , 'feature')"
+                                                    src="../../../../../assets/img/delete.svg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-2 row mt-10 col-md-12 col-lg-12">
+                                        <div>Specifications</div>
+                                        <div (click)="generateSpecification()" *ngIf="!isView" class="d-flex col-8">
+                                            <img src="../../../../../assets/img/plus.svg" alt="">
+                                            <div class="align-self-center ml-3">
+                                                Add Specifications
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12 col-lg-12 mt-20 content-details-box"
+                                            formArrayName="specificationDataArray"
+                                            *ngFor="let data of  specificationValidationControl.controls;let i=index">
+
+                                            <div class="col-md-4 col-lg-4" [formGroupName]="i">
+                                                <div class="form-group col-md-11 col-lg-11">
+                                                    <label name="specificationTitle" class="required">Title</label>
+                                                    <input type="text" [readOnly]="isView" class="form-control"
+                                                        formControlName='title'
+                                                        [ngClass]="{ 'is-invalid': specificationValidationControl.controls[i].get('title').errors && (specificationValidationControl.controls[i].get('title').touched && specificationValidationControl.controls[i].get('title').dirty) }"
+                                                        name="title" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="specificationValidationControl.controls[i].get('title').invalid   && (specificationValidationControl.controls[i].get('title').dirty || specificationValidationControl.controls[i].get('title').touched)">
+                                                        <div
+                                                            *ngIf="specificationValidationControl.controls[i].get('title').errors.required">
+                                                            Title is required</div>
+                                                        <div
+                                                            *ngIf="specificationValidationControl.controls[i].get('title').errors.pattern">
+                                                            Please enter a valid Title</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-7 col-lg-7" [formGroupName]="i">
+                                                <div class="form-group">
+                                                    <label name="specificationDescription"
+                                                        class="required">Description</label>
+                                                    <input type="text" [readOnly]="isView" class="form-control"
+                                                        name="specificationDescription" formControlName='description'
+                                                        [ngClass]="{ 'is-invalid': specificationValidationControl.controls[i].get('description').errors && (specificationValidationControl.controls[i].get('description').touched && specificationValidationControl.controls[i].get('description').dirty) }" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="specificationValidationControl.controls[i].get('description').invalid   && (specificationValidationControl.controls[i].get('description').dirty || specificationValidationControl.controls[i].get('description').touched)">
+                                                        <div
+                                                            *ngIf="specificationValidationControl.controls[i].get('description').errors.required">
+                                                            Description is required</div>
+                                                        <div
+                                                            *ngIf="specificationValidationControl.controls[i].get('description').errors.pattern">
+                                                            Please enter a valid Description</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1"
+                                                *ngIf="specificationValidationControl.controls.length > 1">
+                                                <img *ngIf="!isView &&  productAction.key === 'Create'" class="cursor-pointer"
+                                                    (click)="deleteInputData(i , 'specification')"
+                                                    src="../../../../../assets/img/delete.svg" alt="">
+                                                    <img *ngIf="!isView &&  productAction.key === 'Update'" class="cursor-pointer"
+                                                    (click)="deleteInputDataSpec(i , 'specification')"
+                                                    src="../../../../../assets/img/delete.svg" alt="">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="block-3 row mt-10 col-md-12 col-lg-12"
+                                        [formGroup]="productTaxDetailForm">
+                                        <div>Tax Details</div>
+                                        <div (click)="generateTaxDetails()" *ngIf="!isView" class="d-flex col-8">
+                                            <img src="../../../../../assets/img/plus.svg" alt="">
+                                            <div class="align-self-center ml-3">
+                                                Add Tax Details
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12 col-lg-12 mt-20 content-details-box"
+                                            formArrayName="taxDataArray"
+                                            *ngFor="let data of  taxValidationControl.controls;let taxIndex=index">
+
+                                            <div class="col-md-4 col-lg-4" [formGroupName]="taxIndex">
+                                                <div class="form-group col-md-11 col-lg-11">
+                                                    <label name="taxValidationName" class="required">Name</label>
+                                                    <input type="text" [readOnly]="isView" class="form-control"
+                                                        formControlName='name'
+                                                        [ngClass]="{ 'is-invalid': taxValidationControl.controls[taxIndex].get('name').errors && (taxValidationControl.controls[taxIndex].get('name').touched && taxValidationControl.controls[taxIndex].get('name').dirty)}"
+                                                        name="name" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="taxValidationControl.controls[taxIndex].get('name').invalid   && (taxValidationControl.controls[taxIndex].get('name').dirty || taxValidationControl.controls[taxIndex].get('name').touched)">
+                                                        <div
+                                                            *ngIf="taxValidationControl.controls[taxIndex].get('name').errors.required">
+                                                            Name is required</div>
+                                                        <div
+                                                            *ngIf="taxValidationControl.controls[taxIndex].get('name').errors.pattern">
+                                                            Please enter a valid Name</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-7 col-lg-7" [formGroupName]="taxIndex">
+                                                <div class="form-group">
+                                                    <label name="taxValidationPercentage"
+                                                        class="required">Percentage</label>
+                                                    <input type="number" [readOnly]="isView" class="form-control"
+                                                        name="taxValidationPercentage" formControlName='percent'
+                                                        [ngClass]="{ 'is-invalid': taxValidationControl.controls[taxIndex].get('percent').errors && (taxValidationControl.controls[taxIndex].get('percent').touched && taxValidationControl.controls[taxIndex].get('percent').dirty)}" />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="taxValidationControl.controls[taxIndex].get('percent').invalid   && (taxValidationControl.controls[taxIndex].get('percent').dirty || taxValidationControl.controls[taxIndex].get('percent').touched)">
+                                                        <div
+                                                            *ngIf="taxValidationControl.controls[taxIndex].get('percent').errors.required">
+                                                            Percentage is required</div>
+                                                        <div
+                                                            *ngIf="taxValidationControl.controls[taxIndex].get('percent').errors.pattern">
+                                                            Please enter a valid Percentage</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1"
+                                                *ngIf="taxValidationControl.controls.length > 1">
+                                                <img class="cursor-pointer" *ngIf="!isView"
+                                                    (click)="deleteInputData(taxIndex , 'taxDetail')"
+                                                    src="../../../../../assets/img/delete.svg" alt="">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="block-4 row mt-10 col-md-12 col-lg-12">
+                                        <div class="mr-20">Type:</div>
+                                        <div class="col-md-10 col-lg-10">
+                                            <mat-radio-group [disabled]="isView || radioActive">
+                                                <mat-radio-button class="col-md-4 col-lg-4"
+                                                    *ngFor="let data of productDetailType"
+                                                    (change)="radioChange($event)"
+                                                    [checked]="radioBtnSelected === data.val" [value]=data.val>
+                                                    {{data.name}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="radioBtnSelected" class="block-5 col-md-12 col-lg-12">
+                                        <div class="row mt-10 col-md-12 col-lg-12"
+                                            *ngFor="let item of selectedProduct; let i = index">
+                                            <div class="form-group col-md-7 col-lg-7">
+                                                <label name="product">Product </label>
+                                                <input type="text" class="form-control" value="{{item.title}}" readonly>
+                                            </div>
+                                            <div class="form-group col-md-4 col-lg-4">
+                                                <label name="quantity">Quantity </label>
+                                                <input type="number" [readOnly]="isView" class="form-control"
+                                                    #quantity{{i}} (input)="changeQantity($event,i)" name="quantity"
+                                                    [value]="item.quantity ? item.quantity:1" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block-5   col-md-12 col-lg-12" [formGroup]="productDetailComboForm"
+                                        *ngIf="radioBtnSelected">
+                                        <div class="row mt-10 col-md-12 col-lg-12">
+                                            <div class="form-group col-md-4 col-lg-4">
+                                                <div class="form-group col-md-11 col-lg-11">
+                                                    <label name="comboPrice" class="required">Combo Price</label>
+                                                    <input type="text" [readOnly]="isView" class="form-control "
+                                                        formControlName="comboPrice"
+                                                        [ngClass]="{ 'is-invalid': productComboFormValidationControl.comboPrice.errors && (productComboFormValidationControl.comboPrice.touched && productComboFormValidationControl.comboPrice.dirty) }"
+                                                        required />
+                                                    <div class="invalid-feedback"
+                                                        *ngIf="productComboFormValidationControl.comboPrice.invalid   && (productComboFormValidationControl.comboPrice.dirty || productComboFormValidationControl.comboPrice.touched)">
+                                                        <div
+                                                            *ngIf="productComboFormValidationControl.comboPrice.errors.required">
+                                                            Combo Price is required</div>
+                                                        <div
+                                                            *ngIf="productComboFormValidationControl.comboPrice.errors.pattern">
+                                                            Please enter a valid Combo Price</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-7 col-lg-7" *ngIf="!isView">
+                                                <label>Product Reference</label>
+                                                <ng-select class="select-drop-down col-md-12 col-lg-12"
+                                                    [items]="producReferencetList" bindLabel="title"
+                                                    formControlName="productReference" [clearable]="false"
+                                                    placeholder="Select Product Reference" name="product"
+                                                    [multiple]="true" [selectableGroup]="true"
+                                                    (search)="getProductReferenceList($event)"
+                                                    (change)="changeProductReferenceList($event)" required>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </perfect-scrollbar>
+                        </div>
+
+                    </mat-tab>
+                    <!-- will be activated after spares enabled -->
+                    <!-- <mat-tab label="Spares" *ngIf="varientActionDisplay._id && !radioBtnSelected && isView">
+                        <div class="spare-content-box">
+                            <div class="spare-layout-1">
+                                <div class="col-md-12 col-lg-12 row">
+                                    <div class="col-md-3 col-lg-3 mt-20">No of Spares {{viewSpareParts.records.length}}
+                                    </div>
+                                    <div class="col-md-6 col-lg-6" *ngIf="!isView">
+                                        <mat-form-field class="col-md-11 col-lg-11">
+                                            <input matInput placeholder="Search Spare" [(ngModel)]="searchTextSpare"
+                                                (keyup)="searchSpare()">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 mt-10" *ngIf="!isView">
+                                        <button class="create-btn" mat-button (click)="addEditSpare()">Add
+                                            Spare</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="spare-layout-2 mt-10">
+                                <div *ngIf="viewSpareParts.records.length > 0">
+                                    <perfect-scrollbar style="max-width: 100vw">
+                                        <div class="card-box row"
+                                            *ngFor="let data of viewSpareParts.records  | paginate: {id: '1' , itemsPerPage: sparePageInfo.recordsPerPage, currentPage: sparePageInfo.currentPage , totalItems:viewSpareParts.totalRecords}">
+                                            <div class="col-md-5 col-lg-5">
+                                                <label>Name</label>
+                                                <div>
+                                                    {{data.name}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3">
+                                                <label>Warranty</label>
+                                                <div>
+                                                    {{data.warranty}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3">
+                                                <label>Final Price</label>
+                                                <div>
+                                                    {{data.finalPrice}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1" *ngIf="!isView">
+                                                <img class="cursor-pointer" src="../../../../../assets/img/edit.svg"
+                                                    alt="" (click)="addEditSpare(data)">
+                                                <img class="cursor-pointer" (click)="deleteSpareProduct(data)"
+                                                    src="../../../../../assets/img/delete.svg" alt="">
+                                            </div>
+                                        </div>
+                                    </perfect-scrollbar>
+                                    <pagination-controls class="pagination-card" previousLabel="" id="1" nextLabel=""
+                                        (pageChange)="getPage($event)">
+                                    </pagination-controls>
+                                </div>
+                                <div *ngIf="viewSpareParts.records.length === 0" class="no-data-found">
+                                    No Spare Found
+                                </div>
+                            </div>
+                        </div>
+
+                    </mat-tab> -->
+                </mat-tab-group>
+               
+                <div class="add-btn  mr-3 d-flex justify-content-space" *ngIf="matTabIndex === 0 ">
+                    <button *ngIf="!isView" class="btn-orange p-2" mat-button
+                        (click)="addVarients()">{{varientAction.key}}</button>
+
+                    <button *ngIf="!isView && varientAction.key==='Create'" class="btn-orange p-2 cancel" 
+                    (click)="cancel()" mat-button>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

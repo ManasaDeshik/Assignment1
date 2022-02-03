@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21" height="23" viewBox="0 0 21 23">
+    <defs>
+        <style>
+            .cls-1{fill:#bcbccb}.cls-2{fill:red;stroke:#fff;stroke-width:2px}.cls-3{stroke:none}.cls-4{fill:none}
+        </style>
+    </defs>
+    <g id="Notification" transform="translate(0 2)">
+        <path id="Notification_Icon" d="M6 14h4a2 2 0 0 1-4 0zm-5-1a1 1 0 0 1 0-2h.5A4.354 4.354 0 0 0 3 8V5a4.952 4.952 0 0 1 5-5 4.951 4.951 0 0 1 5 5v3a4.351 4.351 0 0 0 1.5 3h.5a1 1 0 0 1 0 2z" class="cls-1" data-name="Notification Icon" transform="translate(0 5)"/>
+        <g id="Notification_Badge" class="cls-2" data-name="Notification Badge" transform="translate(11)">
+            <circle cx="4" cy="4" r="4" class="cls-3"/>
+            <circle cx="4" cy="4" r="5" class="cls-4"/>
+        </g>
+    </g>
+</svg>

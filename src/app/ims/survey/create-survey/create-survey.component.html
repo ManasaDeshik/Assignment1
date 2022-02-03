@@ -1,0 +1,371 @@
+<div class="container  mb-5">
+  
+	<div class="row">
+  <div class="col-lg-5 col-lg-5 col-lg-12 col-xs-9 bhoechie-tab-container">
+    <div class="titleText mt-4" >Step 1 - Creation</div>
+    <div>
+
+      <div class="row">
+      <div class="col-md-6 col-lg-7" style="padding-left: 0px !important; padding-right: 0px !important;">
+        <div class="col-md-11 col-lg-11">
+          <div class="form-group">
+            <label style = "margin-top: 40px;">SURVEY NAME</label>
+            <input type="text" name="surveyname" [disabled]="viewOnly" #surveyname="ngModel" [(ngModel)]='surveydata.surveyName' class="form-control border-style"  pattern="^[0-9]+" [ngClass]="{ 'is-invalid': surveyname.invalid }"
+            required />
+            <div *ngIf="surveyname.invalid" class="invalid-feedback">
+              <div *ngIf="surveyname.errors.required">Please enter a valid name</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6 col-lg-7" style="margin-top: 20px; padding-left: 0px !important; padding-right: 0px !important;">
+        <div class="col-md-11 col-lg-11">
+            <label>DESCRIPTION</label>
+            <textarea id="description" [disabled]="viewOnly" [(ngModel)]='surveydata.surveyDesc' class="form-control col-md-11 col-lg-12 border-style"  rows="6" cols="50">
+             
+            </textarea>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4" style = "margin-top: -55px;">
+        <div class="col-12" >
+        <div class="main-img">
+            <div class="img-box">
+                <img  alt="product-img"
+                    src="../../../../../assets/img/plus.svg" (click)="!viewOnly && this.enableaddimage && fileInput.click()" >
+                    <input  (change)="addFile(0,$event)"
+                    name="fileOption" type="file" #fileInput
+                    accept="image/x-png,image/gif,image/jpeg"  style="visibility: hidden;"/>
+            </div>
+        </div>
+      </div>
+      <div class=" d-flex col-12" style="margin-top: 20px;" >
+        <div class="sub-img">
+            <div class="img-box-left" *ngIf="surveydata.fileName">
+              <img [src]="surveydata.fileName" class="imageUpload" alt="">
+              <i *ngIf = !viewOnly class="fa fa-times cursor-pointer img-display-remove main-img-remove remove-icon-survey"
+              (click)="removeFile('fileName')"></i>
+                    <!-- 
+                      [src]="storeImages[0]"<input  (change)="addFile(0,$event)"
+                    name="fileOption" type="file" #fileInput
+                    accept="image/x-png,image/gif,image/jpeg"  /> -->
+            </div>
+        </div>
+
+
+
+
+        <div class="sub-img ml-3">
+          <div class="img-box-right" *ngIf="surveydata.fileName_2">
+            <img [src]="surveydata.fileName_2" class="imageUpload" alt="">
+            <i *ngIf = !viewOnly class="fa fa-times cursor-pointer img-display-remove main-img-remove remove-icon-survey"
+            (click)="removeFile('fileName_2')"></i>
+          </div>
+      </div>
+      </div>
+    </div>
+    </div>
+
+      <p style = "margin-top: 25px;">SURVEY FOCUS</p>
+      <div class="row" style="justify-content: space-around;">
+        <div class="col-md-12 col-lg-2">
+          <div class="form-group">
+            <!-- <form [formGroup]="form"
+            novalidate> -->
+            <ng-select class="zones-select select-drop-down col-md-12 col-sm-12 p-0" placeholder="State" name="move_to"
+                  [searchable]="true" [clearable]="false" [closeOnSelect]="true" [multiple]="true" [disabled]="viewOnly"
+                  (change)="loadData('state',$event)"  [(ngModel)]="surveydata.stateSelected">
+                  <ng-option [value]="item" *ngFor="let item of states">
+                    {{item}}
+                  </ng-option>
+                  <!-- <ng-template ng-header-tmp>
+
+                    <div>
+                      <button class="btn btn-link"
+                              (click)="onSelectAll('State')">Select All</button>
+                      <button class="btn btn-link"
+                              (click)="onClearAll()">Clear All</button>
+                    </div>
+        
+                  </ng-template> -->
+                  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                    <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                        <span class="ng-value-label">{{item | slice:0:5}}</span>
+                        <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1">
+                        <span class="ng-value-label">{{items.length - 1}} more...</span>
+                    </div>
+                </ng-template>
+                </ng-select>
+              <!-- </form> -->
+          </div>
+      </div>
+      <div class="col-md-12 col-lg-2">
+        <div class="form-group">
+          <ng-select class="zones-select select-drop-down col-md-12 col-sm-12 p-0" placeholder="District" name="move_to"
+                [searchable]="true" [disabled]="viewOnly" [clearable]="false" [multiple]="true" [(ngModel)]="surveydata.districtSelected" (change)="loadData('district',$event)">
+                
+                <ng-option [value]="item" *ngFor="let item of districts">
+                  {{item}}
+                </ng-option>
+                <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                  <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                      <span class="ng-value-label">{{item | slice:0:5}}</span>
+                      <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 1">
+                      <span class="ng-value-label">{{items.length - 1}} more...</span>
+                  </div>
+              </ng-template>
+              </ng-select>
+        </div>
+     </div>
+     <div class="col-md-12 col-lg-2">
+      <div class="form-group">
+        <ng-select class="zones-select select-drop-down col-md-12 col-sm-12 p-0" placeholder="Branch" name="move_to"
+              [searchable]="true"  [disabled]="viewOnly" [clearable]="false" [multiple]="true" [(ngModel)]="surveydata.branchSelected" (change)="loadData('branch',$event)">
+             
+              <ng-option [value]="item" *ngFor="let item of branches">
+                {{item}}
+              </ng-option>
+              <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+                <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                    <span class="ng-value-label">{{item | slice:0:5}}</span>
+                    <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                </div>
+                <div class="ng-value" *ngIf="items.length > 1">
+                    <span class="ng-value-label">{{items.length - 1}} more...</span>
+                </div>
+            </ng-template>
+            </ng-select>
+      </div>
+   </div>
+   <div class="col-md-12 col-lg-2">
+    <div class="form-group">
+      <ng-select class="zones-select select-drop-down col-md-12 col-sm-12 p-0" placeholder="Village" name="move_to"
+            [searchable]="true"  [disabled]="viewOnly" [clearable]="false" [multiple]="true" [(ngModel)]="surveydata.villageSelected"  (change)="loadData('village',$event)">
+            <ng-option [value]="item" *ngFor="let item of village">
+              {{item}}
+            </ng-option>
+            <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+              <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                  <span class="ng-value-label">{{item | slice:0:5}}</span>
+                  <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+              </div>
+              <div class="ng-value" *ngIf="items.length > 1">
+                  <span class="ng-value-label">{{items.length - 1}} more...</span>
+              </div>
+          </ng-template>
+          </ng-select>
+    </div>
+ </div>
+ <div class="col-md-12 col-lg-2">
+  <div class="form-group">
+    <ng-select class="zones-select select-drop-down col-md-12 col-sm-12 p-0" placeholder="Saheli" name="move_to"
+          [searchable]="true" [disabled]="viewOnly" [clearable]="false" [multiple]="true" [(ngModel)]="surveydata.saheliSelected" (change)="loadData('saheli',$event)">
+          <ng-option [value]="item" *ngFor="let item of saheliIds">
+            {{item}}
+          </ng-option>
+          <!-- <ng-template ng-header-tmp>
+
+            <div>
+              <button class="btn btn-link"
+                      (click)="onSelectAll()">Select All</button>
+              <button class="btn btn-link"
+                      (click)="onClearAll()">Clear All</button>
+            </div>
+
+          </ng-template> -->
+          <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+            <div class="ng-value" *ngFor="let item of items | slice:0:1">
+                <span class="ng-value-label">{{item | slice:0:5}}</span>
+                <span class="ng-value-icon right" (click)="clear(item);removeItem();" aria-hidden="true">×</span>
+            </div>
+            <div class="ng-value" *ngIf="items.length > 1">
+                <span class="ng-value-label">{{items.length - 1}} more...</span>
+            </div>
+        </ng-template>
+        </ng-select>
+  </div>
+</div>
+      <!--<mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; width: 20%;" >
+        <mat-label style = "font-size: 12px; ">State</mat-label>
+        <input type="text"
+           placeholder="Pick one"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto" multiple>
+           <mat-autocomplete #auto="matAutocomplete" (selectionChange)="loadData('state',$event)" multiple>
+            <mat-option *ngFor="let state of filteredOptions | async" [value]="state">
+              {{state}}
+            </mat-option>
+          </mat-autocomplete>-->
+        <!--<mat-select (selectionChange)="loadData('state',$event)" multiple>
+          <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+        <mat-label style = "font-size: 12px; ">District</mat-label>
+        <mat-select (selectionChange)="loadData('district',$event)" multiple>
+          <mat-option *ngFor="let district of districts" [value]="district">{{district}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px;" >
+        <mat-label style = "font-size: 12px; ">Branch</mat-label>
+        <mat-select (selectionChange)="loadData('branch',$event)" multiple>
+          <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+        <mat-label style = "font-size: 12px; ">Village</mat-label>
+        <mat-select (selectionChange)="loadData('village',$event)" multiple> 
+          <mat-option *ngFor="let village of village" [value]="village">{{village}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-11 col-lg-2" style = "font-size: 12px; " >
+        <mat-label style = "font-size: 12px; ">Saheli ID</mat-label>
+        <mat-select (selectionChange)="loadData('saheli',$event)" multiple>
+          <mat-option *ngFor="let id of saheliIds" [value]="id">{{id}}</mat-option>
+        </mat-select>
+      </mat-form-field>-->
+
+      <div class="col-md-2 col-md-1">
+        <button type="button" (click)="!viewOnly && addZones()" [disabled]='surveydata.saheliSelected.length==0' style = "width: 80%; "class="btn-createBranch pull-right">Add</button>
+      </div>
+    </div>
+    <div id="w3review" class="col-md-11 col-lg-11 border-style w3review" name="w3review" rows="6" cols="135">
+        
+      <mat-chip-list>
+          <mat-chip [disabled]="viewOnly" class="zonesChip" *ngFor="let i of saheliList">
+             <!--<span *ngIf="i === 'State'">{{i}}({{individualCount_state}})</span>
+             <span *ngIf="i == 'District'">{{i}}({{individualCount_district}})</span>
+             <span *ngIf="i == 'Branch'">{{i}}({{individualCount_branch}})</span>
+             <span *ngIf="i == 'Village'">{{i}}({{individualCount_village}})</span>-->
+             <span *ngIf="i.vle_code">{{i.vle_code}}({{i.sahelicount}})</span>
+              <i *ngIf="i.vle_code" class="fa fa-times cursor-pointer remove-saheli-icon-survey"
+                (click)="!viewOnly && removeChip(i)"></i>
+              
+          </mat-chip>
+        </mat-chip-list>
+        <p class="saheli-count" *ngIf="showSaheliCount">Saheli's Associated: <span #countSahelis>{{surveydata.saheliSelected.length}}</span>
+        </p>
+        <p class="saheli-count" *ngIf="!showSaheliCount">Saheli's Associated: <span #countSahelis>{{saheliList.length}}</span>
+        </p>
+      </div>
+
+        <div class="row">
+          <div class="col-md-6 col-lg-5" style="padding-left: 0px !important; padding-right: 0px !important;">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label style = "margin-top: 40px;">START DATE & TIME</label>
+                <input class="form-control date-filter border-style" [disabled]="viewOnly" (ngModelChange)="getScheduledTime($event , 'from' , 'tableDateFields' , 'minDate')"
+                [max]="tableDateFields.maxDate" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" name="startDt" #startDt="ngModel" [ngClass]="{ 'is-invalid': startDt.invalid }"
+                [(ngModel)]="surveydata.startDate" required  />
+              <owl-date-time  #dt1></owl-date-time>
+            <div *ngIf="startDt.invalid" class="invalid-feedback">
+              <div *ngIf="startDt.errors.required">Please enter the start date</div>
+            </div>
+              </div>
+            </div>
+          </div>
+            <div class="col-md-6 col-lg-6" style="padding-left: 40px !important; padding-right: 0px !important;">
+              <div class="col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label style = "margin-top: 40px;">END DATE & TIME</label>
+                  <input type="text" class="form-control date-filter border-style" [disabled]="viewOnly" (ngModelChange)="getScheduledTime($event , 'to' , 'tableDateFields' , 'maxDate')"
+                  [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" name="endDt"  #endDt="ngModel" [ngClass]="{ 'is-invalid': endDt.invalid }"
+                  [min]="tableDateFields.minDate" [(ngModel)]="surveydata.endDate" required />
+                <owl-date-time  #dt2></owl-date-time>
+                <div *ngIf="endDt.invalid" class="invalid-feedback">
+                  <div *ngIf="endDt.errors.required">Please enter the end date</div>
+                </div>
+                </div>
+              </div>
+            </div>
+      </div>
+                       
+      <label name="quantity" style="width: 50%; margin-top: 20px">NUMBER OF SUBMISSIONS</label>
+      <input type="number" (keypress)="isNumber($event)" [disabled]="viewOnly" min="0" [(ngModel)]='surveydata.numOfSubmissions' name="numOfSubmissions" class="form-control col-md-4 col-lg-11 border-style" name="quantityName" pattern="^[0-9]+"/>
+      <div class="row">  
+        <div class="col-md-2 col-lg-2">
+      <p style = "margin-top: 40px; font-size: 14px; font-weight: 600;" >Paid Survey</p>
+      <!--<img class="imgMargin" *ngIf = "paidSurveyDisabled"
+      src="../../../../../assets/img/Grey toggle.svg" (click) ="showBudget()"></p>
+      <p style = "margin-top: 40px; font-size: 14px; font-weight: 600;" *ngIf = "!paidSurveyDisabled">Paid Survey
+        <img class="imgMargin" *ngIf = "!paidSurveyDisabled"
+        src="../../../../../assets/img/Button_Right.svg" (click) ="showBudget()"></p>-->
+        <mat-slide-toggle  (click) ="!viewOnly && showBudget()"  (change)="showBudget()"
+        class="pull-left" [(ngModel)]="surveydata.toggleStatus"></mat-slide-toggle>
+    </div>
+           
+      </div> 
+      <hr>
+      <div class="showsection" *ngIf="surveydata.toggleStatus" >
+        <div class="row" style="margin-bottom: 0.8rem;">
+          <div class="col-md-8 col-lg-8">
+      <p style = "margin-top: 15px;">BUDGET</p>
+          </div>
+          <div class="col-md-2 col-md-2">
+            <button type="button" [disabled]="viewOnly" (click)="addColumn()" class="create-btn btn-createBranch pull-right">Add Column</button>
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <button type="button" (click)="deleteColumn()" [disabled]="viewOnly" class="create-btn btn-createBranch pull-right">Delete Column</button>
+          </div>
+          </div>
+          <form [formGroup]="columnInput">
+          <div class="d-flex border" style="overflow-x: scroll;">
+            <div class="d-flex flex-column border-right col-2 p-0">
+              <div class="p-3 text-center border-bottom h-50" style="padding-top: 1.8rem !important;
+              padding-bottom: 0 !important;">Form Date</div>
+              <div class="p-3 text-center h-50" style="padding-top: 1.8rem !important;
+              padding-bottom: 0 !important;">Earnings &#x20B9;</div>
+            </div>
+            <div class="border-right col-3 p-0"  formArrayName="items" *ngFor="let column of columnInput.get('items')['controls']; let i = index">
+
+            <div class="d-flex flex-column" [formGroupName]="i">
+              <div class="p-3 text-center border-bottom h-50">
+                <input type="text" class="form-control budget-style" formControlName="date" [(ngModel)]="surveydata.date[i]" (ngModelChange)="getScheduledTime($event , 'to' , 'tableDateFields' , 'maxDate')"
+                [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" [min]="mydate" [disabled]="viewOnly"/>
+                      <owl-date-time [pickerType]="'calendar'"  #dt4  [disabled]="viewOnly"></owl-date-time>
+              </div>
+              <div class="p-3 text-center h-50"><input type="number" (keypress)="isNumber($event)" class="form-control budget-earnings-style" [attr.disabled]="viewOnly ? '' : null"   [(ngModel)]="surveydata.amount[i]" min="0" formControlName="amount" /></div>
+            </div>
+          </div>
+</div>
+       </form>
+ 
+          <!--<ng-container [matColumnDef]="'column' + i" *ngFor="let column of columnInput.get('items').controls; let i = index">
+            <div [formGroupName]="i">
+            <td mat-cell *matCellDef="let row"><input type="text" formControlName="fromDate"  value="{{ row['column' + i] }}"> </td>
+            
+            </div>
+          </ng-container>-->
+    <!--<mat-table contenteditable="true" [dataSource]="data" class="col-md-2 col-md-11" style="border: 1px solid black;">
+      <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns; let first" [sticky]="first">
+        <div class="col-md-2 col-md-2">
+        <mat-header-cell class="col-md-2 col-md-1" style=" border-right: 1px solid black;" *matHeaderCellDef> {{column}}  </mat-header-cell>
+        <mat-cell class="col-md-2 col-md-1" style=" border-right: 1px solid black;" *matCellDef="let element"> {{element[column]}} </mat-cell>
+        <tr>hello</tr>
+      <td>hi</td>
+    </div>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+      <tr>hello</tr>
+      <td>hi</td>
+    </mat-table>-->
+
+      <label name="quantity" style="margin-top: 30px; width: 50%;">NO OF SUBMISSIONS PER SAHELI</label>
+      <input type="number" (keypress)="isNumber($event)" [disabled]="viewOnly" min="0" style="margin-bottom: 60px;" [(ngModel)]='surveydata.numOfSubmissionsPerSaheli' name="numOfSubmissionsPerSaheli" class="form-control col-md-4 col-lg-11 border-style" name="quantityName" pattern="^[0-9]+"/>
+    </div >
+  </div>
+  </div>
+</div>
+</div>

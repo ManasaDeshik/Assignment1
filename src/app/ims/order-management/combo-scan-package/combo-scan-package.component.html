@@ -1,0 +1,54 @@
+<div class="combo-product-container">
+  <div class="component-heading">
+    <div class="row order-management-layout">
+      <div class="col-md-6 col-lg-6">Combo Offer Scan</div>
+    </div>
+  </div>
+  <div class="content mt-30 row">
+    <div class="col-md-6 col-lg-6">
+      <div class="layout-1  block-style">
+        <h3>Order Items</h3>
+        <div class="mt-20">
+          <perfect-scrollbar class="perfect-scroll">
+          <div class="row" *ngFor="let data of comboProductList.product_details">
+            <div class="col-md-8 col-lg-8">
+              <span [ngClass]="data.product_detail_id === comboItemScan.product_detail_id? 'active': ''" (click)="changeSelectedCombo(data)">
+              {{data.title}}
+              </span>
+            </div>
+            <div class="col-md-3 col-lg-3">
+              x {{comboProductList.quantity}}
+            </div>
+            <div class="col-md-1 col-lg-1" *ngIf="data.count === comboProductList.quantity">
+              <div class="pull-right check-icon"><em class="fa fa-check"></em></div>
+            </div>
+          </div>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="layout-2 block-style">
+        <h3>Scanned Products</h3>
+        <div class="mt-20">
+          <perfect-scrollbar class="perfect-scroll">
+          <div class="row" *ngFor="let data of comboProductList.product_details">
+            <div class="col-md-8 col-lg-8">
+              {{data.title}}
+            </div>
+            <div class="col-md-3 col-lg-3">
+              <div class="pull-right">
+                {{data.count}}
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+        </div>
+        <div class="btn-layout">
+          <button class="create-btn" mat-button  [routerLink]="['/orders']" routerLinkActive='active'>Finish</button>
+          <button class="create-btn mr-30" mat-button (click)="finalize()" >Finalize</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14">
+    <defs>
+        <style>
+            .cls-1{fill:#727272}
+        </style>
+    </defs>
+    <path id="Menu_Icon" d="M0 14v-2h11v2zm0-6V6h18v2zm0-6V0h18v2z" class="cls-1" data-name="Menu Icon"/>
+</svg>

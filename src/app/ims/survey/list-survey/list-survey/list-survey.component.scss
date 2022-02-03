@@ -1,0 +1,7 @@
+@import "../../../../utils/styles/custom-palette.scss";
+.banner-layout {
+    .create-btn {
+        font-size: 12px;
+        @include height-width(60px, 160px, 25px);
+    }
+}

@@ -1,0 +1,274 @@
+@import '../../../../utils/styles/custom-palette.scss';
+
+.create-po-container {
+  .custom-row-col {
+    margin-right: 0;
+    margin-left: 0;
+
+    .row {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  .display-badge {
+    display: flex;
+    float: right;
+    justify-content: center;
+    @include border-single-radius(18px);
+    width: 40px;
+    padding: 6px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    position: relative;
+
+    img {
+      width: 14px;
+    }
+
+    div {
+      justify-content: center;
+      position: absolute;
+      display: flex;
+      top: -5px;
+      padding: 4px;
+      @include text-color($clr-white);
+      @include background-clr(red);
+      @include border-single-radius(18px);
+      font-size: 10px;
+      right: -5px;
+      width: 20px;
+    }
+  }
+
+  .po-badge {
+    @include background-clr(#6dbcdb);
+  }
+
+  .st-badge {
+    @include background-clr(#3b86ff);
+  }
+
+  form {
+    width: 100%;
+
+    .invalid-feedback {
+      font-size: 12px;
+    }
+  }
+
+  //component  header
+  >div:first-child {
+
+    >div:nth-child(2) {
+      .order-history-btn {
+        @include text-color($clr-white);
+        @include background-clr($warehouse-active-clr);
+        @include border-single-radius(4px);
+        outline: none;
+        border: none;
+        font-size: 16px;
+        padding: 10px 30px;
+      }
+    }
+  }
+
+  >div:nth-child(3) {
+    >div:first-child {
+      margin-bottom: 10px;
+      @include text-color($header-text-secondary);
+      font-size: 20px;
+    }
+
+    .create-po-block {
+      padding: 10px 15px;
+      @include background-clr($clr-white);
+      @include box-shadows(0, 2px, 6px, 0, rgba(0, 0, 0, 0.04));
+     
+      @include border-single-radius(5px);
+      position: relative;
+
+      .product-tab {
+        perfect-scrollbar {
+          max-height: calc(100vh - (70px + 40px + 32px + 54vh));
+        }
+      }
+
+      .spare-tab {
+        perfect-scrollbar {
+          max-height: calc(100vh - (70px + 40px + 32px + 62vh));
+        }
+
+        .spare-po-part-name {
+          font-size: 14px;
+          padding: 6px 0;
+          display: flex;
+
+          img {
+            width: 15px;
+            margin-right: 10px;
+          }
+
+          div {
+            align-items: center;
+            display: flex;
+          }
+        }
+      }
+
+      .no-data-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - (70px + 40px + 46px + 60vh));
+        font-size: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+
+        span {
+          cursor: pointer;
+          @include text-color($border-clr-primary);
+
+          &.active {
+            @include text-color($header-text-secondary);
+          }
+        }
+      }
+
+      hr {
+        margin: 4px 0 !important;
+      }
+
+      .content-box {
+        .create-purchase-order-form {
+          .form-group {
+            label {
+              text-transform: uppercase;
+              font-weight: 600;
+              font-size: 12px;
+              @include text-color($create-form-text-clr);
+            }
+
+            .form-control {
+              width: 70%;
+              @include border-single-radius(2px);
+            }
+
+            .ng-select {
+              width: 70%;
+            }
+
+            .shipment-address-ng-select {
+              width: 86% !important;
+            }
+          }
+        }
+
+        .spare-tab {
+          margin: 10px 0;
+
+          .spare-list-container {
+            display: flex;
+            width: 100%;
+
+            >div {
+              padding-right: 20px;
+              margin-top: 10px;
+
+              .spare-box {
+                height: 20vh;
+                padding: 10px;
+                @include background-clr($clr-white);
+                @include box-shadows(0, 2px, 6px, 0, rgba(0, 0, 0, 0.16));
+                position: relative;
+                border-left: 2px solid #ef7f1a;
+
+                >div:first-child {
+                  padding-bottom: 10px;
+                  font-size: 14px;
+
+                  >div {
+                    padding-top: 10px;
+                  }
+
+                  >div:first-child {
+                    padding-top: 0 !important;
+                  }
+
+                  >div:last-child {
+                    @include text-color($border-clr-primary);
+                  }
+                }
+
+                >div:nth-child(2) {
+                  position: absolute;
+                  bottom: 10px;
+                  right: 10px;
+
+                  button {
+                    border: none;
+                    outline: none;
+                    font-size: 10px;
+                    @include text-color($clr-white);
+                    width: 80px;
+                    height: 30px;
+                    border-radius: 2px;
+                  }
+
+                  .po-btn {
+                    @include background-clr(#6dbcdb);
+                  }
+
+                  .to-btn {
+                    @include background-clr(#3b86ff);
+                    margin-right: 10px;
+                  }
+                }
+              }
+            }
+
+            >div:nth-child(-n+4) {
+              margin: 0;
+            }
+          }
+        }
+      }
+
+
+      .submit-box {
+        button {
+          position: absolute;
+          @include background-clr(#3b86ff);
+          @include text-color($clr-white);
+          @include border-single-radius(5px);
+          font-size: 15px;
+          padding: 10px 20px;
+          outline: none;
+          border: none;
+          bottom: 20px;
+          right: 44px;
+        }
+      }
+    }
+  }
+}
+.text-center{
+  @include text-color($clr-white);
+  @include background-clr($warehouse-active-clr);
+  @include border-single-radius(4px);
+  outline: none;
+  border: none;
+  font-size: 16px;
+  padding: 5px 15px;
+  margin-right: 414px;
+  margin-top: -7px;
+}

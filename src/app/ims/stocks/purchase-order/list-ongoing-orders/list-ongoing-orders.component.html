@@ -1,0 +1,290 @@
+<div class="ongoing-purchase-order">
+  <div class="row space-equal-layout m-0">
+    <div class="col-md-3 col-lg-3">
+      <img class="cursor-pointer" src="../../../../../assets/img/left-arrow.svg" [routerLink]="['/stock']"
+        routerLinkActive='active' alt="left-arrow">
+      <span class="component-heading ml-20">Ongoing Orders</span>
+    </div>
+    <div class="col-md-2 col-lg-2 order-history">
+      <a class="bold-txt" (click)="viewOngoingHistory()">View Order History</a>
+    </div>
+    <div class="space-equal-layout col-md-6 col-lg-6" *ngIf="selectedBtnVal ==='Product'">
+      <div class="col-md-2 col-lg-2">
+        <button class="create-btn" (click)="applyFilter('Date Filter')">Date Filter</button>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <button class="create-btn" (click)="applyFilter('Apply Filter')">Apply Filter</button>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <ng-select class="select-drop-down p-0" bindLabel="name" [items]="filterPurchaseOrder"
+          (change)="selectedFilterKey($event)" placeholder="Filter">
+        </ng-select>
+      </div>
+      <div class="form-group col-md-4 col-lg-4 search-position">
+        <input type="text" class="form-control serach-control" [(ngModel)]="searchText" placeholder="Search Item" (keyup)="fetchItems($event)">
+        <img src="assets/img/icon_search.svg" alt="">
+      </div>
+    </div>
+    <div class="space-equal-layout col-md-1 col-lg-1" *ngIf="selectedBtnVal ==='Product'">
+      <div class="col-md-12 col-lg-12">
+        <button class="create-btn" (click)="clearFilter()">Clear</button>
+      </div>
+    </div>
+    <div class="row tab-row mt-20">
+      <div class="row col-md-8 col-lg-8">
+        <div class="tab-btn" *ngFor="let item of tableTabHeaders" (click)="makeActive(item)"
+          [class.active]="item === selectedBtnVal">
+          <div>
+            {{item}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-20" *ngIf="selectedBtnVal ==='Product'">
+      <div class="view-product-details-block"
+        [ngClass]="openOrderDetails === 'collapse'? 'col-md-12 col-lg-12': 'col-md-9 col-lg-9 collpase-main-card'">
+        <div class="">
+          <div class="table-res-scroll">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th *ngFor="let item of tableHeaders">
+                    <div class="label-text">
+                      {{item.header}}
+                      
+                    </div>
+                  </th>
+                  <th *ngIf="permissionSets.delete">
+                    <div class="label-text">
+                      Activity
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+             
+                  <tr
+                    *ngFor="let item of  productList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:productList.totalRecords}">
+                    <td>
+                      <label class="container">
+                        <input type="radio" name="tags" value="{{item.id}}" (click)="expand('expand', true, item.id)">
+                        <span class="checkmark"></span>
+                      </label>
+                      <div class="product-name">
+                        {{(item.title.length>20)?(item.title | slice:0:20)+'...':item.title}}
+                      </div>
+                    </td>
+                    <td>
+                      {{item.quantity}}
+                    </td>
+                    <td>
+                      {{item.orderedDate | date}}
+                    </td>
+                    <td>
+                      {{item.manufacturerName}}
+                    </td>
+                    <td>
+                      {{item.wareHouseName}}
+                    </td>
+                    <td>
+                      {{item.category}}
+                    </td>
+                    <td>
+                      {{item.arrivalDate | date }}
+                    </td>
+                    <td>
+                      {{item.totalPrice }}
+                    </td>
+                    <td class="p-0" *ngIf="permissionSets.delete">
+                      <div class="row no-margin">
+                        <div *ngIf="permissionSets.delete">
+                          <div class="txt-center">
+                            <img class="cursor-pointer" (click)="openDialog(item.id, item.title)"
+                              src="../../../../../assets/img/delete.svg" alt="">
+                          </div>
+                          <div class="delete-edit">
+                            Delete
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+      
+
+
+                <div *ngIf="productList.records.length === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-lg-3 generate-barcode" *ngIf="showIndividualData"
+        [ngClass]="openOrderDetails === 'expand'? '': 'inital'">
+        <div class="row mt-20">
+          <div class="col-md-6 col-lg-6 order-details-txt bold-txt">
+            ORDER DETAILS
+          </div>
+          <div class="col-md-6 col-lg-6 txt-right">
+            <img src="../../../../../assets/img/close.png" class=" cursor-pointer" alt=""
+              (click)="expand('collapse', false)">
+          </div>
+        </div>
+       
+          <div class="row mt-40">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="product" class="fx-14">Product</label>
+                <input type="text" class="form-control" name="product" [(ngModel)]="individualProduct.title" readonly />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-30">
+            <div class="col-md-12 col-lg-12">
+              <div class="form-group">
+                <label name="product" class="fx-14 bold-txt">Total Amount</label>
+                <input type="text" class="form-control" name="product" [(ngModel)]="individualProduct.totalPrice"
+                  readonly />
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-20">
+            <div class="col-md-6 col-lg-6 bold-txt fx-14">
+              Order Date
+            </div>
+            <div class="col-md-6 col-lg-6 txt-right fx-14">
+              {{individualProduct.orderedDate | date:'mediumDate'}}
+            </div>
+          </div>
+
+          <div class="row mt-20">
+            <div class="col-md-6 col-lg-6 bold-txt fx-14">
+              Delivery Date
+            </div>
+            <div class="col-md-6 col-lg-6 fx-14 txt-right">
+              {{individualProduct.arrivalDate | date:'mediumDate'}}
+            </div>
+          </div>
+
+          <div class="row mt-20">
+            <div class="col-md-6 col-lg-6 fx-14">
+              <button class="view-po bold-txt" (click)="viewPO()">View PO</button>
+            </div>
+          </div>
+          <div class="genrate-position-rl">
+            <div class="generate-position-abs">
+              <div class="row mt-2">
+                <div class="col-md-12 col-lg-12 fx-14" *ngIf="isPackageBarCode && permissionSets.download">
+                  <button class="barcode-btn bold-txt" (click)="generatePackage()">Package Barcode </button>
+                </div>
+              </div>
+              <div class="row mt-2" *ngIf="isProductBarCode && permissionSets.download">
+                <div class="col-md-12 col-lg-12 fx-14">
+                  <button class="barcode-btn bold-txt" (click)="generateItemBarocode($event)">Product Barcode </button>
+                </div>
+              </div>
+              <!-- <div class="row mt-20" *ngIf="isRefresh">
+                <div class="col-md-12 col-lg-12 fx-14">
+                  Stock in Count is = {{stockInCount}} <br>
+                  {{stockInPercentage}}%
+                  <mat-progress-bar class="lg" mode="determinate" [value]="stockInPercentage"></mat-progress-bar>
+                  <br> -->
+                  <!-- <button class="barcode-btn bold-txt" (click)="statusCheck()">Refresh </button> <br> -->
+                <!--</div>
+              </div> -->
+              <div class="row mt-2" *ngIf="isDownloadProduct && permissionSets.download">
+                <div class="col-md-12 col-lg-12 fx-14">
+                  <button class="barcode-btn bold-txt" (click)="downloadBarcode()">Download Product Barcode </button>
+                </div>
+              </div>
+              <div class="row mt-2" *ngIf="isStockManual">
+                <div class="col-md-12 col-lg-12 fx-14">
+                  <button class="barcode-btn bold-txt" *ngIf="permissionSets.write || permissionSets.edit" (click)="stockInManually()">Stock In Manually</button>
+                </div>
+              </div>
+              <div class="row mt-2 mb-5" *ngIf="isDownloadProduct">
+                <div class="col-md-12 col-lg-12 fx-14">
+                  <button class="barcode-btn bold-txt" (click)="scan()">Scan Package </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+      </div>
+      <pagination-controls class="pagination-card ongoing-pagination" *ngIf="productList.totalRecords > 10"
+        previousLabel="" id="1" nextLabel="" (pageChange)="getPage($event)">
+      </pagination-controls>
+    </div>
+    <div class="row mt-20" *ngIf="selectedBtnVal ==='Spare'">
+      <div class="view-spare-ongoing-layout">
+        <div class="col-md-12 col-lg-12">
+          <div class="table-card">
+            <div class="table-res-scroll">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th *ngFor="let item of spareTableHeaders">
+                      <div class="label-text">
+                        {{item}}
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                 <!--  -->
+                    <tr
+                      *ngFor="let item of sparePoOngoinglist.records | paginate: {id: '2' , itemsPerPage: tabelViewSpareRequestData.recordsPerPage, currentPage: tabelViewSpareRequestData.pageNumber , totalItems:sparePoOngoinglist.totalRecords};let i = index">
+                      <td>
+                        {{i+1}}
+                      </td>
+                      <td>
+                        <div class="set-spare-table-main-height">
+                          {{item.productName}}
+                        </div>
+                    <tr *ngFor="let data of item.spares">
+                      <div class="mt-20">
+                        {{data.spareName}}({{data.quantity}})
+                      </div>
+                    </tr>
+                    </td>
+                    <td>
+                      <div class="set-spare-table-main-height">
+                        {{item.totalQuantity}}
+                      </div>
+                      <!-- <tr *ngFor="let data of item.spares">
+                      <div class="mt-20">
+                        {{data.quantity}}
+                      </div>
+                    </tr> -->
+                    </td>
+                    <td>
+                      {{item.total_value}}
+                    </td>
+                    <td>
+                      <button class="approval-btn btn-outline" (click)="acceptSpareItem(item)">Approve</button>
+                    </td>
+                    </tr>
+                 
+
+                  <div *ngIf="sparePoOngoinglist.records.length === 0" class="no-data">
+                    <div>
+                      No Data Found
+                    </div>
+                  </div>
+                </tbody>
+              </table>
+            </div>
+            <pagination-controls class="pagination-card ongoing-pagination" *ngIf="sparePoOngoinglist.totalRecords > 10"
+              previousLabel="" id="2" nextLabel="" (pageChange)="getSparePage($event)">
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

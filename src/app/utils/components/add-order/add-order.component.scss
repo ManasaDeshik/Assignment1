@@ -1,0 +1,55 @@
+.header {
+    font-size: 25pt;
+    padding: 5px 5px 5px 5px;
+    color: #ff9307
+}
+
+.btn-name:disabled {
+    color: black
+}
+
+// .btn-name:hover,
+// .btn-name:active {
+//     color: #ff9307
+// }
+
+button.create-btn.show {
+    border-radius: 0px !important;
+    width: 40px !important;
+}
+
+.create-btn-show {
+    color: black;
+    border-radius: 0px !important;
+    width: 40px !important;
+    background-color: #ff9307;
+}
+.create-btn-show:disabled {
+    color: black;
+    border-radius: 0px !important;
+    width: 40px !important;
+    background-color: #919aa37d;
+}
+
+.create-btn-show:hover,
+.create-btn-show:active {
+    color:white;
+    border-radius: 0px !important;
+    width: 40px !important;
+    background-color: #ff9307;
+}
+img.image-show{
+    width: 40px;
+    height: 50px;
+}
+img.image-show-reject{
+    width: 30px;
+    height: 45px;
+}
+img.quantity-icon{
+    width: 30px;
+    height: 40px;
+}
+div.col-md-6.col-lg-6{
+    font-size: 14px;
+}

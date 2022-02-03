@@ -1,0 +1,30 @@
+<div>
+  <div class="component-heading">
+    <div class="row banner-layout">
+      <div class="col-md-10 col-lg-10">
+        <span class="component-heading">Banners List</span>
+      </div>
+      <div class="col-md-2 col-sm-2 col-lg-2" *ngIf="permissionSets.write">
+        <button (click)="bannerInput.click()" class="create-btn" mat-button>Upload
+          Banner</button>
+        <input hidden type="file" #bannerInput (change)="upload($event)" style="display:none;"
+          accept='image/*' />
+      </div>
+    </div>
+    <perfect-scrollbar class="banner-list-scroll" style="max-width: 100vw;">
+      <div class="row">
+        <div class="col-md-6"
+          *ngFor="let item of bannerList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:bannerList.totalRecords}">
+          <div class="layout row">
+            <img class="banner-img col-md-10" src="{{item.url}}" alt="">
+            <div class="col-md-2 text-center delete-banner" *ngIf="permissionSets.delete">
+              <img (click)="deleteBanner(item.id)" src="../../../../assets/img/delete.svg" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <pagination-controls class="pagination-card" *ngIf="bannerList.totalRecords > 10" previousLabel="" id="1"
+      nextLabel="" (pageChange)="getPage($event)">
+    </pagination-controls>
+  </div>

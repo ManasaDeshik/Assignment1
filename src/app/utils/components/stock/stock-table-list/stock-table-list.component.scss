@@ -1,0 +1,46 @@
+@import '../../../styles/custom-palette.scss';
+
+.stock-table-list-container {
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+
+    [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  >div:first-child {
+
+    //first child of container- header block
+    .filter-container {
+      .box {
+        .search-position {
+          position: relative;
+          font-size: 16px;
+
+          input {
+            width: 99%;
+          }
+        }
+
+      }
+
+    }
+  }
+
+
+  >div:nth-child(2) {
+
+    //second child of container- table block
+    .list-block {
+      table {
+        tbody {
+          max-height: 57vh !important;
+        }
+      }
+    }
+  }
+
+}

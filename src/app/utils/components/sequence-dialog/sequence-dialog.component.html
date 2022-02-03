@@ -1,0 +1,104 @@
+<div class="transfer-spare-share-container" *ngIf="data.name == 'Sequence Product'">
+  <div class="row m-2 p-3">
+    <div class="col-md-8 col-lg-8 header p-2">
+      {{data.name}}
+    </div>
+    <div class="col-md-4 col-lg-4 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-md-12 col-lg-12">
+      <div class="table-responsive">
+        <perfect-scrollbar style="max-width: 100vw; max-height: 55vh;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                Product Name
+              </th>
+              <th>
+                Product Brand
+              </th>
+              <th>
+                Category
+              </th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr *ngFor="let item of seletedProdut ;let i=index;">
+                <td>
+                  {{item.title}}
+                </td>
+                <td>
+                  {{item.brand}}
+                </td>
+                <td>
+                  {{(item.category)?item.category[0].name : ''}}
+                </td>
+              </tr>
+            </tbody>
+        </table>
+      </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+  <div class="row m-5">
+    <div class="col-md-6 col-lg-6">
+      <label class="required">Sequence</label>
+      <input type="number" class="form-control customize-form-control" name="sequence" [(ngModel)]="sequence"
+        pattern="^[0-9]+" required>
+    </div>
+    <div class="col-md-6 col-lg-6 align-self-end">
+      <label>Enter the sequence between 1 - {{maxSequence}}</label>
+      <button class="create-btn p-2" [disabled]="(sequence>(maxSequence) || sequence<1)" (click)="saveSequence()"> Save
+      </button>
+    </div>
+  </div>
+</div>
+<div class="transfer-spare-share-container" *ngIf="data.name == 'Sequence Category'">
+  <div class="row m-2 p-3">
+    <div class="col-md-8 col-lg-8 header p-2">
+      {{data.name}}
+    </div>
+    <div class="col-md-4 col-lg-4 txt-right">
+      <img src="../../../../assets/img/cancel.png" class="cursor-pointer" alt="" (click)="closeDialog()">
+    </div>
+  </div>
+  <div class="row m-2">
+    <div class="col-md-12 col-lg-12">
+      <div class="table-responsive">
+        <perfect-scrollbar style="max-width: 100vw; max-height: 55vh;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                Category Name
+              </th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr *ngFor="let item of seletedProdut ;let i=index;">
+                <td>
+                  {{item.name}}
+                </td>
+              </tr>
+            </tbody>
+        </table>
+      </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+  <div class="row m-5">
+    <div class="col-md-6 col-lg-6">
+      <label class="required">Sequence</label>
+      <input type="number" class="form-control customize-form-control" name="sequence" [(ngModel)]="sequence"
+        pattern="^[0-9]+" required>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <label>Enter the sequence between 1 - {{maxSequenceC}}</label>
+      <button class="create-btn p-2" [disabled]="(sequence>(maxSequenceC) || sequence<1)" (click)="saveCategorySequence()"> Save
+      </button>
+    </div>
+  </div>
+</div>

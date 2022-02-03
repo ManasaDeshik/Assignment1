@@ -1,0 +1,14 @@
+
+<div class="form-group">
+    <input type="text" [(ngModel)]="item.answers" class="form-control" name="{{item.name}}" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}"
+        required="{{item.required}}" />
+        <!-- <input type="image" [(ngModel)]="item.images[0]" class="form-control" name="{{item.name}}" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}"
+        required="{{item.required}}" /> -->
+        <div *ngFor="let item of imageField; let i = index">
+        <img class = "img-size" alt="product-img" src= "{{item}}" >
+    </div>
+    <div *ngFor="let item of videoField; let i = index">
+        <input type="video" [(ngModel)]="videoField[i]" class="form-control" 
+        required="{{item.required}}" />
+    </div>
+</div>

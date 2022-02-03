@@ -1,0 +1,19 @@
+.img-box {
+    margin: 0;
+    position: absolute;
+    top: 55%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.main-section{
+    overflow-x: scroll;
+    display: flex;
+}
+
+.main-img {
+    height: 18vh;
+    width: 13vw;
+    border: 1px dashed #AAAAAA7E;
+    margin-right: 10px;
+}

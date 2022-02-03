@@ -1,0 +1,42 @@
+<div *ngIf="data.filterName != 'Select product'">
+  <h4>{{data.message}} {{data.userName}} ?</h4>
+  <div *ngIf="data.from == 'Orders'">
+    <ng-select class="select-drop-down" [items]="remarks" bindLabel="name" [(ngModel)]="ramark" [clearable]="false"
+      placeholder="Select Reason" (change)="remarkChange($event)" [searchable]="false">
+    </ng-select>
+
+  </div>
+  <div *ngIf="data.from == 'Survey'">
+    <textarea name="reason" class="form-control" [(ngModel)]="remark" maxlength="50"></textarea>
+  </div>
+  <div *ngIf="data.from == 'SurveyView'">
+    <textarea name="reason" class="form-control" [(ngModel)]="remark" maxlength="50"></textarea>
+  </div>
+  <mat-dialog-actions class="delete-buttons-div" *ngIf="data.from != 'Orders' && data.from != 'Survey'">
+    <button name="button" mat-button [mat-dialog-close]="true" (click)="closeDialog(true)" class="yes-btn">Yes </button>
+    <button name="button" mat-button class="no-btn" (click)="closeDialog(false)">No </button>
+  </mat-dialog-actions>
+  <mat-dialog-actions class="delete-buttons-div" *ngIf="data.from == 'Orders'">
+    <button name="button" [disabled]="!ramark!" mat-button [mat-dialog-close]="true" (click)="closeDialogConfirm(true)"
+      class="yes-btn">Yes </button>
+    <button name="button" mat-button class="no-btn" (click)="closeDialog(false)">No </button>
+  </mat-dialog-actions>
+  <mat-dialog-actions class="delete-buttons-div" *ngIf="data.from == 'Survey'">
+    <button name="button" mat-button [mat-dialog-close]="true" (click)="closeDialogConfirm(true)"
+      class="yes-btn">Yes </button>
+    <button name="button" mat-button class="no-btn" (click)="closeDialog(false)">No </button>
+  </mat-dialog-actions>
+  <!-- <mat-dialog-actions class="delete-buttons-div" *ngIf="data.from == 'SurveyView'">
+    <button name="button" mat-button [mat-dialog-close]="true" (click)="closeDialogConfirm(true)"
+      class="yes-btn">Cancel </button>
+    <button name="button" mat-button class="no-btn" (click)="closeDialog(false)">Confirm </button>
+  </mat-dialog-actions> -->
+</div>
+<div *ngIf="data.filterName == 'Select product'">
+  <label name="warehouse" class="required">Select Variant</label>
+  <ng-select class="select-drop-down col-md-12 col-sm-12 p-0"
+    [items]="data.productDetails" bindLabel="title" [clearable]="false" placeholder="Select Variant" name="warehouse"
+    (change)="selectedFieldKey($event)" required>
+  </ng-select>
+</div>
+

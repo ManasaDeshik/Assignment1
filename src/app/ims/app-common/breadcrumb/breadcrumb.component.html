@@ -1,0 +1,6 @@
+<div class="breadcrumb-container d-none d-sm-none d-md-none d-lg-block d-xl-block">
+  <ul class="p-0 m-0">
+    <li *ngFor='let item of breadcrumbsItems'><a [routerLink]='[item.url]' routerLinkActive='active'>{{item.label}}</a>
+    </li>
+  </ul>
+</div>

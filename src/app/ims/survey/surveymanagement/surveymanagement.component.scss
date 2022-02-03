@@ -1,0 +1,57 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.card-number{
+   // color: #ef7f1a;
+    font-weight: bold;
+    font-size: 24px;
+}
+.card-color{
+    font-weight: 600;
+    font-size: 15px;
+}
+.card1{
+    text-align: right;
+    font-size: 14px;
+}
+.float-right {
+    left: 6%;
+}
+.create-btn{
+    width: 100%;
+    box-shadow: 0 0px 0px 0;
+}
+.w-100
+{
+    background: #F5F7FA 0% 0% no-repeat padding-box;
+}
+.card{
+    border: none !important;
+}
+.mt-40 {
+    margin-top: 10px !important;
+}
+.mt-4, .my-4{
+    margin-top: 0px !important;
+}
+::ng-deep {
+.mat-tab-label {
+    min-width: 100px !important;
+    padding: 0px !important;
+}
+.mat-tab-group.mat-primary .mat-ink-bar {
+    width: 100px !important;
+}
+.mat-tab-label-active{
+    color: #ef7f1a;
+    font-weight: bold;
+}
+.col-lg-1 {
+    max-width: 10.333333%;
+    flex: 1 0 8.333333%;
+}
+
+}
+
+.mat-input-element{
+    color: rgb(22, 21, 21);
+}

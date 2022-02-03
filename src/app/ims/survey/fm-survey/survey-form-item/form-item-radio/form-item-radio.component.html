@@ -1,0 +1,35 @@
+<div class="form-group" *ngIf=" item.type=='radio'">
+    <div *ngFor="let items of item.choices['en']; index as i">
+    <input name="item.type=='radio'?selected.group_id[i]" [type]="items.type" [value]="items.answer_group_id" [checked]="(item.answer_radio == items.answer_group_id)?true:false" (change)="onValueChanges($event,item)"> {{items.value}}<br>
+</div>
+</div> 
+<div class="form-group" *ngIf="item.type=='checkbox'">
+    <div *ngFor="let items of item.choices['en']; index as i">
+    <input name="item.type=='radio'?selected.group_id[i]" [type]="items.type" [value]="items.answer_group_id" [checked]="(item.answer_radio && item.answer_radio.includes(items.answer_group_id))?true:false" (change)="onValueChanges($event,item)"> {{items.value}}<br>
+</div>
+</div> 
+<div class="form-group" *ngIf="item.type=='dropdown'">
+    <div>
+        <select class="select-drop-down col-md-12 col-sm-12 p-0" placeholder="Select"
+        (change)="onValueChanges(item)">
+        <!-- <ng-option [value]="choice{{items}}" *ngFor="let item of states">
+            {{item}}
+          </ng-option> -->
+          <optgroup *ngIf="item.choices && item.choices['en']">
+          <option *ngFor="let items of item.choices['en'];index as i" [selected]="(item.answer == selected.id[i])?selected.answer[i]:''"> {{items.value}}</option>
+        </optgroup>
+        </select>
+    <!-- <input  [(ngModel)]="radioField" type="radio" (change)="onValueChanges(item)" value="choice{{items}}"> Choice {{items}}<br> -->
+</div>
+</div> 
+<!--<div class="main-section">
+    <div class="main-img" *ngFor="let item of item.choices; let i = index;">
+    <div *ngIf="item.imageUploaded">
+        <img [src]="item.imageUploaded" alt="choice" height="70px;" width="120px">
+    </div>
+    <div style="margin: 10px;">
+        <input [type]="item.type" style="margin-right: 10px;">
+        <label>{{item.title2}}</label>
+    </div>
+</div>
+</div>-->

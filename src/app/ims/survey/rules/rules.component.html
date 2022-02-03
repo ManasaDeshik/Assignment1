@@ -1,0 +1,35 @@
+<div class="col-12 p-2" *ngFor="let count of ruleCount;let i=index">
+    <ng-select class="zones-select select-drop-down col-md-12 col-sm-12 p-0" placeholder="Question" name="move_to"
+    [searchable]="true" [clearable]="false" [(ngModel)]='myquestion[count]'
+    (change)="question($event)" >
+    <ng-option [value]="item" *ngFor="let item of questiondata">
+        {{item.label.en}}
+    </ng-option>
+    </ng-select>
+   <div class="mt-3" *ngIf="myquestion[count] && myquestion[count].answers">
+    <div class="d-flex mt-2" *ngFor="let val of myquestion[count].answers">
+       <div class="col-4">
+           {{val.answer}}
+       </div> 
+       <div class="col-4">
+        <select class="form-control">
+            <option value="">Select</option>
+            <option value="1">Show</option>
+            <option value="2">Hide</option>
+        </select>
+    </div>
+    <div class="col-4">
+        <select class="form-control">
+            <option value="">Select</option>
+            <option [value]="item" *ngFor="let item of choicequestiondata">
+                {{item.label.en}}
+            </option>
+        </select>
+    </div>
+    </div>
+</div>
+</div>
+
+<div class="p-3 col-12 add-rule" (click)="addRule()">
+    Add Rule
+</div>

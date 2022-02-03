@@ -1,0 +1,89 @@
+<div class="form-group" *ngIf="!['decisionbox','address','termsandconditions'].includes(item.type)">
+    <input *ngIf='!["decimal","name","multiline","phone","date","datetime","currency","description","slider"].includes(item.type)'
+     [type]="['string','email','section'].includes(item.type)?'text':item.type" [(ngModel)]="item.answer"  [ngClass]="item.type=='section'?'form-control section-control':'form-control'" name="{{item.name}}" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}"
+    required="{{item.is_required}}"
+    />
+    <!--*ngIf='item.type!=="decimal" && item.type!=="name" && item.type!=="multiline" && item.type!=="phone"'-->
+    <!--Phone question type-->
+    <input *ngIf='item.type=="phone"' [(ngModel)]="item.answer" type="text" pattern="\d*" class="form-control" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}" maxlength="10" (keypress)="isNumber($event)" >
+
+    <!--Decimal question type-->
+    <input *ngIf='item.type=="decimal"' [(ngModel)]="item.answer" type="number" class="form-control" (change)="onDecimalValueChanges(item)"
+    name="name" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}" (blur)="convertToDecimal($event)" pattern="^[1-9]\d*(\.\d+)?$">
+   
+    <!--Name field-->
+    <div class="row form-group">
+    <div class="col-md-4 col-lg-4" style="display: flex;align-items: center;" *ngIf="item.type=='name' && item?.properties[0]?.firstName == true">
+        <input [(ngModel)]="fnameField" type="text" class="form-control" (change)="onNameValueChanges(item)"
+          name="name" placeholder="First Name/प्रथम नाम">
+    </div>
+    <div class="col-md-4 col-lg-4" style="display: flex;align-items: center;" *ngIf="item.type=='name' && item?.properties[0]?.middleName == true">
+        <input [(ngModel)]="mnameField" type="text" class="form-control" (change)="onNameValueChanges(item)"
+              name="name" placeholder="Middle Name/मध्य नाम">
+    </div>
+    <div class="col-md-4 col-lg-4" style="display: flex;align-items: center;" *ngIf="item.type=='name' && item?.properties[0]?.lastName == true">
+        <input [(ngModel)]="lnameField" type="text" class="form-control" (change)="onNameValueChanges(item)"
+                  name="name" placeholder="Last Name/लास्ट नाम">
+    </div>
+</div>
+<textarea *ngIf='["multiline","description"].includes(item.type)' autosize [value]="item.answer" maxlength="250" type="text" [(ngModel)]="item.answer" class="form-control" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}" required>
+</textarea>
+
+<input *ngIf='item.type=="date"' [(ngModel)]="dateField" type="text" class="form-control" (ngModelChange)="onDateValueChanges(item)" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4"
+     name="date" [min]="min" readonly />
+   <owl-date-time [pickerType]="'calendar'" #dt4 ></owl-date-time>
+
+<input *ngIf='item.type=="datetime"' class="form-control date-filter border-style"  type="text"
+   [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" [(ngModel)]="datetimeField" (ngModelChange)="onDateTimeValueChanges(item)" required />
+ <owl-date-time  #dt1></owl-date-time>
+ <div class="col-md-5 col-lg-5" style="display: flex;align-items: center;" *ngIf='item.type=="currency"'>
+    <input type="number" [(ngModel)]="item.answer" class="form-control" name="{{item.name}}" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}"
+        required="{{item.required}}" /> <span style="padding-left: 0.2rem;">{{item.currency}}</span>
+  </div>
+  <mat-slider *ngIf='item.type=="slider"' #slider [max]="(item.properties&&item.properties[0])?item.properties[0].max:50" min="(item.properties&&item.properties[0])?item.properties[0].min:1" step="1" tickInterval="3" [(ngModel)]="item.answer" (change)="onSliderValueChanges(item,$event)"></mat-slider> 
+<div *ngIf='item.type=="slider"'>{{item.answer}}</div>
+</div>
+<div class="form-group" *ngIf="item.type=='decisionbox'" >
+    <input type="checkbox" [checked]="item.answer"> Decision box
+</div>
+<div class="form-group" *ngIf='item.type=="address"'>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0"  *ngIf="item.properties[0].addressLineOne == true">
+        <input [(ngModel)]="address1Field" type="text" class="form-control" (change)="onValueChanges(item)"
+          name="name" placeholder="Address Line1/एड्रेस लाइन1">
+        </div>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0"  *ngIf="item.properties[0].addressLineTwo == true">
+        <input [(ngModel)]="address2Field" type="text" class="form-control" (change)="onValueChanges(item)"
+           name="name" placeholder="Address Line2/एड्रेस लाइन2">
+        </div>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0" style="display: flex;align-items: center;" *ngIf="item.properties[0].addressLineThree == true">
+        <input [(ngModel)]="address3Field" type="text" class="form-control" (change)="onValueChanges(item)"
+            name="name" placeholder="Address Line3/एड्रेस लाइन3">
+        </div>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0" style="display: flex;align-items: center;" *ngIf="item.properties[0].city == true">
+        <input [(ngModel)]="cityField" type="text" class="form-control" (change)="onValueChanges(item)"
+            name="name" placeholder="City/सिटी">
+        </div>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0" style="display: flex;align-items: center;" *ngIf="item.properties[0].pincode == true">
+        <input [(ngModel)]="pincodeField" type="text" class="form-control" (change)="onValueChanges(item)"
+            name="name" placeholder="Pincode/पिनकोड">
+        </div>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0" style="display: flex;align-items: center;" *ngIf="item.properties[0].state == true">
+        <input [(ngModel)]="stateField" type="text" class="form-control" (change)="onValueChanges(item)"
+            name="name" placeholder="State/स्टेट">
+        </div>
+    <div class="row col-md-4 col-lg-5 mt-2 pr-0" style="display: flex;align-items: center;" *ngIf="item.properties[0].country == true">
+        <input [(ngModel)]="countryField" type="text" class="form-control" (change)="onValueChanges(item)"
+            name="name" placeholder="Country/कंट्री">
+        </div>
+    
+</div>
+<div class="form-group" *ngIf="item.type == 'termsandconditions'">
+    <div class="tandcField" >
+        {{item.placeholder.en}}/{{item.placeholder.hi}}
+    </div>
+    <!--<textarea [(ngModel)]="tandcfield" type="text"  class="form-control scroll" (change)="onValueChanges(item)"
+    name="{{item.name}}" placeholder="{{item.placeholder.en}}/{{item.placeholder.hi}}">
+    </textarea>-->
+    <br>
+    <input type="checkbox" [checked]="item.answer"><label style="padding-left: 0.5rem;">I accept the terms and conditions</label>
+</div>

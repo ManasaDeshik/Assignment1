@@ -1,0 +1,44 @@
+@import "../../../utils/styles/custom-palette.scss";
+
+.breadcrumb-container {
+    font-size: 14px;
+    @include text-color(#7f7f7f);
+    cursor: pointer;
+    display: inline-block;
+
+    ul {
+        padding: 0 16px;
+        list-style: none;
+        li {
+            /* Display list items side by side */
+            display: inline;
+
+            a {
+                @include text-color(#7f7f7f !important);
+                text-decoration: none;
+
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+        }
+
+        /* Add a slash symbol (.) before/behind each list item */
+        li+li:before {
+            content: "";
+            @include border-single-radius(80%);
+            @include background-clr(#787878);
+            border: none;
+            padding: 4px;
+            vertical-align: middle;
+            margin: 0 8px;
+            display: inline-block;
+        }
+        li:last-child {
+            a {
+                pointer-events: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,218 @@
+<div class="service-mangement-container">
+  <div class="component-heading">
+    <div class="row order-management-layout">
+      <div class="col-md-2 col-lg-2">Service Management</div>
+      <div class="form-group col-sm-10 col-md-10 col-lg-10 search-position no-margin">
+        <div class="col-md-1 col-md-1 float-right">
+          <button (click)="searchFilter()" class="assignee-btn" mat-button>Search</button>
+        </div>
+        <div class="col-md-3 col-lg-3 float-right p-0">
+          <input type="text" [(ngModel)]="searchVleText" class="form-control txt-overflow"
+            placeholder="Search Lead Name" (keyup)="searchVleNames($event)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+
+        <!-- <div class="col-md-3 col-lg-3 float-right p-0">
+          <ng-select class="select-drop-down col-md-11 col-lg-11" [items]="allowedWarehouse" bindLabel="name"
+            [(ngModel)]="warehouse.name" [clearable]="false" placeholder="Warehouse"
+            (change)="selectedWarehouseData($event)" (search)="searchWarehouseList($event)">
+          </ng-select>
+        </div> -->
+
+        <div class="col-md-3 col-lg-3 float-right p-0">
+          <input type="text" [(ngModel)]="productName" class="form-control txt-overflow" placeholder="Product Name"
+            (keyup)="searchProductName($event)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+
+        <div class="col-md-2 col-lg-2 float-right p-0">
+          <input type="text" [(ngModel)]="villageName" class="form-control txt-overflow" placeholder="Village"
+            (keyup)="searchVillageName($event)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+
+        <!-- <div class="col-md-2 col-lg-2 float-right p-0">
+          <input type="text" [(ngModel)]="ServiceID" class="form-control txt-overflow" placeholder="Service ID"
+            (keyup)="searchServiceID($event)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div> -->
+
+        <div class="col-md-3 col-lg-3 float-right p-0">
+          <input type="text" [(ngModel)]="ticketNumber" class="form-control txt-overflow" placeholder="Ticket Number"
+            (keyup)="searchTicketNumber($event)">
+          <img src="assets/img/icon_search.svg" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="row tab-row col-md-12 col-lg-12 mt-20">
+      <div class="tab-btn" *ngFor="let item of serviceStatus;let i=index" (click)="makeActive(item)"
+        [class.active]="item.name === activeBtn">
+        <div>
+          {{item.name}}
+        </div>
+      </div>
+    </div>
+    <div class="row tab-row col-md-4 col-lg-3 mt-10" *ngIf="activeBtn === 'Request Assigned'">
+      <div class="tab-btn" *ngFor="let item of assaignedSubTab" (click)="makeSubActive(item)"
+        [class.active]="item.val === oeStatus">
+        <div>
+          {{item.subName}}
+        </div>
+      </div>
+    </div>
+    <div class="row tab-row col-md-5 col-lg-4 mt-10" *ngIf="activeBtn === 'Pick Up'">
+      <div class="tab-btn" *ngFor="let item of pickUpSubTab" (click)="makeSubActive(item)"
+        [class.active]="item.val === selectedBtnVal.val">
+        <div>
+          {{item.subName}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-20">
+    <div class="col-md-12 col-lg-12">
+      <div class="table-card"
+        [ngClass]="activeBtn === 'Request Assigned' || activeBtn === 'Pick Up' ? 'service-assigned-list-block': 'view-service-list-block'">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th *ngFor="let item of selectedBtnVal.tableHeaders">
+                  <div class="label-text">
+                    {{item.name }}
+                  </div>
+                </th>
+                <th *ngIf="selectedBtnVal.val !== serviceTrack.outForDelivery && selectedBtnVal.val !== serviceTrack.resolved && 
+                selectedBtnVal.val !== serviceTrack.completed && selectedBtnVal.val !== serviceTrack.reject">Activity
+                </th>
+              </tr>
+            </thead>
+            <perfect-scrollbar>
+              <tbody>
+                <tr
+                  *ngFor="let item of serviceRequestList.records | paginate: {id: '1' , itemsPerPage: tableViewRequestData.recordsPerPage, currentPage: tableViewRequestData.pageNumber , totalItems:serviceRequestList.totalRecords}">
+                  <td>
+                    {{ item.tickeNumber }}
+                  </td>
+                  <td>
+                    <div class="set-spare-table-main-height">
+                      {{item.productDetailName}}
+                    </div>
+                <tr *ngFor="let data of item.spares">
+                  <div class="mt-20">
+                    {{data.spareName}}
+                  </div>
+                </tr>
+                </td>
+                <td>
+                  {{item.customer.customerName}}
+                </td>
+                <td>
+                  {{item.customer.customerVillageName}}
+                </td>
+                <td *ngIf="showComplaint">
+                  {{ item.complant }}
+                </td>
+                <td *ngIf="showOEName">
+                  {{item.assignedOE.firstName}}
+                </td>
+                <td *ngIf="showEstimate">
+                  {{item.estimate}}
+                </td>
+                <td>
+                  {{(item.receivedDate !='NA')? (item.receivedDate | date:'medium') :item.receivedDate}}
+                </td>
+                <td *ngIf="showAssgDate">
+                  
+                  {{(item.oeAssignedDate !='NA')? (item.oeAssignedDate | date:'medium') :item.oeAssignedDate}}
+                </td>
+                <td *ngIf="showRejectDate">
+                  
+                  {{(item.rejectedDate !='NA')? (item.rejectedDate | date:'medium') :item.rejectedDate}}
+                </td>
+                <td *ngIf="showServiceDate">
+            
+                  {{(item.serviceDate !='NA')? (item.serviceDate | date:'medium') :item.serviceDate}}
+                </td>
+                <td *ngIf="showRemarks">
+                  {{ (selectedBtnVal.val == serviceTrack.reject)? 'Rejected on remote' : item.remarks }}
+                </td>
+                <td *ngIf="showOtherRemarks">
+                  {{  item.otherRemarks}}
+                </td>
+                <td>
+                  {{item.customer.customerPhNo}}
+                </td>
+                <td>
+                  {{ item.fmUserName }}
+                </td>
+                <td>
+                  {{ item.vleCode }}
+                </td>
+                <td *ngIf="selectedBtnVal.val == serviceTrack.received">
+                  {{ item.demo }}
+                </td>
+                <td *ngIf="selectedBtnVal.val == serviceTrack.received">
+                  {{ item.inWarranty }}
+                </td>
+                <td *ngIf="showTotalCost">
+                  {{ item.totalCost }}
+                </td>
+                <td class="btn-action-row"
+                  *ngIf="selectedBtnVal.val !== serviceTrack.outForDelivery && selectedBtnVal.val !== serviceTrack.resolved && selectedBtnVal.val !== serviceTrack.completed && selectedBtnVal.val !== serviceTrack.reject">
+                  <div *ngIf="selectedBtnVal.val == serviceTrack.received">
+                    <button class="btn-approve btn-outline"
+                      (click)="resolveRejectAssign(item , serviceTrack.resolved)">Resolve</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val == serviceTrack.received || oeStatus === serviceTrack.oeReject">
+                    <button class="btn-assign btn-outline"
+                      (click)="resolveRejectAssign(item , serviceTrack.assigned)">Assign</button>
+                  </div>
+                  <div *ngIf="oeStatus === serviceTrack.oeReject">
+                    <button class="btn-reject btn-outline"
+                      (click)="resolveRejectAssign(item , serviceTrack.reject)">Reject</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.serviceInStation">
+                    <button class="btn-approve btn-outline"
+                      (click)="updateServiceItemDeliver(item , 'approve')">Approve</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.pickUpToServiceStation">
+                    <button class="btn-approve btn-outline" (click)="toRouteInStation(item)">Approve</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.delivered">
+                    <button class="btn-approve btn-outline" (click)="completeService(item)">Complete</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.received || oeStatus === serviceTrack.oeAssigned">
+                    <button class="btn-reject btn-outline"
+                      (click)="resolveRejectAssign(item , serviceTrack.reject)">Reject</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.pickUpInProgress">
+                    <button class="btn-approve btn-outline" (click)="directResolvedByOe(item)">Approve</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.pickUpInProgress">
+                    <button class="btn-reject btn-outline"
+                      (click)="resolveRejectAssign(item , 3)">Reject</button>
+                  </div>
+                  <div *ngIf="selectedBtnVal.val === serviceTrack.serviceInStation">
+                    <button class="btn-reject btn-outline"
+                      (click)="resolveRejectAssign(item , 3)">Reject</button>
+                  </div>
+
+                </td>
+                </tr>
+                <div *ngIf="serviceRequestList.totalRecords === 0" class="no-data">
+                  <div>
+                    No Data Found
+                  </div>
+                </div>
+              </tbody>
+            </perfect-scrollbar>
+          </table>
+        </div>
+        <pagination-controls class="pagination-card" *ngIf="serviceRequestList.totalRecords > 10" previousLabel=""
+          id="1" nextLabel="" (pageChange)="getPage($event)">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
